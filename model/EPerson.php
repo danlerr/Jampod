@@ -7,11 +7,11 @@ abstract class EPerson{
 
     protected $surname;
 
-    protected $username;
+    protected $username; 
 
-    protected $email;
+    protected $email; 
 
-    protected $password;
+    protected $password; 
 
     //methods
 
@@ -111,7 +111,7 @@ abstract class EPerson{
         $this->password = $password;
     }
 }
-?>
+
 
 
 

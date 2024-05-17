@@ -5,6 +5,8 @@ class ECategory{
 
     private $category_name;
 
+    private static $allowed_category = [];
+
     public function __construct($category_name)
     {
         $this->category_name = $category_name;
@@ -30,12 +32,20 @@ class ECategory{
      */
 
     public function setCategoryName($category_name)
-    {
-        $this->category_name = $category_name;
+    {   
+        if (in_array($category_name, self::$allowed_category))
+        {
+            $this->category_name = $category_name;
+        }
+        else 
+        {
+            throw new Exception("Invalid Category");
+        }
+        
     }
-
+ 
 }
-?>
+
 
 
 

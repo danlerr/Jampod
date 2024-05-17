@@ -2,7 +2,9 @@
 class EUser extends EPerson{
 
     //attributes 
-
+    /**
+    * @var int|null $user_id The ID of the user. Auto-incremented by the database.
+    */
     private $user_id;
 
     private  float $balance;
@@ -16,6 +18,7 @@ class EUser extends EPerson{
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
+        $this->user_id = null;
         $this->balance = 0;
     }
 
@@ -39,4 +42,3 @@ class EUser extends EPerson{
         return $this->user_id;
     }
 }
-?>
