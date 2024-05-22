@@ -6,8 +6,7 @@
  * -comment_id: è un identificativo autoincrement, relativo al commento;
  * -comment_text: testo del commento;
  * -comment_time: data e ora in cui viene scritto il commento;
- * -user: utente che scrive il commento
- * -podcast_id: identificativo podcast a cui appartiene l'episodio commentato
+ * -user_id: identificativo univoco utente che scrive il commento
  * -episode_id: identificativo episodio che viene commentato
  * 
  */
@@ -27,21 +26,16 @@ class EComment{
 
     /**
      * data e ora in cui è avvenuto il commento
-     * @AttributeType String
+     * @AttributeType Datetime
      */
-    private $comment_time;
+    private Datetime $comment_time;
 
     /**
      * utente che ha effettuato il commento
-     * @AttributeType EUser
+     * @AttributeType int
      */
-    private $user;
+    private $user_id;
 
-    /**
-     * identificativo podcast a cui appartiene l'episodio commentato
-     * @AttributeType String
-     */
-    private $podcast_id;
 
     /**
      * identificativo episodio commentato
@@ -50,12 +44,10 @@ class EComment{
     private $episode_id;
 
     // CONSTRUCTOR
-    public function __construct($a,$c,EUser $d,$e,$f) {
-        $this->comment_text = $a;
-        $this->comment_time = $c;
-        $this->user=new EUser($d->getName(),$d->getSurname(),$d->getEmail(),$d->getPassword(),$d->getUsername());  // aggiungere ai costruttori user_id (?)
-        $this->podcast_id=$e;
-        $this->episode_id=$f;
+    public function __construct($comment_text,$user_id,$episode_id) {
+        $this->comment_text = $comment_text;
+        $this->user_id=$user_id;
+        $this->episode_id=$episode_id;
         $this->setTime();
 
     }
@@ -66,7 +58,7 @@ class EComment{
      * @return $comment_id
      */
 
-    public function getComment_id() {
+    public function getCommentId() {
 		return $this->comment_id;}
         /**
      * Get the value of comment_text
@@ -74,7 +66,7 @@ class EComment{
      * @return $comment_text
      */
 
-    public function getComment_text() {
+    public function getCommentText() {
 		return $this->comment_text;}
 
     
@@ -83,30 +75,23 @@ class EComment{
      *
      * @return $comment_time
      */
-    public function getComment_time() {
+    public function getCommentTime() {
 		return $this->comment_time;}
     /**
-     * Get the value of username
+     * Get the value of user_id
      *
-     * @return $user->getUsername()
+     * @return $user_id
      */
-    public function getUsername() {
-        return $this->user->getUsername();}
-    /**
-     * Get the value of podcast_id
-     *
-     * @return $podcast_id
-     */
+    public function getUserId() {
+        return $this->user_id;}
     
-    public function getPodcast_id() {
-        return $this->podcast_id;}
     /**
      * Get the value of episode_id
      *
      * @return $episode_id
      */
     
-    public function getEpisode_id() {
+    public function getEpisodeId() {
         return $this->episode_id;}
     
 
@@ -119,7 +104,7 @@ class EComment{
      * @param $comment_id
      */
 
-    public function setComment_id($comment_id){
+    public function setCommentId($comment_id){
         $this->comment_id=$comment_id;
     }
 
@@ -128,7 +113,7 @@ class EComment{
      *
      * @param $text
      */
-    public function setComment_text($text){
+    public function setCommentText($text){
         $this->comment_text=$text;
     }
 
@@ -143,38 +128,7 @@ class EComment{
         $this->comment_time = new DateTime("now");
     }
 
-     /**
-     * Set the value of user_id
-     *
-     * @param $user_id
-     */
-    public function setUser_id(EUser $user){
-        $this->user=$user;
+   
+
     }
-
-     /**
-     * Set the value of podcast_id
-     *
-     * @param $podcast_id
-     */
-
-    public function setPodcast_id($podcast_id){
-        $this->podcast_id=$podcast_id;
-    
-     /**
-     * Set the value of episode_id
-     *
-     * @param $episode_id
-     */
-    }
-    public function setEpisode_id($episode_id){
-        $this->episode_id=$episode_id;
-    }
-
-    // TO STRING
-     public function toString(){
-        return $this->getUsername().": ".$this->comment_text;
-     }
-
-}
 ?>

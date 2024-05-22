@@ -9,7 +9,7 @@
  * -security_code: codice di sicurezza a tre cifre;
  * -expiration_date: data di scadenza della carta;
  * -agenzia di appoggio :(es. poste italiane, bper, intesa sanpaolo, ecc...);
- * -balance: saldo presente sulla carta
+ * -user_id: è un identificativo autoincrement, relativo all'utente che utilizza la carta
  * 
  */
 class ECreditcard{
@@ -50,19 +50,23 @@ class ECreditcard{
      */
     private $support_agency;
 
-    /**
-     * saldo presente sulla carta
+     /**
+     * identificativo univoco dell'utente
      * @AttributeType int
      */
-    private $balance;
+    private $user_id;
+
+
+
+
 
     // CONSTRUCTOR
-    public function __construct($a,$b,$c,$d,$e) {
-        $this->card_holder = $a;
-        $this->card_number = $b;
-        $this->security_code=$c;
-        $this->expiration_date=$d;
-        $this->support_agency=$e;
+    public function __construct($card_holder,$card_number,$security_code,$expiration_date,$support_agency) {
+        $this->card_holder = $card_holder;
+        $this->card_number = $card_number;
+        $this->security_code=$security_code;
+        $this->expiration_date=$expiration_date;
+        $this->support_agency=$support_agency;
 
     }
     // GET METHODS
@@ -72,7 +76,7 @@ class ECreditcard{
      * @return $card_id
      */
 
-    public function getCard_id() {
+    public function getCardId() {
 		return $this->card_id;}
 
     /**
@@ -122,14 +126,14 @@ class ECreditcard{
     public function getCreditCardSupportAgency() {
         return $this->support_agency;}
     
-   /**
-     * Get the value of balance
+    /**
+     * Get the value of user_id
      *
-     * @return $balance
+     * @return $user_id
      */
-    
-     public function getCreditCardBalance() {
-        return $this->balance;}
+
+     public function getUserId() {
+		return $this->user_id;}
     
 
 
@@ -141,7 +145,7 @@ class ECreditcard{
      * @param $card_id
      */
 
-    public function setCreditCard_id($card_id){
+    public function setCreditCardId($card_id){
         $this->card_id=$card_id;
     }
 
@@ -192,14 +196,6 @@ class ECreditcard{
         $this->support_agency=$support_agency;
     }
 
-     /**
-     * Set the value of balance
-     *
-     * @param $balance
-     */
-    public function setBalance($balance){
-        $this->balance=$balance;
-    }
 
 
 }

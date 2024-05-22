@@ -49,34 +49,19 @@ class EDonation{
      */
     private $amount;
     
-
-    /**
-     * saldo del donatore
-     * @AttributeType Int
-     */
-     private $sender_balance;
-
-
-    /**
-     * saldo dell'utente che riceve la donazione
-     * @AttributeType Int
-     */
-    private $recipient_balance;
-
- 
-     /**
+/**
      * data e ora in cui è avvenuto il commento
-     * @AttributeType String
+     * @AttributeType Datetime
      */
-    private $time;
+    private Datetime $time;
 
     // CONSTRUCTOR
-    public function __construct($a,$b,$c,$d,$e) {
-        $this->amount = $a;
-        $this->text = $b;
-        $this->sender_id=$c;
-        $this->recipient_id=$d;
-        $this->donation_id=$e;
+    public function __construct($amount,$text,$sender_id,$recipient_id,$donation_id) {
+        $this->amount = $amount;
+        $this->text = $text;
+        $this->sender_id=$sender_id;
+        $this->recipient_id=$recipient_id;
+        $this->donation_id=$donation_id;
         $this->setDonationTime();
     
     }
@@ -87,7 +72,7 @@ class EDonation{
      * @return $donation_id
      */
 
-    public function getDonation_id() {
+    public function getDonationId() {
 		return $this->donation_id;}
 
     /**
@@ -127,32 +112,12 @@ class EDonation{
     public function getDonationAmount() {
         return $this->amount;}
 
-
-    /**
-     * Get the value of sender_balance
-     *
-     * @return $sender_balance
-     */
-    
-    public function getDonationSenderBalance() {
-        return $this->sender_balance;}
-    
-   /**
-     * Get the value of recipient_balance
-     *
-     * @return $recipient_balance
-     */
-    
-     public function getDontionRecipientBalance() {
-        return $this->recipient_balance;}
-    
-
     /**
      * Get the value of time
      *
      * @return $time
      */
-    public function getDonation_time() {
+    public function getDonationTime() {
 		return $this->time;}
 
 
@@ -164,7 +129,7 @@ class EDonation{
      * @param $donation_id
      */
 
-    public function setDonation_id($donation_id){
+    public function setDonationId($donation_id){
         $this->donation_id=$donation_id;
     }
 
@@ -177,24 +142,6 @@ class EDonation{
         $this->text=$text;
     }
 
-    
-    /**
-     * Set the value of sender_id
-     * 
-     * @return $sender_id
-     */
-    private function setDonationSenderId($sender_id) {
-        $this->sender_id= $sender_id;
-    }
-
-     /**
-     * Set the value of recipient_id
-     *
-     * @param $recipient_id
-     */
-    public function setDonationRecipientId($recipient_id){
-        $this->recipient_id=$recipient_id;
-    }
 
      /**
      * Set the value of amount
@@ -206,24 +153,7 @@ class EDonation{
         $this->amount=$amount;
     }
     
-     /**
-     * Set the value of sender_balance
-     *
-     * @param $sender_balance
-     */
-    public function setDonationSenderBalance($sender_balance){
-        $this->sender_balance=$sender_balance;
-    }
-
-     /**
-     * Set the value of recipient_balance
-     *
-     * @param $recipient_balance
-     */
-    public function setDonationRecipientBalance($recipient_balance){
-        $this->recipient_balance=$recipient_balance;
-    }
-
+    
 
     /**
      * Set the value of time
