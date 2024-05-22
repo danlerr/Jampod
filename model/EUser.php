@@ -5,7 +5,7 @@ class EUser extends EPerson{
     /**
     * @var int|null $user_id The ID of the user. Auto-incremented by the database.
     */
-    private $user_id;
+    private int $user_id;
 
     private  float $balance;
 
@@ -18,7 +18,6 @@ class EUser extends EPerson{
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
-        $this->user_id = null;
         $this->balance = 0;
     }
 
@@ -41,4 +40,26 @@ class EUser extends EPerson{
     public function getUserId(){
         return $this->user_id;
     }
+
+    /**
+     * Set the value of balance
+     *
+     * @param $balance
+     */
+    public function setBalance($balance)
+    {
+        $this->balance = $balance;
+    }
+
+    /**
+     * Set the value of user_id
+     *
+     * @param $user_id
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+    }
+
+
 }

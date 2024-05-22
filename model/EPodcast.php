@@ -7,18 +7,18 @@ class EPodcast{
     /**
     * @var int|null $podcast_id The ID of the podcast. Auto-incremented by the database.
     */
-    private $podcast_id;
+    private int $podcast_id;
 
-    private $podcast_name;
+    private string $podcast_name;
 
-    private $podcast_description;
+    private string $podcast_description;
 
-    private $user_id;
+    private int $user_id;
 
-    private $subcribe_counter;
-
-    /** @var EEpisode[] */
-    private $episodes;
+    private int $subcribe_counter;
+    /** 
+    /** @var EEpisode[] /*
+    private $episodes; */
 
     private DateTime $podcast_creation_date;
 
@@ -31,7 +31,7 @@ class EPodcast{
         $this->podcast_description = $podcast_description;
         $this->user_id = $user_id;
         $this->subcribe_counter = 0;
-        $this->episodes = array();
+        //$this->episodes = array();
         $this->setTime();
     }
 
@@ -46,8 +46,6 @@ class EPodcast{
     {
         return $this->podcast_id;
     }
-
-    //setPodcastId(..)? Autoincrement?
 
     /**
      * Get the value of podcast_name
@@ -94,19 +92,29 @@ class EPodcast{
      *
      * @return $episodes
      */
-    public function getEpisodes()
+    /**public function getEpisodes()
     {
         return $this->episodes;
-    }
-
+    }*/
+    
     /**
      * Get the value of podcast_creation_date
      *
      * @return $podcast_creation_date
      */
-    public function getTime()
+    public function getCreationDate()
     {
         return $this->podcast_creation_date;
+    }
+
+    /**
+     * Set the value of podcast_id
+     *
+     * @param $podcast_id
+     */
+    public function setPodcastId($podcast_id)
+    {
+        $this->podcast_id = $podcast_id;
     }
 
     /**
@@ -129,6 +137,8 @@ class EPodcast{
         $this->podcast_description = $podcast_description;
     }
 
+    //setSubCounter ??
+
     /**
      * Set the value of podcast_creation_date
      *
@@ -138,9 +148,5 @@ class EPodcast{
     {
         $this->podcast_creation_date = new DateTime("now");
     }
-
-
-    //setSubCounter? funzione che incrementa? addEpisode? getEpisode?
-
 
 }

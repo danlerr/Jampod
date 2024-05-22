@@ -3,15 +3,15 @@ abstract class EPerson{
 
     //attributes 
 
-    protected $name;
+    protected string $name;
 
-    protected $surname;
+    protected string $surname;
 
-    protected $username; 
+    protected string $username; 
 
-    protected $email; 
+    protected string $email; 
 
-    protected $password; 
+    protected string $password; 
 
     //methods
 

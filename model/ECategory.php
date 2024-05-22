@@ -1,4 +1,7 @@
 <?php
+
+//classe da valutare 
+
 class ECategory{
 
     //attributes 
@@ -45,20 +48,3 @@ class ECategory{
     }
  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
