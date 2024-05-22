@@ -3,20 +3,20 @@
 
 class EEpisode{
     //attributes
-    private $episode_id;
-    private $episode_title;
+    private  int $episode_id;
+    private string $episode_title;
     
-    private $episode_description;
+    private string $episode_description;
     
     private DateTime $episode_creationtime;
     
-    private $episode_streams;
+    private int $episode_streams;
 
-    private $podcast_id;
+    private int $podcast_id;
 
     //constructor
    
-    public function __construct($episode_title, $episode_description, $podcast_id)
+    public function __construct(string $episode_title, string $episode_description, int $podcast_id)
     {
         $this->episode_title = $episode_title;
         $this->episode_description = $episode_description;
@@ -32,7 +32,7 @@ class EEpisode{
      * 
      * @return $episode_id
      */
-    public function getEpisodeId() {
+    public function getEpisodeId() : int {
         return $this->episode_id;
     }
   
@@ -41,7 +41,7 @@ class EEpisode{
      * 
      * @return $episode_title
      */
-    public function getEpisode_title() {
+    public function getEpisode_title() : string {
         return $this->episode_title;
     }
     /**
@@ -49,7 +49,7 @@ class EEpisode{
      * 
      * @return $episode_description
      */
-    public function getEpisode_description() {
+    public function getEpisode_description() : string {
         return $this->episode_description;
     }
     /**
@@ -65,7 +65,7 @@ class EEpisode{
      * 
      * @return $episode_streams
      */
-    public function getEpisode_streams() {
+    public function getEpisode_streams() : int {
         return $this->episode_streams;
     }
        /**
@@ -73,7 +73,7 @@ class EEpisode{
      * 
      * @return $podcast_id
      */
-    public function getPodcastId(){
+    public function getPodcastId() : int {
         return $this->podcast_id;
     }
     /**
@@ -113,14 +113,6 @@ class EEpisode{
         $this->episode_creationtime = new DateTime("now");
     }
     
-    /**
-     * Set the value of podcast_id
-     * 
-     * @return $podcast_id
-     */
-    public function setPodcastId($podcast_id) {
-        $this->podcast_id = $podcast_id;
-    }
 
 
 }

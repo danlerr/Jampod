@@ -1,26 +1,28 @@
 <?php
 
 class EVote {
-    private $vote_id;
+    //attributes
+    private int $vote_id;
 
     private int $value;
     
-    private $user_id;
+    private int $user_id;
 
-    private $episode_id;
+    private int $episode_id;
     //constructor
-    public function __construct(int $value,  $user_id, $episode_id) {
+    public function __construct(int $value, int $user_id, int $episode_id) {
          $this->setValue($value);
          $this->user_id = $user_id;
          $this->episode_id = $episode_id;
      }
+     //Methods
      /**
      * Get the value of vote_id
      * 
      * @return $vote_id
      */
 
-     public function getVoteId() {
+     public function getVoteId() : int {
         return $this->vote_id;
     }   
     /**
@@ -36,7 +38,7 @@ class EVote {
      * 
      * @return $user_id
      */
-    public function getUserId()  {
+    public function getUserId() : int {
         return $this->user_id;
     }
     /**
@@ -44,7 +46,7 @@ class EVote {
      * 
      * @return $episode_id
      */
-    public function getEpisodeId(){
+    public function getEpisodeId() : int{
         return $this->episode_id;
     }
     /**
@@ -63,23 +65,11 @@ class EVote {
     public function setValue(int $value){
             if ($value >= 1 && $value <= 5) {
                 $this->value = $value;
+            } else {
+                throw new Exception("Vote value must be between 1 and 5.");
+    
         }    
     }
-     /**
-     * Set the value of user_id
-     * 
-     * @return $user_id
-     */
-    public function setUserId($user_id){
-        $this->user_id = $user_id;
-    }
-    /**
-     * Set the value of episode_id
-     * 
-     * @return $episode_id
-     */
-    public function setEpisodeId($episode_id){
-        $this->episode_id = $episode_id;
-}
+   
 
 }
