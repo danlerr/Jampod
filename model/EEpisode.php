@@ -14,15 +14,32 @@ class EEpisode{
 
     private int $podcast_id;
 
+    //mimetype attributes 
+    private string $image_mimetype;
+
+    private string $audio_mimetype;
+
+    //bytecode attributes 
+    private $image_data;
+
+    private $audio_data;
+
+
+
     //constructor
    
-    public function __construct(string $episode_title, string $episode_description, int $podcast_id)
+    public function __construct(string $episode_title, string $episode_description, int $podcast_id , $image_mimetype , $audio_mimetype , $image_data, $audio_data)
     {
         $this->episode_title = $episode_title;
         $this->episode_description = $episode_description;
         $this->podcast_id = $podcast_id;     
         $this->setTime();
         $this->episode_streams = 0;
+        $this->image_mimetype = $image_mimetype;
+        $this->audio_mimetype = $audio_mimetype;
+        $this->image_data = $image_data;
+        $this->audio_data = $audio_data;
+        
     }
 
     //methods
@@ -112,6 +129,26 @@ class EEpisode{
     
         $this->episode_creationtime = new DateTime("now");
     }
+
+    public function getEncodedImageData(){
+        return base64_encode($this->image_data);
+    }
+    public function getEncodedAudioData(){
+        return base64_encode($this->audio_data);
+    }
+    public function getImageMimeType() : string {
+        return $this->image_mimetype;
+    }
+    public function getAudioMimeType() : string {
+        return $this->audio_mimetype;
+    }
+    public function getAudioData() {
+        return $this->audio_data;
+    }
+    public function getImageData() {
+        return $this->image_data;
+    }
+
     
 
 
