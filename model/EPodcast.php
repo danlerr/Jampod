@@ -16,22 +16,23 @@ class EPodcast{
     private int $user_id;
 
     private int $subcribe_counter;
-    /** 
-    /** @var EEpisode[] /*
-    private $episodes; */
+
+    private string $image_mimetype;
+
+    private $image_data;
 
     private DateTime $podcast_creation_date;
 
     //constructor
 
-    public function __construct($podcast_name, $podcast_description, $user_id)
+    public function __construct($podcast_name, $podcast_description, $user_id, $image_data, $image_mimetype)
     {
-        $this->podcast_id =null;  //inizializza id_podcast come nullo
         $this->podcast_name = $podcast_name;
         $this->podcast_description = $podcast_description;
         $this->user_id = $user_id;
+        $this->image_data = $image_data;
+        $this->image_mimetype = $image_mimetype;
         $this->subcribe_counter = 0;
-        //$this->episodes = array();
         $this->setTime();
     }
 
@@ -88,16 +89,6 @@ class EPodcast{
     }
 
     /**
-     * Get the list of episodes
-     *
-     * @return $episodes
-     */
-    /**public function getEpisodes()
-    {
-        return $this->episodes;
-    }*/
-    
-    /**
      * Get the value of podcast_creation_date
      *
      * @return $podcast_creation_date
@@ -137,8 +128,6 @@ class EPodcast{
         $this->podcast_description = $podcast_description;
     }
 
-    //setSubCounter ??
-
     /**
      * Set the value of podcast_creation_date
      *
@@ -147,6 +136,20 @@ class EPodcast{
     public function setTime()
     {
         $this->podcast_creation_date = new DateTime("now");
+    }
+
+    public function getEncodedImageData()
+    {
+        return base64_encode($this->image_data);
+    }
+    public function getImageMimeType() : string 
+    {
+        return $this->image_mimetype;
+    }
+    
+    public function getImageData() 
+    {
+        return $this->image_data;
     }
 
 }
