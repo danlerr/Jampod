@@ -8,7 +8,6 @@
  * -card_number: numero della carta;
  * -security_code: codice di sicurezza a tre cifre;
  * -expiration_date: data di scadenza della carta;
- * -agenzia di appoggio :(es. poste italiane, bper, intesa sanpaolo, ecc...);
  * -user_id: è un identificativo autoincrement, relativo all'utente che utilizza la carta
  * 
  */
@@ -44,11 +43,7 @@ class ECreditcard{
      */
     private $expiration_date;
 
-    /**
-     * agenzia di appoggio
-     * @AttributeType String
-     */
-    private $support_agency;
+
 
      /**
      * identificativo univoco dell'utente
@@ -61,12 +56,12 @@ class ECreditcard{
 
 
     // CONSTRUCTOR
-    public function __construct($card_holder,$card_number,$security_code,$expiration_date,$support_agency) {
+    public function __construct($card_holder,$card_number,$security_code,$expiration_date) {
         $this->card_holder = $card_holder;
         $this->card_number = $card_number;
         $this->security_code=$security_code;
         $this->expiration_date=$expiration_date;
-        $this->support_agency=$support_agency;
+       
 
     }
     // GET METHODS
@@ -116,15 +111,6 @@ class ECreditcard{
     public function getCreditCardExpirationDate() {
         return $this->expiration_date;}
 
-
-    /**
-     * Get the value of support_agency
-     *
-     * @return $support_agency
-     */
-    
-    public function getCreditCardSupportAgency() {
-        return $this->support_agency;}
     
     /**
      * Get the value of user_id
@@ -187,15 +173,6 @@ class ECreditcard{
         $this->expiration_date=$expiration_date;
     }
     
-     /**
-     * Set the value of support_agency
-     *
-     * @param $support_agency
-     */
-    public function setCreditCardSupportAgency($support_agency){
-        $this->support_agency=$support_agency;
-    }
-
 
 
 }
