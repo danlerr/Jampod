@@ -13,6 +13,8 @@ class EPodcast{
 
     private string $podcast_description;
 
+    private string $podcast_category;
+
     private int $user_id;
 
     private int $subcribe_counter;
@@ -66,6 +68,10 @@ class EPodcast{
     public function getPodcastDescription()
     {
         return $this->podcast_description;
+    }
+
+    public function getPodcastCategory(){
+        return $this->podcast_category;
     }
 
     /**
@@ -126,6 +132,10 @@ class EPodcast{
     public function setPodcastDescription($podcast_description)
     {
         $this->podcast_description = $podcast_description;
+    }
+
+    public function setPodcastCategory($podcast_category){
+        $this->podcast_category = $podcast_category;
     }
 
     /**
