@@ -20,3 +20,5 @@ class FDonation{
     public static function getKey(){
         return self::$key;
     }
+
+}
