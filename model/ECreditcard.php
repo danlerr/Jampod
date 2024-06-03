@@ -11,7 +11,7 @@
  * -user_id: è un identificativo autoincrement, relativo all'utente che utilizza la carta
  * 
  */
-class ECreditcard{
+class ECreditCard{
     /**
      * identificativo univoco della carta di credito
      * @AttributeType int

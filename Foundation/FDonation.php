@@ -21,4 +21,26 @@ class FDonation{
         return self::$key;
     }
 
+    public static function createEntity($queryResult){
+        if(count($queryResult) == 1){
+            $donation = new EDonation($queryResult[0]['amount'],$queryResult[0]['donation_description'], $queryResult[0]['sender_id'],$queryResult[0]['recipient_id'],$queryResult[0]['donation_id']);
+            $donation->setDonationId($queryResult[0]['idComment']);
+            $dateTime =  DateTime::createFromFormat('Y-m-d H:i:s', $queryResult[0]['donation_date']);
+            $donation->setDonationCreationTime($dateTime);
+            return $donation;
+        }elseif(count($queryResult) > 1){
+            $donations = array();
+            for($i = 0; $i < count($queryResult); $i++){
+                $donation = new EDonation($queryResult[$i]['amount'],$queryResult[$i]['donation_description'], $queryResult[$i]['sender_id'],$queryResult[$i]['recipient_id'],$queryResult[$i]['donation_id']);
+                $donation->setDonationId($queryResult[$i]['donation_id']);
+                $dateTime =  DateTime::createFromFormat('Y-m-d H:i:s', $queryResult[$i]['donation_date']);
+                $donation->setDonationCreationTime($dateTime);
+                $donations[] = $donation;
+            }
+            return $donations;
+        }else{
+            return array();
+        }
+    }
+
 }

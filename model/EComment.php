@@ -128,6 +128,9 @@ class EComment{
         $this->comment_time = new DateTime("now");
     }
 
+    public function setCommentCreationTime(DateTime $commentTime){
+        $this->comment_time = $commentTime;
+    }
    
 
     }

@@ -62,7 +62,7 @@ class EDonation{
         $this->sender_id=$sender_id;
         $this->recipient_id=$recipient_id;
         $this->donation_id=$donation_id;
-        $this->setDonationTime();
+        $this->setTime();
     
     }
     // GET METHODS
@@ -160,9 +160,15 @@ class EDonation{
      * 
      * @return $time
      */
-    private function setDonationTime() {
+    private function setTime() {
     
         $this->time = new DateTime("now");
     }
+
+
+    public function setDonationCreationTime(DateTime $time){
+        $this->time = $time;
+    }
+   
 }
 ?>
