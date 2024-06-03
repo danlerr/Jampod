@@ -20,7 +20,7 @@ class EUser extends EPerson{
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
-        $this->balance = 0;
+        $this->balance = 0.0;
     }
 
     //methods

@@ -31,16 +31,19 @@
         public static function create($fClass, $obj)
         {
             try{
+                self::$db->beginTransaction();
                 $query = "INSERT INTO " . $fClass::getTable() . " VALUES " . $fClass::getValue();
                 $stmt = self::$db->prepare($query);
                 $fClass::bind($stmt, $obj);
                 $stmt->execute();
                 $id = self::$db->lastInsertId(); 
+                self::$db->commit();
                 return $id;
 
             }catch(Exception $e){
 
                 error_log("Save Objects Error: " . $e->getMessage());
+                self::$db->rollBack();
                 return null;
             }
         }

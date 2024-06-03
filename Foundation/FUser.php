@@ -28,7 +28,7 @@
         return self::$key;
     }
 
-    public static function createObject($obj){            //metodo per "salvare" un oggetto user dal DB
+    public static function createObject($obj) :bool{            //metodo per "salvare" un oggetto user dal DB
 
         $ObjectUserId = FDataBase::getInstance()->create(self::class, $obj);
         if($ObjectUserId !== null){
@@ -39,7 +39,7 @@
         }
     }
 
-    public static function retrieveObject($user_id){      //metodo per recuperare un oggetto user dal DB
+    public static function retrieveObject($user_id) :?EUser{      //metodo per recuperare un oggetto user dal DB
         $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $user_id);
         if(count($result) > 0){
             $obj = self::createEntity($result);
@@ -49,7 +49,7 @@
         }
     }
 
-    public static function updateObject($field, $id, $fieldValue, $cond, $condValu){            //metodo per aggiornare un oggetto user dal DB
+    public static function updateObject($field, $fieldValue, $cond, $condValu){            //metodo per aggiornare un oggetto user dal DB
 
         $result = FDatabase::getInstance()->update(self::getTable(), $field, $fieldValue, $cond, $condValu);
         if($result){
@@ -59,7 +59,7 @@
         }
     }
 
-    public static function deleteObject($table,$field,$id){                //metodo per eliminare un oggetto user dal DB
+    public static function deleteObject($id){                //metodo per eliminare un oggetto user dal DB
         
         $result = FDatabase::getInstance()->delete(self::getTable(), self::getKey(), $id);
         if($result){
@@ -67,15 +67,15 @@
         }else{
          return false;
         }
-      
     }
 
     public static function createEntity($result){         //metodo che crea un nuovo oggetto della classe EUser
-        $obj = new EUser($result[0]['name'],
-                         $result[0]['surname'],
-                         $result[0]['email'],
-                         $result[0]['password'],
-                         $result[0]['username']);
+        $obj = new EUser(
+            $result[0]['name'],
+            $result[0]['surname'],
+            $result[0]['email'],
+            $result[0]['password'],
+            $result[0]['username']);
         //$obj->setHash
         $obj->setUserId($result[0]['user_id']);
         return $obj;
@@ -90,5 +90,4 @@
         $stmt->bindValue(':balance',$user->getBalance(), PDO::PARAM_STR);
         $stmt->bindValue(':isAdmin',$user->isAdmin(), PDO::PARAM_BOOL);
     }
-
 }
