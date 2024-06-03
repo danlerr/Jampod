@@ -9,6 +9,8 @@ class EUser extends EPerson{
 
     private  float $balance;
 
+    private $admin = false;
+
     //constructor
 
     public function __construct($name, $surname, $email, $password, $username)
@@ -59,6 +61,10 @@ class EUser extends EPerson{
     public function setUserId($user_id)
     {
         $this->user_id = $user_id;
+    }
+    public function isAdmin()
+    {
+        return $this->admin;
     }
 
 

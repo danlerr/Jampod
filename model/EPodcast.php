@@ -13,7 +13,7 @@ class EPodcast{
 
     private string $podcast_description;
 
-    private string $podcast_category;
+    private string $category_id;
 
     private int $user_id;
 
@@ -23,17 +23,16 @@ class EPodcast{
 
     private $image_data;
 
-    private DateTime $podcast_creation_date;
+    private DateTime $podcast_creationtime;
 
     //constructor
 
-    public function __construct($podcast_name, $podcast_description, $user_id, $image_data, $image_mimetype)
+    public function __construct($podcast_name, $podcast_description, $user_id, $category_id)
     {
         $this->podcast_name = $podcast_name;
         $this->podcast_description = $podcast_description;
         $this->user_id = $user_id;
-        $this->image_data = $image_data;
-        $this->image_mimetype = $image_mimetype;
+        $this->category_id = $category_id;
         $this->subcribe_counter = 0;
         $this->setTime();
     }
@@ -71,7 +70,7 @@ class EPodcast{
     }
 
     public function getPodcastCategory(){
-        return $this->podcast_category;
+        return $this->category_id;
     }
 
     /**
@@ -101,7 +100,7 @@ class EPodcast{
      */
     public function getCreationDate()
     {
-        return $this->podcast_creation_date;
+        return $this->podcast_creationtime;
     }
 
     /**
@@ -135,7 +134,7 @@ class EPodcast{
     }
 
     public function setPodcastCategory($podcast_category){
-        $this->podcast_category = $podcast_category;
+        $this->category_id = $podcast_category;
     }
 
     /**
@@ -145,7 +144,7 @@ class EPodcast{
      */
     public function setTime()
     {
-        $this->podcast_creation_date = new DateTime("now");
+        $this->podcast_creationtime = new DateTime("now");
     }
 
     public function getEncodedImageData()
@@ -160,6 +159,18 @@ class EPodcast{
     public function getImageData() 
     {
         return $this->image_data;
+    }
+
+    public function setImageData(string $image_data) {
+        $this->image_data = $image_data;
+    }
+    
+    public function setImageMimetype(string $image_mimetype) {
+        $this->image_mimetype = $image_mimetype;
+    }
+    
+    public function setCreationTime($dateTime){
+        $this->podcast_creationtime = $dateTime;
     }
 
 }

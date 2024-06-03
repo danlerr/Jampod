@@ -15,7 +15,6 @@
                 error_log("Database Connection Error: " . $e->getMessage());
                 die("Database connection error. Check logs for details.");
             }
-    
          }
 
         public static function getInstance()
@@ -46,7 +45,7 @@
             }
         }
 
-        public function retrive ($table, $field, $id)
+        public function retrieve ($table, $field, $id)
         {
             try{
 
@@ -141,5 +140,5 @@
                 error_log("Save Objects FromId Error: " . $e->getMessage());
                 return false;
             }
-        }
+        }   
     }
