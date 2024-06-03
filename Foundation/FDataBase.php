@@ -51,7 +51,7 @@
         public function retrieve ($table, $field, $id)
         {
             try{
-
+                
                 $query = "SELECT * FROM " .$table. " WHERE ".$field. "=:$id.";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':id',$id);                
@@ -68,31 +68,38 @@
         public static function update($table, $field, $fieldValue, $cond, $condValue){
         
             try{
+
+                self::$db->beginTransaction();
                 $query = "UPDATE " . $table . " SET ". $field . "=:fieldValue" . " WHERE " . $cond . "=:condValue";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':fieldValue', $fieldValue);
                 $stmt->bindParam(':condValue', $condValue);
                 $stmt->execute();
+                self::$db->commit();
                 return true;
 
             }catch(Exception $e){
 
                 error_log("Update Objects Error: " . $e->getMessage());
+                self::$db->rollBack();
                 return false;
             }
         }
 
         public static function delete($table, $field, $id){
             try{
+                self::$db->beginTransaction();
                 $query = "DELETE FROM " . $table . " WHERE " . $field . " = :id";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':id', $id);
                 $stmt->execute();
+                self::$db->commit();
                 return true;
 
             }catch(Exception $e){
                 
                 error_log("Delete Objects Error: " . $e->getMessage());
+                self::$db->rollBack();
                 return false;
             }
         }
