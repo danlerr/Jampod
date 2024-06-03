@@ -6,7 +6,7 @@
 
         private static $instance;
 
-        private  $db;
+        private static $db;
 
         private function __construct(){
             try{
@@ -35,7 +35,7 @@
                 $stmt = self::$db->prepare($query);
                 $fClass::bind($stmt, $obj);
                 $stmt->execute();
-                $id = self::$db->lastInsertId();
+                $id = self::$db->lastInsertId(); 
                 return $id;
 
             }catch(Exception $e){
@@ -49,11 +49,11 @@
         {
             try{
 
-                $query = "SELECT * FROM " .$table. " WHERE ".$field." = '".$id."';";
+                $query = "SELECT * FROM " .$table. " WHERE ".$field. "=:$id.";
                 $stmt = self::$db->prepare($query);
-                $stmt->bindParam(':id',$id);                // !
+                $stmt->bindParam(':id',$id);                
                 $stmt->execute();
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);   // !  
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);   
 
             }catch(PDOException $e){
 
@@ -65,7 +65,7 @@
         public static function update($table, $field, $fieldValue, $cond, $condValue){
         
             try{
-                $query = "UPDATE " . $table . " SET ". $field. " = '" . $fieldValue . "' WHERE " . $cond . " = '" . $condValue . "';";
+                $query = "UPDATE " . $table . " SET ". $field . "=:fieldValue" . " WHERE " . $cond . "=:condValue";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':fieldValue', $fieldValue);
                 $stmt->bindParam(':condValue', $condValue);
@@ -81,7 +81,7 @@
 
         public static function delete($table, $field, $id){
             try{
-                $query = "DELETE FROM " . $table . " WHERE " . $field . " = '".$id."';";
+                $query = "DELETE FROM " . $table . " WHERE " . $field . " = :id";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':id', $id);
                 $stmt->execute();
@@ -108,7 +108,7 @@
         public static function loadMoreAttributesObjects ($table, $field1, $id1, $field2, $id2)
         {
             try{
-                $query = "SELECT * FROM " . $table . " WHERE " . $field1 . " = '".$id1. "' AND " . $field2 . " = '". $id2. "';";
+                $query = "SELECT * FROM " . $table . " WHERE " . $field1 . " =:$id1" . " AND " . $field2 . " =:$id2 ";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':id1', $id1);
                 $stmt->bindParam(':id2', $id2);
@@ -126,19 +126,18 @@
         {
             return count($queryResult) > 0; //return true if there are results, otherwise false 
         }
-
-        public static function saveObjectFromId($fClass, $obj, $id)
-        {
-            try{
-                $query = "INSERT INTO " . $fClass::getTable() . " VALUES " . $fClass::getValue();
-                $stmt = self::$db->prepare($query);
-                $fClass::bind($stmt,$obj, $id);
-                $stmt->execute(); 
+        public static function existInDb($queryResult){
+            if(count($queryResult) > 0){
                 return true;
-            }catch(Exception $e){
-
-                error_log("Save Objects FromId Error: " . $e->getMessage());
+            }else{
                 return false;
             }
-        }   
+        }
+        public static function checkUser($queryResult, $idUser){
+            if(self::existInDb($queryResult) && $queryResult[0][FUser::getKey()] == $idUser){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }

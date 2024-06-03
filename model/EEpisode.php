@@ -36,6 +36,10 @@ class EEpisode{
         $this->podcast_id = $podcast_id;     
         $this->setTime();
         $this->episode_streams = 0;
+        $this->audio_mimetype = "";
+        $this->audio_data = "";
+        $this->image_data = "";
+        $this->image_mimetype = "";
         
     }
 
