@@ -52,8 +52,8 @@ public static function bind($stmt, EEpisode $episode){
     $stmt->bindValue(":episode_streams", $episode->getEpisode_streams(), PDO::PARAM_INT);
     $stmt->bindValue(":episode_creation_date", $episode->getTimetoStr(), PDO::PARAM_STR);
     $stmt->bindValue(":podcast_id", $episode->getPodcastId(), PDO::PARAM_INT); //????
-    $stmt->bindValue(":audio_data", $episode->getAudioData(), PDO::PARAM_STR);
-    $stmt->bindValue(":image_data", $episode->getImageData(), PDO::PARAM_STR);
+    $stmt->bindValue(":audio_data", $episode->getAudioData(), PDO::PARAM_LOB);
+    $stmt->bindValue(":image_data", $episode->getImageData(), PDO::PARAM_LOB);
     $stmt->bindValue(":audio_mimetype", $episode->getAudioMimeType(), PDO::PARAM_STR);
     $stmt->bindValue(":image_mimetype", $episode->getImageMimeType(), PDO::PARAM_STR);
 
