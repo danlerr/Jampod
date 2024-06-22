@@ -1,0 +1,49 @@
+.card {
+    .card {
+        width: 100%;
+        /* max-width: 300px; */ /* Rimuovi questa linea per consentire la larghezza dinamica */
+        margin-bottom: 20px; /* Aggiungi spazio tra le carte */
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .card-img-top {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+      }
+      
+      .card-body {
+        padding: 10px;
+      }
+      
+      .aspect-ratio-1x1 {
+        position: relative;
+        width: 100%;
+      }
+      
+      .aspect-ratio-1x1:before {
+        content: "";
+        padding-top: 100%;
+      }
+}
+
+
+.color-block {
+  background-color: grey; /* Colore di sfondo */
+  color: #fff; /* Colore del testo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Altezza del blocco */
+  margin: 5px; /* Margine intorno alla card */
+  border-radius: 10px 10px 10px 10px;
+  font-size: 2em; /* Ingrandisce il testo */
+  
+  
+
+}
+
+
