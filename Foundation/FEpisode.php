@@ -86,13 +86,11 @@ public static function retrieveObject($episode_id){
     }
 }
 //metodo per aggiornare l'oggetto 
-<<<<<<< HEAD
-public static function updateObject( $field, $fieldValue, $cond, $condValue){
-    $updateEpisode = FDataBase::getInstance()->update(self::getTable() , $field, $fieldValue, $cond, $condValue);
-=======
+
+
 public static function updateObject($obj, $field, $fieldValue){
     $updateEpisode = FDataBase::getInstance()->update(self::getTable(), $field, $fieldValue, self::getKey(), $obj->getId());
->>>>>>> c2f0d6a313e9713d4ed034a811193f2ddbfc2aa3
+
     if($updateEpisode !== null){
         return true;
     }else{
@@ -112,3 +110,4 @@ public static function deleteObject($field, $id){
 
 
 }
+  
