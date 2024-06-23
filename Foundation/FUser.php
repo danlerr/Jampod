@@ -49,9 +49,9 @@
         }
     }
 
-    public static function updateObject($field, $fieldValue, $cond, $condValu){            //metodo per aggiornare un oggetto user dal DB
+    public static function updateObject($obj, $field, $fieldValue){            //metodo per aggiornare un oggetto user dal DB
 
-        $result = FDatabase::getInstance()->update(self::getTable(), $field, $fieldValue, $cond, $condValu);
+        $result = FDatabase::getInstance()->update(self::getTable(), $field, $fieldValue, self::getKey(), $obj->getId());
         if($result){
             return true;
         }else{
@@ -69,21 +69,32 @@
         }
     }
 
-    public static function createEntity($result){         //metodo che crea un nuovo oggetto della classe EUser
-        $obj = new EUser(
-            $result[0]['name'],
-            $result[0]['surname'],
-            $result[0]['email'],
-            $result[0]['password'],
-            $result[0]['username']);
-        //$obj->setHash
-        $obj->setUserId($result[0]['user_id']);
-        return $obj;
+    public static function createEntity($queryResult) {
+        $users = array();
+    
+        foreach ($queryResult as $result) {
+            $user = new EUser(
+
+                $result['email'],
+                $result['password'],
+                $result['username']);
+
+            $user->setUserId($result['user_id']);
+            // Aggiungi qui eventuali altri metodi setter se necessario, es.:
+            // $user->setHash($result['hash']);
+            $users[] = $user;
+        }
+    
+        // Restituisce un singolo oggetto utente se c'è un solo elemento nell'array
+        if (count($users) === 1) {
+            return $users[0];
+        }
+    
+        // Restituisce un array di utenti se ci sono più elementi nell'array
+        return $users;
     }
 
     public static function bind($stmt, EUser $user){                              //bind function 
-        $stmt->bindValue(':name',$user->getName(), PDO::PARAM_STR);
-        $stmt->bindValue(':surname',$user->getSurname(), PDO::PARAM_STR);
         $stmt->bindValue(':username',$user->getUsername(), PDO::PARAM_STR);
         $stmt->bindValue(':email',$user->getEmail(), PDO::PARAM_STR);
         $stmt->bindValue(':password',$user->getPassword(), PDO::PARAM_STR);

@@ -46,7 +46,7 @@ public static function bind($stmt, Evote $vote){
     $stmt->bindValue(":value", $vote->getValue(), PDO::PARAM_INT);
     $stmt->bindValue(":user_id", $vote->getUserId(), PDO::PARAM_INT);
     $stmt->bindValue(":episode_id", $vote->getEpisodeId(), PDO::PARAM_INT);
-    $stmt->bindValue(":vote_id", $vote->getVoteId(), PDO::PARAM_INT);
+    $stmt->bindValue(":vote_id", $vote->getId(), PDO::PARAM_INT);
   
 }
 //metodo per "salvare" un oggetto voto dal DB. Ritorna l'id identificativo del voto

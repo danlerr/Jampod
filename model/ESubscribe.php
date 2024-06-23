@@ -22,7 +22,7 @@ class ESubscribe {
      * 
      * @return $subscribe_id
      */
-    public function getSubscribeid() : int {
+    public function getId() : int {
         return $this->subscribe_id;
     }
     /**
