@@ -90,4 +90,27 @@
         $stmt->bindValue(':balance',$user->getBalance(), PDO::PARAM_STR);
         $stmt->bindValue(':isAdmin',$user->isAdmin(), PDO::PARAM_BOOL);
     }
+
+    //--------------------------------------------------------------------------------
+    // return bool 
+    public static function verify($field, $id){
+        $queryResult = FDataBase::retrieve(self::getTable(), $field, $id);
+
+        return FDataBase::getInstance()->existInDb($queryResult);
+    }
+    
+    public static function getUserByUsername($username)
+    {
+        $result = FDataBase::getInstance()->retrieve(FUser::getTable(), 'username', $username);
+
+        if(count($result) > 0){
+            $user = self::createEntity($result);
+            return $user;
+        }else{
+            return null;
+        }
+    }
+
+
+
 }

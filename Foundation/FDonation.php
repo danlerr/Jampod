@@ -43,4 +43,57 @@ class FDonation{
         }
     }
 
+    
+    public static function bind($stmt, $donation){
+        $stmt->bindValue(":donation_id:", $donation->getDonationId(), PDO::PARAM_INT);
+        $stmt->bindValue(":donation_description", $donation->getDonationText(), PDO::PARAM_STR);
+        $stmt->bindValue(":sender_id", $donation->getDonationSenderId(), PDO::PARAM_STR);
+        $stmt->bindValue(":recipient_id", $donation->getDonationRecipientId(), PDO::PARAM_STR); 
+        $stmt->bindValue(":amount", $donation->getDonationAmount(), PDO::PARAM_INT); 
+        $stmt->bindValue(":donation_date", $donation->getDonationTime(), PDO::PARAM_STR); 
+    }
+
+    // function update oggetto nel db e crea se fieldArray===null
+    public static function createObject($obj, $fieldArray = null){   
+
+        if($fieldArray === null){
+            $saveDonation = FDataBase::getInstance()->create(self::getClass(), $obj);
+            if($saveDonation !== null){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            try{
+                foreach($fieldArray as $fv){
+                    FDataBase::getInstance()->update(FDonation::getTable(), $fv[0], $fv[1], self::getKey(), $obj->getId());
+                }
+                FDataBase::getInstance()->getDb()->commit();
+                return true;
+
+            }catch(PDOException $e){
+                echo "ERROR " . $e->getMessage();
+                return false;
+            }finally{
+                FDataBase::getInstance()->closeConnection();
+            }
+        }
+
+    }
+
+    //R getCommentEntity
+    public static function retrieveObject($id){
+        $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $id); 
+        if(count($result) > 0){
+            $donation = self::createEntity($result);
+            return $donation;
+        }else{
+            return null;
+        }
+    }
+
+    //non possiamo eliminare una donazione
+
+
+
 }

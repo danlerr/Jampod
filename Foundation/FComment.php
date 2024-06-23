@@ -47,7 +47,7 @@ class FComment{
     }
     public static function bind($stmt, $comment){
         $stmt->bindValue("comment_text:", $comment->getCommentText(), PDO::PARAM_STR);
-        $stmt->bindValue(":creation_date", $comment->getCommentTime(), PDO::PARAM_STR);
+        $stmt->bindValue(":comment_creation_date", $comment->getCommentTime(), PDO::PARAM_STR);
         //$stmt->bindValue(":removed", $comment->isBanned(), PDO::PARAM_BOOL); da inserire!
         $stmt->bindValue(":episode_id", $comment->getEpisodeId(), PDO::PARAM_INT);
         $stmt->bindValue(":user_id", $comment->getUserId(), PDO::PARAM_STR); // controlla i tipi 
@@ -56,16 +56,16 @@ class FComment{
 
 //R getCommentEntity
     public static function retrieveObject($id){
-        $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $id);  //cambiare retrive in retrieve in FDataBase
+        $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $id); 
         if(count($result) > 0){
-            $comment = self::createCommentEntity($result);
+            $comment = self::createEntity($result);
             return $comment;
         }else{
             return null;
         }
     }
-//C
-// function crea oggetto nel db
+
+// function update oggetto nel db
 public static function createObject($obj, $fieldArray = null){    //cos'è field array?
 
     if($fieldArray === null){
@@ -77,7 +77,6 @@ public static function createObject($obj, $fieldArray = null){    //cos'è field
         }
     }else{
         try{
-            FDataBase::getInstance()->getDb()->beginTransaction();  
             foreach($fieldArray as $fv){
                 FDataBase::getInstance()->update(FComment::getTable(), $fv[0], $fv[1], self::getKey(), $obj->getId());
             }
@@ -86,7 +85,6 @@ public static function createObject($obj, $fieldArray = null){    //cos'è field
 
         }catch(PDOException $e){
             echo "ERROR " . $e->getMessage();
-            FDataBAse::getInstance()->getDb()->rollBack(); //rollBack collegata a beginTransaction
             return false;
         }finally{
             FDataBase::getInstance()->closeConnection();
@@ -95,12 +93,11 @@ public static function createObject($obj, $fieldArray = null){    //cos'è field
     
     }
     //D
-    public static function deleteObject($comment_id, user_id){        
+    public static function deleteObject($comment_id,$user_id){        
         try{
-            FDataBase::getInstance()->getDb()->beginTransaction();
-            $queryResult = FDataBase::getInstance()->retrive(self::getTable(), self::getKey(), $comment_id);
+            $queryResult = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $comment_id);
 
-            if(FDataBase::getInstance()->existInDb($queryResult) && FDatabase::getInstance()->checkCreator($queryResult, $idUser)){ //fare check CReator in FDataBase
+            if(FDataBase::getInstance()->existInDb($queryResult) && FDatabase::getInstance()->checkCreator($queryResult, $user_id)){ //fare check CReator e existInDb in FDataBase
                 //mi servono solo gli id della query //??
             
                 FDataBase::getInstance()->delete(self::getTable(), self::getKey(), $comment_id);
@@ -113,7 +110,6 @@ public static function createObject($obj, $fieldArray = null){    //cos'è field
             }
         }catch(PDOException $e){
             echo "ERROR " . $e->getMessage();
-            FDataBase::getInstance()->getDb()->rollBack();
             return false;
         }finally{
             FDataBase::getInstance()->closeConnection();

@@ -44,8 +44,45 @@
             return $result;
         }
 
+     
+        //----------------------------------------------VERIFY-----------------------------------------------------
+
+
+    /**
+     * verify if exist a user with this username (also mod)
+     * @param string $username
+     */
+    public static function verifyUserUsername($username){
+        $result = FUser::verify('username', $username);
+
+        return $result;
+    }
+            /**
+         * verify if exist a user with this email (also mod)
+         * @param string $email
+         */
+        public static function verifyUserEmail($email){
+            $result = FUser::verify('email', $email);
+
+            return $result;
+        }
+
         //--------------------------------------------------------------------------------
 
+            /**
+         * return a User findig it not on the id but on it's username
+         * @param string $username Refers to the username of the user to get
+         */
+        public static function retriveUserOnUsername($username)
+        {
+            $result = FUser::getUserByUsername($username);
+
+            return $result;
+        }
+
+
+        
+    
     }
 
         

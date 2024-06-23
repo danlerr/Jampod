@@ -11,6 +11,8 @@ class EUser extends EPerson{
 
     private $admin = false;
 
+    protected $ban = false;
+
     //constructor
 
     public function __construct($name, $surname, $email, $password, $username)
@@ -24,6 +26,23 @@ class EUser extends EPerson{
     }
 
     //methods
+    /**
+     * Get the value of class name
+     *
+     * @return string'EUser'
+     */
+    public static function getEClass(){
+        return 'EUser';
+    }
+
+    /**
+     * Get the value of password
+     *
+     * @return string $password
+     */
+    public function getPassword(){
+        return $this->password;
+    }
 
     /**
      * Get the value of balance
@@ -67,5 +86,10 @@ class EUser extends EPerson{
         return $this->admin;
     }
 
+    public function isBanned()
+    {
+        return $this->ban;
+
+}
 
 }

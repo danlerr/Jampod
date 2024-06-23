@@ -48,7 +48,7 @@
             }
         }
 
-        public function retrieve ($table, $field, $id)
+        public static function retrieve ($table, $field, $id)
         {
             try{
                 
