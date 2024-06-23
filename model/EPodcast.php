@@ -46,7 +46,7 @@ class EPodcast{
      *
      * @return $podcast_id
      */
-    public function getPodcastId()
+    public function getId()
     {
         return $this->podcast_id;
     }
@@ -173,6 +173,9 @@ class EPodcast{
     
     public function setCreationTime($dateTime){
         $this->podcast_creationtime = $dateTime;
+    }
+    public function setSubcribe_counter($subcribe_counter){
+        $this->subcribe_counter = $subcribe_counter;
     }
 
 }

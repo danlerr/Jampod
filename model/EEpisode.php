@@ -50,7 +50,7 @@ class EEpisode{
      * 
      * @return $episode_id
      */
-    public function getEpisodeId() : int {
+    public function getId() : int {
         return $this->episode_id;
     }
   

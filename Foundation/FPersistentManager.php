@@ -18,26 +18,29 @@
 
         //----------------------------------CRUD------------------------------------------
 
+        //C
         public static function createObj($obj){
             $fclass = "F" . substr(get_class($obj), 1);
             $result = call_user_func([$fclass, "createObject"], $obj);
             return $result;
         }
 
+        //R
         public static function retrieveObj($eclass, $id){
 
-            $fclass = "F" . substr($eclass, 1);
-
+            $fclass = "F" . substr($eclass, 1);                               
             $result = call_user_func([$fclass,"retrieveObject"], $id);
-
             return $result;
         }
 
-        public function updateObj($obj){
+        //U
+        public function updateObj($obj, $field, $value){
             $class = "F" . substr(get_class($obj),1);
-            $result = call_user_func([$class, "updateObject"], $obj);
+            $result = call_user_func([$class, "updateObject"], $obj, $field, $value);         
             return $result;
         }
+
+        //D
         public function deleteObj($obj){
             $class = "F" . substr(get_class($obj), 1);
             $result = call_user_func([$class, "deleteObject"], $obj);

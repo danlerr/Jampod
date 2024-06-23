@@ -1,24 +1,22 @@
 <?php
-class EUser extends EPerson{
+class EUser {
 
     //attributes 
     /**
     * @var int|null $user_id The ID of the user. Auto-incremented by the database.
     */
+    private string $username; 
+    private string $email; 
+    private string $password; 
     private int $user_id;
-
     private  float $balance;
-
     private $admin = false;
-
     protected $ban = false;
 
     //constructor
 
-    public function __construct($name, $surname, $email, $password, $username)
+    public function __construct($email, $password, $username)
     {
-        $this->name = $name;
-        $this->surname = $surname;
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
@@ -58,7 +56,7 @@ class EUser extends EPerson{
      *
      * @return $user_id
      */
-    public function getUserId(){
+    public function getId(){
         return $this->user_id;
     }
 
@@ -90,6 +88,30 @@ class EUser extends EPerson{
     {
         return $this->ban;
 
+    }
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+    
+    public function setUsername( $username )
+    {
+        $this->username = $username;
+    }
+   
+    public function setEmail( $email )
+    {
+        $this->email = $email;
+    }
+   
+    public function setPassword( $password )
+    {
+        $this->password = $password;
+    }
 }
 
-}

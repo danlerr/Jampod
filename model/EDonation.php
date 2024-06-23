@@ -72,7 +72,7 @@ class EDonation{
      * @return $donation_id
      */
 
-    public function getDonationId() {
+    public function getId() {
 		return $this->donation_id;}
 
     /**

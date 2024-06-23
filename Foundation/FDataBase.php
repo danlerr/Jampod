@@ -28,6 +28,7 @@
 
         //----------------------------------CRUD------------------------------------------
 
+        //C
         public static function create($fClass, $obj)
         {
             try{
@@ -48,6 +49,7 @@
             }
         }
 
+        //R
         public static function retrieve ($table, $field, $id)
         {
             try{
@@ -65,6 +67,7 @@
             }
         }
 
+        //U
         public static function update($table, $field, $fieldValue, $cond, $condValue){
         
             try{
@@ -86,6 +89,7 @@
             }
         }
 
+        //D
         public static function delete($table, $field, $id){
             try{
                 self::$db->beginTransaction();

@@ -43,7 +43,7 @@ public static function createEntity($queryResult){
 }
 public static function bind($stmt, ESubscribe $subscribe){
     $stmt->bindValue(":value", $subscribe->getPodcastid(), PDO::PARAM_INT);
-    $stmt->bindValue(":user_id", $subscribe->getSubscribeid(), PDO::PARAM_INT);
+    $stmt->bindValue(":user_id", $subscribe->getSubscriberid(), PDO::PARAM_INT);
     $stmt->bindValue(":episode_id", $subscribe->getSubscriberid(), PDO::PARAM_INT);
    
   

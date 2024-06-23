@@ -71,7 +71,7 @@ class ECreditCard{
      * @return $card_id
      */
 
-    public function getCardId() {
+    public function getId() {
 		return $this->card_id;}
 
     /**

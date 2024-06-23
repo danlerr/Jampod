@@ -79,8 +79,8 @@ public static function retrieveObject($episode_id){
     }
 }
 //metodo per aggiornare l'oggetto 
-public static function updateObject($table, $field, $fieldValue, $cond, $condValue){
-    $updateEpisode = FDataBase::getInstance()->update(self::getTable() , $field, $fieldValue, $cond, $condValue);
+public static function updateObject($obj, $field, $fieldValue){
+    $updateEpisode = FDataBase::getInstance()->update(self::getTable(), $field, $fieldValue, self::getKey(), $obj->getId());
     if($updateEpisode !== null){
         return true;
     }else{
