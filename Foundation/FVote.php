@@ -24,23 +24,24 @@ public static function getKey(){
     return self::$key;
 }
 //"converte" il contenuto dell'array risultante da una query in oggetto entity della rispettiva classe
-public static function createEntity($queryResult){
-    if(count($queryResult) == 1){
-        $vote = new EVote($queryResult[0]['value'], $queryResult[0]['user_id'],$queryResult[0]['episode_id']);
-        $vote->setVoteId($queryResult[0]['vote_id']);
-        return $vote;
-    }elseif(count($queryResult) > 0){
-        $votes = array();
-        for($i = 0; $i < count($queryResult); $i++){
-            $vote = new EVote($queryResult[$i]['value'],$queryResult[$i]['user_id'],$queryResult[$i]['episode_id']);
-            $vote->setVoteId($queryResult[$i]['vote_id']);        
-            $episodes[] = $vote; //aggiunge l'oggetto voto nell'array di voti
-        }
-        return $episodes;
-    }else{
-        return array();
+public static function createEntity($queryResult) {
+    $votes = array();
+
+    foreach ($queryResult as $result) {
+        $vote = new EVote($result['value'], $result['user_id'], $result['episode_id']);
+        $vote->setVoteId($result['vote_id']);
+        $votes[] = $vote;
     }
+
+    // Restituisce un singolo oggetto se c'è un solo elemento
+    if (count($votes) === 1) {
+        return $votes[0];
+    }
+
+    // Restituisce un array di oggetti se ci sono più elementi
+    return $votes;
 }
+
 public static function bind($stmt, Evote $vote){
     $stmt->bindValue(":value", $vote->getValue(), PDO::PARAM_INT);
     $stmt->bindValue(":user_id", $vote->getUserId(), PDO::PARAM_INT);
@@ -48,8 +49,8 @@ public static function bind($stmt, Evote $vote){
     $stmt->bindValue(":vote_id", $vote->getVoteId(), PDO::PARAM_INT);
   
 }
-//metodo per "salvare" un oggetto episodio dal DB. Ritorna l'id identificativo dell'episodio
-public static function createObject($obj){ 
+//metodo per "salvare" un oggetto voto dal DB. Ritorna l'id identificativo del voto
+public static function createObject(EVote $obj){ 
     $ObjectVote_id = FDataBase::getInstance()->create(self::getClass(), $obj);
     if( $ObjectVote_id !== null){
         $obj->setVoteId($ObjectVote_id);
@@ -58,7 +59,7 @@ public static function createObject($obj){
         return false;
     }
 }
-//metodo per "recuperare" un oggetto episodio dal DB (conversione in entity) utilizzando l'id
+//metodo per "recuperare" un oggetto voto dal DB (conversione in entity) utilizzando l'id
 public static function retrieveObject($vote_id){ 
     $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $vote_id); 
     if(count($result) > 0){
@@ -69,13 +70,21 @@ public static function retrieveObject($vote_id){
     }
 }
 //metodo che cancella un oggetto dato l'id 
-//serve transaction??
+
 public static function deleteObject($field, $id){
     $result = FDatabase::getInstance()->delete(self::getClass(), $field, $id);
     if($result) return true;
       else return false;
 
   }
+  public static function updateObject( $field, $fieldValue, $cond, $condValue){
+    $updateVote = FDataBase::getInstance()->update(self::getTable() , $field, $fieldValue, $cond, $condValue);
+    if($updateVote !== null){
+        return true;
+    }else{
+        return false;
+    }
+}
 
 
 

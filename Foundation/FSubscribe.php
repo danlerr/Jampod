@@ -24,23 +24,24 @@ public static function getKey(){
     return self::$key;
 }
 //"converte" il contenuto dell'array risultante da una query in oggetto entity della rispettiva classe
-public static function createEntity($queryResult){
-    if(count($queryResult) == 1){
-        $subscribe = new ESubscribe($queryResult[0]['podcast_id'], $queryResult[0]['subscriber_id']);
-        $subscribe->setSubscribeid($queryResult[0]['subscribe_id']);
-        return $subscribe;
-    }elseif(count($queryResult) > 0){
-        $subscribes = array();
-        for($i = 0; $i < count($queryResult); $i++){
-            $subscribe = new ESubscribe($queryResult[0]['podcast_id'], $queryResult[0]['subscriber_id']);
-            $subscribe->setSubscribeid($queryResult[0]['subscribe_id']); 
-            $subcribes[] = $subscribe; //aggiunge l'oggetto voto nell'array di voti
-        }
-        return $subscribes;
-    }else{
-        return array();
+public static function createEntity($queryResult) {
+    $subscribes = array();
+
+    foreach ($queryResult as $result) {
+        $subscribe = new ESubscribe($result['podcast_id'], $result['subscriber_id']);
+        $subscribe->setSubscribeId($result['subscribe_id']);
+        $subscribes[] = $subscribe;
     }
+
+    // Restituisce un singolo oggetto se c'è un solo elemento
+    if (count($subscribes) === 1) {
+        return $subscribes[0];
+    }
+
+    // Restituisce un array di oggetti se ci sono più elementi
+    return $subscribes;
 }
+
 public static function bind($stmt, ESubscribe $subscribe){
     $stmt->bindValue(":value", $subscribe->getPodcastid(), PDO::PARAM_INT);
     $stmt->bindValue(":user_id", $subscribe->getSubscribeid(), PDO::PARAM_INT);
@@ -48,8 +49,8 @@ public static function bind($stmt, ESubscribe $subscribe){
    
   
 }
-//metodo per "salvare" un oggetto episodio dal DB. Ritorna l'id identificativo dell'episodio
-public static function createObject($obj){ 
+//metodo per "salvare" un oggetto iscrizione dal DB. Ritorna l'id identificativo dell'iscrizione
+public static function createObject(ESubscribe $obj){ 
     $ObjectSubscribe_id = FDataBase::getInstance()->create(self::getClass(), $obj); //restituisce l'id assegnato dal db all'oggetto subscribe
     if( $ObjectSubscribe_id !== null){
         $obj->setSubscribeid($ObjectSubscribe_id);
@@ -58,7 +59,7 @@ public static function createObject($obj){
         return false;
     }
 }
-//metodo per "recuperare" un oggetto episodio dal DB (conversione in entity) utilizzando l'id
+//metodo per "recuperare" un oggetto iscrizione dal DB (conversione in entity) utilizzando l'id
 public static function retrieveObject($subscribe_id){ 
     $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $subscribe_id); 
     if(count($result) > 0){
@@ -69,7 +70,7 @@ public static function retrieveObject($subscribe_id){
     }
 }
 //metodo che cancella un oggetto dato l'id 
-//aggiungere transactions
+
 public static function deleteObject($field, $id){
     $result = FDatabase::getInstance()->delete(self::getClass(), $field, $id);
     if($result) return true;

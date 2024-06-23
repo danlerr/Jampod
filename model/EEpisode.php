@@ -170,6 +170,10 @@ class EEpisode{
     public function setCreationTime($dateTime){
         $this->episode_creationtime = $dateTime;
     }
+    public function setEpisodeStreams($episode_streams){
+        $this->episode_streams = $episode_streams;
+    }
+    
     
     
 
