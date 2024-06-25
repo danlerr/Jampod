@@ -3,7 +3,7 @@
 class FComment{
     
     private static $table="comment";
-    private static $value="(:comment_id,:comment_text,:comment_creation_date,:user_id,:episode_id)";
+    private static $value="(NULL,:comment_text,:comment_creation_date,:user_id,:episode_id)";
     private static $key="comment_id";
 
     
@@ -20,42 +20,31 @@ class FComment{
     public static function getKey(){
         return self::$key;
     }
-    //
-    public static function createEntity($queryResult){
-        if(count($queryResult) == 1){
-            $comment = new EComment($queryResult[0]['comment_text'], $queryResult[0]['user_id'], $queryResult[0]['episode_id']);
-            $comment->setCommentId($queryResult[0]['idComment']);
-            $dateTime =  DateTime::createFromFormat('Y-m-d H:i:s', $queryResult[0]['creation_date']);
-            $comment->setCommentCreationTime($dateTime);
-            //$comment->setBan($queryResult[0]['removed']);   da inserire!
-            return $comment;
-        }elseif(count($queryResult) > 1){
-            $comments = array();
-            for($i = 0; $i < count($queryResult); $i++){
-                $comment = new EComment($queryResult[$i]['comment_text'], $queryResult[$i]['user_id'], $queryResult[$i]['episode_id']);
-                $comment->setCommentId($queryResult[$i]['idComment']);
-                $dateTime =  DateTime::createFromFormat('Y-m-d H:i:s', $queryResult[$i]['creation_date']);
-                $comment->setCommentCreationTime($dateTime);
-                //$comment->setBan($queryResult[$i]['removed']); da inserire!
-                $comments[] = $comment;
-            }
-            return $comments;
-            }else{
-            return array();
-        }
+    
 
-    }
+
     public static function bind($stmt, $comment){
-        $stmt->bindValue("comment_text:", $comment->getCommentText(), PDO::PARAM_STR);
-        $stmt->bindValue(":comment_creation_date", $comment->getCommentTime(), PDO::PARAM_STR);
+        $stmt->bindValue(":comment_text", $comment->getCommentText(), PDO::PARAM_STR);
+        $stmt->bindValue(":comment_creation_date", $comment->getCommentTime()->format('Y-m-d H:i:s'), PDO::PARAM_STR);
         //$stmt->bindValue(":removed", $comment->isBanned(), PDO::PARAM_BOOL); da inserire!
         $stmt->bindValue(":episode_id", $comment->getEpisodeId(), PDO::PARAM_INT);
-        $stmt->bindValue(":user_id", $comment->getUserId(), PDO::PARAM_STR); // controlla i tipi 
+        $stmt->bindValue(":user_id", $comment->getUserId(), PDO::PARAM_INT); // controlla i tipi 
     }
-//forse ci voleva FUser
 
-//R getCommentEntity
-    public static function retrieveObject($id){
+
+    public static function createObject($obj) :bool{            //metodo per "salvare" un oggetto comment dal DB
+
+        $ObjectCommentId = FDataBase::getInstance()->create(self::class, $obj);  //il metodo create restituisce l'd del commento
+        if($ObjectCommentId !== null){
+            $obj->setCommentId($ObjectCommentId);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    
+    public static function retrieveObject($id){                //metodo per recuperare un oggetto dal DB, ritorna un oggetto della classe EComment
         $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $id); 
         if(count($result) > 0){
             $comment = self::createEntity($result);
@@ -65,55 +54,37 @@ class FComment{
         }
     }
 
-// function update oggetto nel db
-public static function createObject($obj, $fieldArray = null){    //cos'è field array?
+    public static function updateObject($field, $fieldValue, $cond, $condValu){            //metodo per aggiornare un oggetto user dal DB
 
-    if($fieldArray === null){
-        $saveComment = FDataBase::getInstance()->create(self::getClass(), $obj);
-        if($saveComment !== null){
+        $result = FDatabase::getInstance()->update(self::getTable(), $field, $fieldValue, $cond, $condValu);
+        if($result){
             return true;
         }else{
-            return false;
-        }
-    }else{
-        try{
-            foreach($fieldArray as $fv){
-                FDataBase::getInstance()->update(FComment::getTable(), $fv[0], $fv[1], self::getKey(), $obj->getId());
-            }
-            FDataBase::getInstance()->getDb()->commit();
-            return true;
-
-        }catch(PDOException $e){
-            echo "ERROR " . $e->getMessage();
-            return false;
-        }finally{
-            FDataBase::getInstance()->closeConnection();
+         return false;
         }
     }
     
-    }
-    //D
-    public static function deleteObject($comment_id,$user_id){        
-        try{
-            $queryResult = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $comment_id);
 
-            if(FDataBase::getInstance()->existInDb($queryResult) && FDatabase::getInstance()->checkCreator($queryResult, $user_id)){ //fare check CReator e existInDb in FDataBase
-                //mi servono solo gli id della query //??
-            
-                FDataBase::getInstance()->delete(self::getTable(), self::getKey(), $comment_id);
-
-                FDataBase::getInstance()->getDb()->commit();
-                return true;
-            }else{
-                FDataBase::getInstance()->getDb()->commit();
-                return false;
-            }
-        }catch(PDOException $e){
-            echo "ERROR " . $e->getMessage();
-            return false;
-        }finally{
-            FDataBase::getInstance()->closeConnection();
+    public static function deleteObject($id){                //metodo per eliminare un oggetto comment dal DB
+        
+        $result = FDatabase::getInstance()->delete(self::getTable(), self::getKey(), $id);
+        if($result){
+            return true;
+        }else{
+         return false;
         }
     }
+
+    //
+    public static function createEntity($queryResult){          //metodo che crea un nuovo oggetto della classe ECreditCard
+       
+            $comment = new EComment($queryResult[0]['comment_text'], $queryResult[0]['user_id'], $queryResult[0]['episode_id']);
+            $comment->setCommentId($queryResult[0]['idComment']);
+            $dateTime =  DateTime::createFromFormat('Y-m-d H:i:s', $queryResult[0]['creation_date']);
+            $comment->setCommentCreationTime($dateTime);
+            //$comment->setBan($queryResult[0]['removed']);   da inserire!
+            return $comment;
+        
+        }
 
     }

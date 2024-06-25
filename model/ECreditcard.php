@@ -41,7 +41,7 @@ class ECreditCard{
      * data di scadenza della carta nel formato mm/aa
      * @AttributeType String
      */
-    private $expiration_date;
+    private $expirationDate;
 
 
 
@@ -56,11 +56,11 @@ class ECreditCard{
 
 
     // CONSTRUCTOR
-    public function __construct($card_holder,$card_number,$security_code,$expiration_date) {
+    public function __construct($card_holder,$card_number,$security_code,$expirationDate) {
         $this->card_holder = $card_holder;
         $this->card_number = $card_number;
         $this->security_code=$security_code;
-        $this->expiration_date=$expiration_date;
+        $this->expirationDate = DateTime::createFromFormat('Y-m', $expirationDate);
        
 
     }
@@ -103,13 +103,13 @@ class ECreditCard{
 
 
     /**
-     * Get the value of expiration_date
+     * Get the value of expirationDate
      * 
-     * @return $expiration_date
+     * @return $expirationDate
      */
     
     public function getCreditCardExpirationDate() {
-        return $this->expiration_date;}
+        return $this->expirationDate;}
 
     
     /**
@@ -118,7 +118,7 @@ class ECreditCard{
      * @return $user_id
      */
 
-     public function getUserId() {
+     public function getCreditCardUserId() {
 		return $this->user_id;}
     
 
@@ -164,13 +164,13 @@ class ECreditCard{
     }
 
      /**
-     * Set the value of expiration_date
+     * Set the value of expirationDate
      *
      * @param $expiration_date
      */
 
     public function setCreditCardExpirationDate($expiration_date){
-        $this->expiration_date=$expiration_date;
+        $this->expirationDate=$expiration_date;
     }
     
 

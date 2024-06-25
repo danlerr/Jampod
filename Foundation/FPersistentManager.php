@@ -48,24 +48,24 @@
         //----------------------------------------------VERIFY-----------------------------------------------------
 
 
-    /**
-     * verify if exist a user with this username (also mod)
-     * @param string $username
-     */
-    public static function verifyUserUsername($username){
-        $result = FUser::verify('username', $username);
-
-        return $result;
-    }
-            /**
-         * verify if exist a user with this email (also mod)
-         * @param string $email
+        /**
+         * verify if exist a user with this username (also mod)
+         * @param string $username
          */
-        public static function verifyUserEmail($email){
-            $result = FUser::verify('email', $email);
+        public static function verifyUserUsername($username){
+            $result = FUser::verify('username', $username);
 
             return $result;
         }
+                /**
+             * verify if exist a user with this email (also mod)
+             * @param string $email
+             */
+            public static function verifyUserEmail($email){
+                $result = FUser::verify('email', $email);
+
+                return $result;
+            }
 
         //--------------------------------------------------------------------------------
 
@@ -81,8 +81,8 @@
         }
 
 
-        
-    
-    }
+            
 
-        
+        }
+
+            

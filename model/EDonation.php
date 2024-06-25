@@ -56,12 +56,11 @@ class EDonation{
     private Datetime $time;
 
     // CONSTRUCTOR
-    public function __construct($amount,$text,$sender_id,$recipient_id,$donation_id) {
+    public function __construct($amount,$text,$sender_id,$recipient_id) {
         $this->amount = $amount;
         $this->text = $text;
         $this->sender_id=$sender_id;
         $this->recipient_id=$recipient_id;
-        $this->donation_id=$donation_id;
         $this->setTime();
     
     }
