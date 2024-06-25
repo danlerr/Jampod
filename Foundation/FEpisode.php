@@ -4,7 +4,7 @@ class FEpisode{
 
 private static $table = "episode";
 
-private static $value = "(:episode_id, :episode_title, :episode_description, :episode_creationtime, :episode_streams, : podcast_id, :audio_data, :image_data, :audio_mimetype, :image_mimetype)";
+private static $value = "(:episode_id, :episode_title, :episode_description, :episode_creationtime, :episode_streams, :podcast_id, :audio_data, :image_data, :audio_mimetype, :image_mimetype)";
 
 private static $key = "episode_id";
 
@@ -54,10 +54,11 @@ public static function createEntity($queryResult) {
 //metodo bind per associare i valori di Episode nei segnaposto di una query pdo preparata
 //lega gli attributi dell'episodio da inserire con i parametri della INSERT
 public static function bind($stmt, EEpisode $episode){
+    $stmt->bindValue(':episode_id', null, PDO::PARAM_NULL);                           //bind function 
     $stmt->bindValue(":episode_title", $episode->getEpisode_title(), PDO::PARAM_STR);
     $stmt->bindValue(":episode_description", $episode->getEpisode_description(), PDO::PARAM_STR);
     $stmt->bindValue(":episode_streams", $episode->getEpisode_streams(), PDO::PARAM_INT);
-    $stmt->bindValue(":episode_creation_date", $episode->getTimetoStr(), PDO::PARAM_STR);
+    $stmt->bindValue(":episode_creationtime", $episode->getTimetoStr(), PDO::PARAM_STR);
     $stmt->bindValue(":podcast_id", $episode->getPodcastId(), PDO::PARAM_INT); 
     $stmt->bindValue(":audio_data", $episode->getAudioData(), PDO::PARAM_LOB);
     $stmt->bindValue(":image_data", $episode->getImageData(), PDO::PARAM_LOB);
@@ -66,12 +67,13 @@ public static function bind($stmt, EEpisode $episode){
 
 }
 //metodo per "salvare" un oggetto episodio dal DB. Ritorna l'id identificativo dell'episodio
-public static function createObject(EEpisode $obj){ 
-    $ObjectEpisode_id = FDataBase::getInstance()->create(self::getClass(), $obj);
-    if( $ObjectEpisode_id !== null){
+public static function createObject(EEpisode $obj) {
+    // Crea l'oggetto e ottieni l'ID dal database
+    $ObjectEpisode_id = FDataBase::getInstance()->create(self::getClass(), $obj);   
+    if ($ObjectEpisode_id !== null) {
         $obj->setEpisodeId($ObjectEpisode_id);
         return true;
-    }else{
+    } else {
         return false;
     }
 }

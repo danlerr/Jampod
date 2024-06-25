@@ -4,7 +4,7 @@
 
     private static $table = "user";
 
-    private static $value = "(:user_id,:username,:name,:surname,:email,:password,:balance,:is_admin)";
+    private static $value = "(:user_id,:username,:email,:password,:balance,:is_admin)";
 
     private static $key = "user_id";
 
@@ -95,12 +95,12 @@
     }
 
     public static function bind($stmt, EUser $user){  
-        $stmt->bindValue(':user_id', null, PDO::PARAM_INT);                           //bind function 
+        $stmt->bindValue(':user_id', null, PDO::PARAM_NULL);                           //bind function 
         $stmt->bindValue(':username',$user->getUsername(), PDO::PARAM_STR);
         $stmt->bindValue(':email',$user->getEmail(), PDO::PARAM_STR);
         $stmt->bindValue(':password',$user->getPassword(), PDO::PARAM_STR);
         $stmt->bindValue(':balance',$user->getBalance(), PDO::PARAM_STR);
-        $stmt->bindValue(':isAdmin',$user->isAdmin(), PDO::PARAM_BOOL);
+        $stmt->bindValue(':is_admin',$user->getAdmin(), PDO::PARAM_BOOL);
     }
 
     //--------------------------------------------------------------------------------

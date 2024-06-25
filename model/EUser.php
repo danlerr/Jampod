@@ -113,5 +113,8 @@ class EUser {
     {
         $this->password = $password;
     }
+    public function getAdmin() {
+        return $this->admin;
+    }
 }
 

@@ -3,22 +3,22 @@
 
 class EEpisode{
     //attributes
-    private  int $episode_id;
+    private   $episode_id;
     
-    private string $episode_title;
+    private  $episode_title;
     
-    private string $episode_description;
+    private  $episode_description;
     
     private DateTime $episode_creationtime;
     
     private int $episode_streams;
 
-    private int $podcast_id;
+    private  $podcast_id;
 
     //mimetype attributes 
-    private string $image_mimetype;
+    private  $image_mimetype;
 
-    private string $audio_mimetype;
+    private  $audio_mimetype;
 
     //bytecode attributes 
     private $image_data;
@@ -29,7 +29,7 @@ class EEpisode{
 
     //constructor
    
-    public function __construct(string $episode_title, string $episode_description, int $podcast_id){
+    public function __construct( $episode_title,  $episode_description,  $podcast_id){
     
         $this->episode_title = $episode_title;
         $this->episode_description = $episode_description;
@@ -50,7 +50,7 @@ class EEpisode{
      * 
      * @return $episode_id
      */
-    public function getId() : int {
+    public function getId()   {
         return $this->episode_id;
     }
   
@@ -59,7 +59,7 @@ class EEpisode{
      * 
      * @return $episode_title
      */
-    public function getEpisode_title() : string {
+    public function getEpisode_title()   {
         return $this->episode_title;
     }
     /**
@@ -67,7 +67,7 @@ class EEpisode{
      * 
      * @return $episode_description
      */
-    public function getEpisode_description() : string {
+    public function getEpisode_description()   {
         return $this->episode_description;
     }
     /**
@@ -83,7 +83,7 @@ class EEpisode{
      * 
      * @return $episode_streams
      */
-    public function getEpisode_streams() : int {
+    public function getEpisode_streams()  {
         return $this->episode_streams;
     }
        /**
@@ -91,7 +91,7 @@ class EEpisode{
      * 
      * @return $podcast_id
      */
-    public function getPodcastId() : int {
+    public function getPodcastId()  {
         return $this->podcast_id;
     }
     /**

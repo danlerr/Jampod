@@ -29,25 +29,42 @@
         //----------------------------------CRUD------------------------------------------
 
         //C
-        public static function create($fClass, $obj)
-        {
-            try{
-                self::$db->beginTransaction();
-                $query = "INSERT INTO " . $fClass::getTable() . " VALUES " . $fClass::getValue();
-                $stmt = self::$db->prepare($query);
-                $fClass::bind($stmt, $obj);
-                $stmt->execute();
-                $id = self::$db->lastInsertId(); 
-                self::$db->commit();
-                return $id;
+        public static function create($fClass, $obj){
+        try {
+        // Inizia la transazione
+        self::$db->beginTransaction();
 
-            }catch(Exception $e){
+        //  query di inserimento
+        $table = $fClass::getTable();
+        $values = $fClass::getValue();
+        $query = "INSERT INTO " . $table . " VALUES " . $values;
+        $stmt = self::$db->prepare($query);
+        $fClass::bind($stmt, $obj);
+        $stmt->execute();
+        // Ottieni l'ultimo ID inserito
+        $id = self::$db->lastInsertId();
+        // Commit della transazione
+        self::$db->commit();
+        return $id;
+    } catch (PDOException $e) {
+        // Log dell'errore
+        error_log("Save Objects Error (PDO): " . $e->getMessage());
 
-                error_log("Save Objects Error: " . $e->getMessage());
-                self::$db->rollBack();
-                return null;
-            }
-        }
+        
+        self::$db->rollBack();
+
+        return null;
+    } catch (Exception $e) {
+        // Log dell'errore generico
+        error_log("Save Objects Error: " . $e->getMessage());
+
+        
+        self::$db->rollBack();
+
+        return null;
+    }
+}
+
 
         //R
         public static function retrieve ($table, $field, $id)

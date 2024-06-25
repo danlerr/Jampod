@@ -34,8 +34,7 @@ class EPodcast{
         $this->user_id = $user_id;
         $this->category_id = $category_id;
         $this->subcribe_counter = 0;
-        $this->image_mimetype = "image/jpeg";
-        $this->image_data = "";
+        $this->image_mimetype = "";
         $this->setTime();
     }
 
@@ -177,5 +176,8 @@ class EPodcast{
     public function setSubcribe_counter($subcribe_counter){
         $this->subcribe_counter = $subcribe_counter;
     }
-
+    public function getTimetoStr()
+    {
+        return $this->podcast_creationtime->format('Y-m-d H:i:s');
+    }
 }
