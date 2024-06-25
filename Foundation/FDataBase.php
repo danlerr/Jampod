@@ -54,7 +54,7 @@
         {
             try{
                 
-                $query = "SELECT * FROM " .$table. " WHERE ".$field. "=:$id.";
+                $query = "SELECT * FROM $table WHERE $field = :id";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':id',$id);                
                 $stmt->execute();
@@ -73,7 +73,7 @@
             try{
 
                 self::$db->beginTransaction();
-                $query = "UPDATE " . $table . " SET ". $field . "=:fieldValue" . " WHERE " . $cond . "=:condValue";
+                $query = "UPDATE " . $table . " SET " . $field . " = :fieldValue  WHERE " . $cond . "= :condValue";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':fieldValue', $fieldValue);
                 $stmt->bindParam(':condValue', $condValue);

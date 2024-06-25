@@ -94,7 +94,8 @@
         return $users;
     }
 
-    public static function bind($stmt, EUser $user){                              //bind function 
+    public static function bind($stmt, EUser $user){  
+        $stmt->bindValue(':user_id', null, PDO::PARAM_INT);                           //bind function 
         $stmt->bindValue(':username',$user->getUsername(), PDO::PARAM_STR);
         $stmt->bindValue(':email',$user->getEmail(), PDO::PARAM_STR);
         $stmt->bindValue(':password',$user->getPassword(), PDO::PARAM_STR);

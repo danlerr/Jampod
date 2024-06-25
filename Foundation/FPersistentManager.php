@@ -43,7 +43,7 @@
         //D
         public function deleteObj($obj){
             $class = "F" . substr(get_class($obj), 1);
-            $result = call_user_func([$class, "deleteObject"], $obj);
+            $result = call_user_func([$class, "deleteObject"], $obj->getId());
             return $result;
         }
 
