@@ -28,6 +28,7 @@
 
         //----------------------------------CRUD------------------------------------------
 
+        //C
         public static function create($fClass, $obj)
         {
             try{
@@ -48,11 +49,12 @@
             }
         }
 
+        //R
         public static function retrieve ($table, $field, $id)
         {
             try{
                 
-                $query = "SELECT * FROM " .$table. " WHERE ".$field. "=:$id.";
+                $query = "SELECT * FROM $table WHERE $field = :id";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':id',$id);                
                 $stmt->execute();
@@ -65,12 +67,13 @@
             }
         }
 
+        //U
         public static function update($table, $field, $fieldValue, $cond, $condValue){
         
             try{
 
                 self::$db->beginTransaction();
-                $query = "UPDATE " . $table . " SET ". $field . "=:fieldValue" . " WHERE " . $cond . "=:condValue";
+                $query = "UPDATE " . $table . " SET " . $field . " = :fieldValue  WHERE " . $cond . "= :condValue";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':fieldValue', $fieldValue);
                 $stmt->bindParam(':condValue', $condValue);
@@ -86,6 +89,7 @@
             }
         }
 
+        //D
         public static function delete($table, $field, $id){
             try{
                 self::$db->beginTransaction();

@@ -25,25 +25,32 @@ public static function getKey(){
 }
 
 //"converte" il contenuto dell'array risultante da una query in oggetto entity della rispettiva classe
-public static function createEntity($queryResult){
-    if(count($queryResult) > 0){
-        $episodes = array();
-        for($i = 0; $i < count($queryResult); $i++){
-            $e = new EEpisode($queryResult[$i]['episode_title'],$queryResult[$i]['episode_description'],$queryResult[$i]['podcast_id']);
-            $e->setEpisodeId($queryResult[$i]['episode_id']);
-            $e->setImageData($queryResult[$i]['image_data']);
-            $e->setImageMimetype($queryResult[$i]['image_mimetype']);
-            $e->setAudioData($queryResult[$i]['audio_data']);
-            $e->setAudioMimetype($queryResult[$i]['audio_mimetype']);
-            $dateTime =  DateTime::createFromFormat('Y-m-d H:i:s', $queryResult[$i]['episode_creationtime']);
-            $e->setCreationTime($dateTime);
-            $episodes[] = $e; //aggiunge l'oggetto episodio nell'array di episodi
-        }
-        return $episodes;
-    }else{
-        return array();
+public static function createEntity($queryResult) {
+    $episodes = array();
+
+    foreach ($queryResult as $result) {
+        $e = new EEpisode($result['episode_title'], $result['episode_description'], $result['podcast_id']);
+        $e->setEpisodeId($result['episode_id']);
+        $e->setImageData($result['image_data']);
+        $e->setImageMimetype($result['image_mimetype']);
+        $e->setAudioData($result['audio_data']);
+        $e->setAudioMimetype($result['audio_mimetype']);
+        $e->setEpisodeStreams($result['episode_streams']);
+        $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $result['episode_creationtime']);
+        $e->setCreationTime($dateTime);
+        $episodes[] = $e;
     }
+
+    // Restituisce un singolo oggetto episodio se c'è un solo elemento nell'array
+    if (count($episodes) === 1) {
+        return $episodes[0];
+    }
+
+    // Restituisce un array di episodi se ci sono più elementi nell'array
+    return $episodes;
 }
+
+
 //metodo bind per associare i valori di Episode nei segnaposto di una query pdo preparata
 //lega gli attributi dell'episodio da inserire con i parametri della INSERT
 public static function bind($stmt, EEpisode $episode){
@@ -51,7 +58,7 @@ public static function bind($stmt, EEpisode $episode){
     $stmt->bindValue(":episode_description", $episode->getEpisode_description(), PDO::PARAM_STR);
     $stmt->bindValue(":episode_streams", $episode->getEpisode_streams(), PDO::PARAM_INT);
     $stmt->bindValue(":episode_creation_date", $episode->getTimetoStr(), PDO::PARAM_STR);
-    $stmt->bindValue(":podcast_id", $episode->getPodcastId(), PDO::PARAM_INT); //????
+    $stmt->bindValue(":podcast_id", $episode->getPodcastId(), PDO::PARAM_INT); 
     $stmt->bindValue(":audio_data", $episode->getAudioData(), PDO::PARAM_LOB);
     $stmt->bindValue(":image_data", $episode->getImageData(), PDO::PARAM_LOB);
     $stmt->bindValue(":audio_mimetype", $episode->getAudioMimeType(), PDO::PARAM_STR);
@@ -59,7 +66,7 @@ public static function bind($stmt, EEpisode $episode){
 
 }
 //metodo per "salvare" un oggetto episodio dal DB. Ritorna l'id identificativo dell'episodio
-public static function createObject($obj){ 
+public static function createObject(EEpisode $obj){ 
     $ObjectEpisode_id = FDataBase::getInstance()->create(self::getClass(), $obj);
     if( $ObjectEpisode_id !== null){
         $obj->setEpisodeId($ObjectEpisode_id);
@@ -79,8 +86,11 @@ public static function retrieveObject($episode_id){
     }
 }
 //metodo per aggiornare l'oggetto 
-public static function updateObject($table, $field, $fieldValue, $cond, $condValue){
-    $updateEpisode = FDataBase::getInstance()->update(self::getTable() , $field, $fieldValue, $cond, $condValue);
+
+
+public static function updateObject($obj, $field, $fieldValue){
+    $updateEpisode = FDataBase::getInstance()->update(self::getTable(), $field, $fieldValue, self::getKey(), $obj->getId());
+
     if($updateEpisode !== null){
         return true;
     }else{
@@ -100,3 +110,4 @@ public static function deleteObject($field, $id){
 
 
 }
+  

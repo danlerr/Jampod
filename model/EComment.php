@@ -58,7 +58,7 @@ class EComment{
      * @return $comment_id
      */
 
-    public function getCommentId() {
+    public function getId() {
 		return $this->comment_id;}
         /**
      * Get the value of comment_text

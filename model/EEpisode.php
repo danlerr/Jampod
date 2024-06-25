@@ -50,7 +50,7 @@ class EEpisode{
      * 
      * @return $episode_id
      */
-    public function getEpisodeId() : int {
+    public function getId() : int {
         return $this->episode_id;
     }
   
@@ -170,6 +170,10 @@ class EEpisode{
     public function setCreationTime($dateTime){
         $this->episode_creationtime = $dateTime;
     }
+    public function setEpisodeStreams($episode_streams){
+        $this->episode_streams = $episode_streams;
+    }
+    
     
     
 

@@ -22,7 +22,7 @@ class EVote {
      * @return $vote_id
      */
 
-     public function getVoteId() : int {
+     public function getId() : int {
         return $this->vote_id;
     }   
     /**
