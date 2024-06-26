@@ -4,14 +4,14 @@ class ESubscribe {
    
     //attributes
     
-    private int $subscribe_id;
-    private int $podcast_id;
+    private  $subscribe_id;
+    private  $podcast_id;
     
-    private int $subscriber_id;
+    private  $subscriber_id;
 
     
     //constructor
-    public function __construct(int $podcast_id, int $subscriber_id) {
+    public function __construct( $podcast_id,  $subscriber_id) {
         $this->podcast_id = $podcast_id;
         $this->subscriber_id = $subscriber_id;
     }
@@ -22,7 +22,7 @@ class ESubscribe {
      * 
      * @return $subscribe_id
      */
-    public function getId() : int {
+    public function getId()  {
         return $this->subscribe_id;
     }
     /**
@@ -30,7 +30,7 @@ class ESubscribe {
      * 
      * @return $podcast_id
      */
-    public function getPodcastid() : int {
+    public function getPodcastid() {
         return $this->podcast_id;
     }
     /**
@@ -38,7 +38,7 @@ class ESubscribe {
      * 
      * @return $subscriber_id
      */
-    public function getSubscriberid() : int{
+    public function getSubscriberid() {
         return $this->subscriber_id;
     }
     
@@ -48,7 +48,7 @@ class ESubscribe {
      * @return $subscribe_id
      */
     public function setSubscribeid($subscribe_id) {
-        $this->podcast_id = $subscribe_id;
+        $this->subscribe_id = $subscribe_id;
     }
     
 

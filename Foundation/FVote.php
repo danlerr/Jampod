@@ -43,13 +43,13 @@ public static function createEntity($queryResult) {
 }
 
 public static function bind($stmt, Evote $vote){
+    $stmt->bindValue(":vote_id", null, PDO::PARAM_NULL);
     $stmt->bindValue(":value", $vote->getValue(), PDO::PARAM_INT);
     $stmt->bindValue(":user_id", $vote->getUserId(), PDO::PARAM_INT);
     $stmt->bindValue(":episode_id", $vote->getEpisodeId(), PDO::PARAM_INT);
-    $stmt->bindValue(":vote_id", $vote->getId(), PDO::PARAM_INT);
   
 }
-//metodo per "salvare" un oggetto voto dal DB. Ritorna l'id identificativo del voto
+//metodo per "salvare" un oggetto voto dal DB. 
 public static function createObject(EVote $obj){ 
     $ObjectVote_id = FDataBase::getInstance()->create(self::getClass(), $obj);
     if( $ObjectVote_id !== null){
@@ -71,8 +71,8 @@ public static function retrieveObject($vote_id){
 }
 //metodo che cancella un oggetto dato l'id 
 
-public static function deleteObject($field, $id){
-    $result = FDatabase::getInstance()->delete(self::getClass(), $field, $id);
+public static function deleteObject( $id){
+    $result = FDatabase::getInstance()->delete(self::getTable(), self::getKey(), $id);
     if($result) return true;
       else return false;
 

@@ -43,13 +43,13 @@ public static function createEntity($queryResult) {
 }
 
 public static function bind($stmt, ESubscribe $subscribe){
+    $stmt->bindValue(":subscribe_id", null, PDO::PARAM_NULL);
     $stmt->bindValue(":podcast_id", $subscribe->getPodcastid(), PDO::PARAM_INT);
-   
     $stmt->bindValue(":subscriber_id", $subscribe->getSubscriberid(), PDO::PARAM_INT);
    
   
 }
-//metodo per "salvare" un oggetto iscrizione dal DB. Ritorna l'id identificativo dell'iscrizione
+//metodo per "salvare" un oggetto iscrizione dal DB. 
 public static function createObject(ESubscribe $obj){ 
     $ObjectSubscribe_id = FDataBase::getInstance()->create(self::getClass(), $obj); //restituisce l'id assegnato dal db all'oggetto subscribe
     if( $ObjectSubscribe_id !== null){
@@ -59,6 +59,7 @@ public static function createObject(ESubscribe $obj){
         return false;
     }
 }
+
 //metodo per "recuperare" un oggetto iscrizione dal DB (conversione in entity) utilizzando l'id
 public static function retrieveObject($subscribe_id){ 
     $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $subscribe_id); 
@@ -71,8 +72,8 @@ public static function retrieveObject($subscribe_id){
 }
 //metodo che cancella un oggetto dato l'id 
 
-public static function deleteObject($field, $id){
-    $result = FDatabase::getInstance()->delete(self::getClass(), $field, $id);
+public static function deleteObject($id){
+    $result = FDatabase::getInstance()->delete(self::getTable(), self::getKey(), $id);
     if($result) return true;
     else return false;
 

@@ -35,7 +35,7 @@
 
         //U
         public function updateObj($obj, $field, $value){
-            $class = "F" . substr(get_class($obj),1);
+            $class = "F" . substr(get_class($obj), 1);
             $result = call_user_func([$class, "updateObject"], $obj, $field, $value);         
             return $result;
         }

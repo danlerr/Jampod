@@ -2,15 +2,15 @@
 
 class EVote {
     //attributes
-    private int $vote_id;
+    private  $vote_id;
 
-    private int $value;
+    private  $value;
     
-    private int $user_id;
+    private  $user_id;
 
-    private int $episode_id;
+    private  $episode_id;
     //constructor
-    public function __construct(int $value, int $user_id, int $episode_id) {
+    public function __construct( $value,  $user_id,  $episode_id) {
          $this->setValue($value);
          $this->user_id = $user_id;
          $this->episode_id = $episode_id;
@@ -22,7 +22,7 @@ class EVote {
      * @return $vote_id
      */
 
-     public function getId() : int {
+     public function getId()  {
         return $this->vote_id;
     }   
     /**
@@ -30,7 +30,7 @@ class EVote {
      * 
      * @return $value
      */
-    public function getValue(): int {
+    public function getValue() {
         return $this->value;
     }
     /**
@@ -38,7 +38,7 @@ class EVote {
      * 
      * @return $user_id
      */
-    public function getUserId() : int {
+    public function getUserId() {
         return $this->user_id;
     }
     /**
@@ -46,7 +46,7 @@ class EVote {
      * 
      * @return $episode_id
      */
-    public function getEpisodeId() : int{
+    public function getEpisodeId() {
         return $this->episode_id;
     }
     /**

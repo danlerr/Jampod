@@ -57,8 +57,8 @@ public static function bind($stmt, EEpisode $episode){
     $stmt->bindValue(':episode_id', null, PDO::PARAM_NULL);                           //bind function 
     $stmt->bindValue(":episode_title", $episode->getEpisode_title(), PDO::PARAM_STR);
     $stmt->bindValue(":episode_description", $episode->getEpisode_description(), PDO::PARAM_STR);
-    $stmt->bindValue(":episode_streams", $episode->getEpisode_streams(), PDO::PARAM_INT);
     $stmt->bindValue(":episode_creationtime", $episode->getTimetoStr(), PDO::PARAM_STR);
+    $stmt->bindValue(":episode_streams", $episode->getEpisode_streams(), PDO::PARAM_INT);
     $stmt->bindValue(":podcast_id", $episode->getPodcastId(), PDO::PARAM_INT); 
     $stmt->bindValue(":audio_data", $episode->getAudioData(), PDO::PARAM_LOB);
     $stmt->bindValue(":image_data", $episode->getImageData(), PDO::PARAM_LOB);
@@ -66,7 +66,7 @@ public static function bind($stmt, EEpisode $episode){
     $stmt->bindValue(":image_mimetype", $episode->getImageMimeType(), PDO::PARAM_STR);
 
 }
-//metodo per "salvare" un oggetto episodio dal DB. Ritorna l'id identificativo dell'episodio
+//metodo per "salvare" un oggetto episodio dal DB. 
 public static function createObject(EEpisode $obj) {
     // Crea l'oggetto e ottieni l'ID dal database
     $ObjectEpisode_id = FDataBase::getInstance()->create(self::getClass(), $obj);   
@@ -101,8 +101,8 @@ public static function updateObject($obj, $field, $fieldValue){
 }
 
 //metodo che cancella un oggetto dato l'id 
-public static function deleteObject($field, $id){
-    $result = FDatabase::getInstance()->delete(self::getClass(), $field, $id);
+public static function deleteObject($id){
+    $result = FDatabase::getInstance()->delete(self::getTable(), self::getKey(), $id);
     if($result) return true;
       else return false;
 
