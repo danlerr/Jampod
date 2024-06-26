@@ -3,7 +3,7 @@
 class FCreditCard{
     
     private static $table="credit_card";
-    private static $value="(NULL,:card_holder,:card_number,:security_code,:expiration_date,:user_id)";
+    private static $value="(NULL,:card_number,:card_holder,:security_code,:expiration_date,:user_id)";
     private static $key="card_id";
 
     
@@ -34,17 +34,17 @@ class FCreditCard{
     }
 
     public static function bind($stmt, $creditCard){
-        $stmt->bindValue(":card_id", $creditCard->getCardId(), PDO::PARAM_INT);
+        $stmt->bindValue(':card_id', null, PDO::PARAM_NULL); 
+        $stmt->bindValue(":card_number", $creditCard->getCreditCardNumber(), PDO::PARAM_STR);         
         $stmt->bindValue(":card_holder", $creditCard->getCreditCardHolder(), PDO::PARAM_STR);
-        $stmt->bindValue(":card_number", $creditCard->getCreditCardNumber(), PDO::PARAM_STR);
         $stmt->bindValue(":security_code", $creditCard->getCreditCardSecurityCode(),PDO::PARAM_STR); 
         $stmt->bindValue(":expiration_date", $creditCard->getCreditCardExpirationDate()->format('Y-m'), PDO::PARAM_STR);
-        $stmt->bindValue(":user_id", $creditCard->getUserId(), PDO::PARAM_INT); 
+        $stmt->bindValue(":user_id", $creditCard->getCreditCardUserId(), PDO::PARAM_INT); 
 
     }
 
 
-    public static function retrieveObject($card_id) :?ECreditCard{      //metodo per recuperare un oggetto creditCard dal DB
+    public static function retrieveObject($card_id) :?ECreditcard{      //metodo per recuperare un oggetto creditCard dal DB
         $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $card_id);
         if(count($result) > 0){
             $obj = self::createEntity($result);
@@ -55,9 +55,9 @@ class FCreditCard{
     }
 
 
-    public static function updateObject($field, $fieldValue, $cond, $condValu){            //metodo per aggiornare un oggetto creditCard nel DB
+    public static function updateObject($obj, $field, $fieldValue){            //metodo per aggiornare un oggetto creditCard nel DB
 
-        $result = FDatabase::getInstance()->update(self::getTable(), $field, $fieldValue, $cond, $condValu);
+        $result = FDatabase::getInstance()->update(self::getTable(), $field, $fieldValue,self::getKey(),$obj->getId());
         if($result){
             return true;
         }else{
@@ -81,7 +81,7 @@ class FCreditCard{
 
     public static function createEntity($queryResult){          //metodo che crea un nuovo oggetto della classe ECreditCard
        
-        $creditCard = new ECreditCard($queryResult[0]['card_holder'], $queryResult[0]['card_number'], $queryResult[0]['security_code'], $queryResult[0]['expiration_date']);
+        $creditCard = new ECreditcard($queryResult[0]['card_holder'], $queryResult[0]['card_number'], $queryResult[0]['security_code'], $queryResult[0]['expiration_date'],$queryResult[0]['user_id']);
         $creditCard->setCreditCardId($queryResult[0]['card_id']);
         return $creditCard;
     

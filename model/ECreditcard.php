@@ -56,11 +56,12 @@ class ECreditCard{
 
 
     // CONSTRUCTOR
-    public function __construct($card_holder,$card_number,$security_code,$expirationDate) {
+    public function __construct($card_holder,$card_number,$security_code,$expirationDate,$user_id) {
         $this->card_holder = $card_holder;
         $this->card_number = $card_number;
         $this->security_code=$security_code;
         $this->expirationDate = DateTime::createFromFormat('Y-m', $expirationDate);
+        $this->user_id= $user_id;
        
 
     }

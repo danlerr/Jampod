@@ -54,9 +54,9 @@ class FComment{
         }
     }
 
-    public static function updateObject($field, $fieldValue, $cond, $condValu){            //metodo per aggiornare un oggetto user dal DB
+    public static function updateObject($obj, $field, $fieldValue){            //metodo per aggiornare un oggetto user dal DB
 
-        $result = FDatabase::getInstance()->update(self::getTable(), $field, $fieldValue, $cond, $condValu);
+        $result = FDatabase::getInstance()->update(self::getTable(), $field, $fieldValue, self::getKey(),$obj->getId());
         if($result){
             return true;
         }else{
@@ -79,8 +79,8 @@ class FComment{
     public static function createEntity($queryResult){          //metodo che crea un nuovo oggetto della classe ECreditCard
        
             $comment = new EComment($queryResult[0]['comment_text'], $queryResult[0]['user_id'], $queryResult[0]['episode_id']);
-            $comment->setCommentId($queryResult[0]['idComment']);
-            $dateTime =  DateTime::createFromFormat('Y-m-d H:i:s', $queryResult[0]['creation_date']);
+            $comment->setCommentId($queryResult[0]['comment_id']);
+            $dateTime =  DateTime::createFromFormat('Y-m-d H:i:s', $queryResult[0]['comment_creation_date']);
             $comment->setCommentCreationTime($dateTime);
             //$comment->setBan($queryResult[0]['removed']);   da inserire!
             return $comment;
