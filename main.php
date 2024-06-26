@@ -1,16 +1,6 @@
 <?php
-      require_once __DIR__. '/Model/EUser.php';
-      require_once __DIR__. '/Model/EVote.php';
-      require_once __DIR__.'/Foundation/FVote.php';
-      require_once __DIR__.'/Foundation/FSubscribe.php';
-      require_once __DIR__. '/Model/EPodcast.php';
-      require_once __DIR__. '/Model/EEpisode.php';
-      require_once __DIR__. '/Model/ESubscribe.php';
-      require_once __DIR__.'/Foundation/FUser.php';
-      require_once __DIR__.'/Foundation/FEpisode.php';
-      require_once __DIR__.'/Foundation/FPodcast.php';
-      require_once __DIR__.'/Foundation/FDataBase.php';
-      require_once __DIR__.'/Foundation/FPersistentManager.php';
+      require_once "autoloader.php";
+      
     $db = FDataBase::getInstance()->getDb();
     if ($db) {
         echo "Database connection established.\n";
