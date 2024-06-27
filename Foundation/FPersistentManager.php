@@ -48,7 +48,7 @@
         }
 
      
-        //----------------------------------------------VERIFY-----------------------------------------------------
+        //----------------------------------------------VERIFY USER-----------------------------------------------
 
 
         /**
@@ -70,7 +70,7 @@
                 return $result;
             }
 
-        //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------
 
             /**
          * return a User findig it not on the id but on it's username
@@ -84,8 +84,49 @@
         }
 
 
-            
+       //-------------------------------------FILE VALIDATION-----------------------------------------------------
+       public static function validateImage($file)
+    {
+        $imageMaxSize = 2 * 1024 * 1024; // 2 MB ??????
+        $allowedImageTypes = ['image/jpeg', 'image/png'];
 
+        if (!is_uploaded_file($file['tmp_name'])) {
+            return [false, 'Impossibile eseguire l\'upload del file.'];
         }
+
+        if ($file['size'] > $imageMaxSize) {
+            return [false, 'File troppo grande! Dimensione massima consentita: ' . ($imageMaxSize / 1024 / 1024) . ' MB'];
+        }
+
+        if (!in_array($file['type'], $allowedImageTypes)) {
+            return [false, 'Tipo di file non supportato. Sono ammessi solo file immagine di tipo JPEG o PNG.'];
+        }
+
+        return [true, null];
+    }
+
+    public static function validateAudio($file)
+    {
+        $audioMaxSize = 200 * 1024 * 1024; // 200 MB ?????
+        $allowedAudioTypes = ['audio/mpeg', 'audio/wav'];
+    
+        if (!is_uploaded_file($file['tmp_name'])) {
+            return [false, 'Impossibile eseguire l\'upload del file.'];
+        }
+    
+        if ($file['size'] > $audioMaxSize) {
+            return [false, 'File troppo grande! Dimensione massima consentita: ' . ($audioMaxSize / 1024 / 1024) . ' MB'];
+        }
+    
+        if (!in_array($file['type'], $allowedAudioTypes)) {
+            return [false, 'Tipo di file non supportato. Sono ammessi solo file audio di tipo MP3 o WAV.'];
+        }
+    
+        return [true, null];
+    }
+    
+   
+
+}
 
             

@@ -11,7 +11,7 @@ class EEpisode{
     
     private DateTime $episode_creationtime;
     
-    private int $episode_streams;
+    private  $episode_streams;
 
     private  $podcast_id;
 
@@ -36,10 +36,7 @@ class EEpisode{
         $this->podcast_id = $podcast_id;     
         $this->setTime();
         $this->episode_streams = 0;
-        $this->audio_mimetype = "";
-        $this->audio_data = "";
-        $this->image_data = "";
-        $this->image_mimetype = "";
+       
         
     }
 
@@ -112,10 +109,10 @@ class EEpisode{
     public function getEncodedAudioData(){
         return base64_encode($this->audio_data);
     }
-    public function getImageMimeType() : string {
+    public function getImageMimeType()  {
         return $this->image_mimetype;
     }
-    public function getAudioMimeType() : string {
+    public function getAudioMimeType()  {
         return $this->audio_mimetype;
     }
     public function getAudioData() {
@@ -133,7 +130,7 @@ class EEpisode{
      * 
      * @return $episode_title
      */
-    public function setEpisode_title(string $episode_title) {
+    public function setEpisode_title( $episode_title) {
         $this->episode_title = $episode_title;
 
     }
@@ -142,7 +139,7 @@ class EEpisode{
      * 
      * @return $episode_description
      */
-    public function setEpisode_description(string $episode_description) {
+    public function setEpisode_description( $episode_description) {
         $this->episode_description= $episode_description;
 
     }
@@ -155,16 +152,16 @@ class EEpisode{
     
         $this->episode_creationtime = new DateTime("now");
     }
-    public function setImageData(string $image_data) {
+    public function setImageData( $image_data) {
         $this->image_data = $image_data;
     }
-    public function setAudioData(string $audio_data) {
+    public function setAudioData( $audio_data) {
         $this->audio_data = $audio_data;
     }
-    public function setImageMimetype(string $image_mimetype) {
+    public function setImageMimetype( $image_mimetype) {
         $this->image_mimetype = $image_mimetype;
     }
-    public function setAudioMimetype(string $audio_mimetype) {
+    public function setAudioMimetype( $audio_mimetype) {
         $this->audio_mimetype = $audio_mimetype;
     }
     public function setCreationTime($dateTime){
