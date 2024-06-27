@@ -13,7 +13,7 @@ class EPodcast{
 
     private string $podcast_description;
 
-    private string $category_id;
+    private string $category;
 
     private int $user_id;
 
@@ -27,12 +27,12 @@ class EPodcast{
 
     //constructor
 
-    public function __construct($podcast_name, $podcast_description, $user_id, $category_id)
+    public function __construct($podcast_name, $podcast_description, $user_id, $category)
     {
         $this->podcast_name = $podcast_name;
         $this->podcast_description = $podcast_description;
         $this->user_id = $user_id;
-        $this->category_id = $category_id;
+        $this->category = $category;
         $this->subcribe_counter = 0;
         $this->image_mimetype = "";
         $this->setTime();
@@ -71,7 +71,7 @@ class EPodcast{
     }
 
     public function getPodcastCategory(){
-        return $this->category_id;
+        return $this->category;
     }
 
     /**
@@ -135,7 +135,7 @@ class EPodcast{
     }
 
     public function setPodcastCategory($podcast_category){
-        $this->category_id = $podcast_category;
+        $this->category = $podcast_category;
     }
 
     /**

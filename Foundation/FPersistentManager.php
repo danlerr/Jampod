@@ -164,13 +164,18 @@
         return round($avgVote, 1); //arrotondata
     }
     
-    
-    
 
-    
-    
-   
+    //-------------------------------------PODCAST-----------------------------------------------------
 
+        public static function retrieveEpisodesByPodcast($podcast_id){
+            
+            $podcasts = FEpisode::retrieveMoreEpisodes($podcast_id);
+            if($podcasts!== null){
+                return $podcasts;
+            }else{
+                return null;
+            }
+        }
 }
 
             

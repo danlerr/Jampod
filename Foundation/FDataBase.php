@@ -30,38 +30,38 @@
 
         //C
         public static function create($fClass, $obj){
-        try {
-        // Inizia la transazione
-        self::$db->beginTransaction();
+            try {
+            // Inizia la transazione
+            self::$db->beginTransaction();
 
-        //  query di inserimento
-        $table = $fClass::getTable();
-        $values = $fClass::getValue();
-        $query = "INSERT INTO " . $table . " VALUES " . $values;
-        $stmt = self::$db->prepare($query);
-        $fClass::bind($stmt, $obj);
-        $stmt->execute();
-        // Ottieni l'ultimo ID inserito
-        $id = self::$db->lastInsertId();
-        // Commit della transazione
-        self::$db->commit();
-        return $id;
-    } catch (PDOException $e) {
-        // Log dell'errore
-        error_log("Save Objects Error (PDO): " . $e->getMessage());
+            //  query di inserimento
+            $table = $fClass::getTable();
+            $values = $fClass::getValue();
+            $query = "INSERT INTO " . $table . " VALUES " . $values;
+            $stmt = self::$db->prepare($query);
+            $fClass::bind($stmt, $obj);
+            $stmt->execute();
+            // Ottieni l'ultimo ID inserito
+            $id = self::$db->lastInsertId();
+            // Commit della transazione
+            self::$db->commit();
+            return $id;
+        } catch (PDOException $e) {
+            // Log dell'errore
+            error_log("Save Objects Error (PDO): " . $e->getMessage());
 
-        
-        self::$db->rollBack();
+            
+            self::$db->rollBack();
 
-        return null;
-    } catch (Exception $e) {
-        // Log dell'errore generico
-        error_log("Save Objects Error: " . $e->getMessage());
+            return null;
+        } catch (Exception $e) {
+            // Log dell'errore generico
+            error_log("Save Objects Error: " . $e->getMessage());
 
-        
-        self::$db->rollBack();
+            
+            self::$db->rollBack();
 
-        return null;
+            return null;
     }
 }
 
