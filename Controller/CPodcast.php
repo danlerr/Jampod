@@ -64,14 +64,14 @@
 
                 if($podcast!==null){
                     // Recupera la lista degli episodi associati al podcast
-                    $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);   //metodo da fare in FEpisode
+                    $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);   
                     $view->showPodcast($podcast, $episodes);
                 }else{
                     $view->showErrorPage;
                 }
             }
         }
-        
+
         public static function editPodcast($podcast_id){
 
             if (CUser::isLogged()) {
@@ -100,6 +100,33 @@
             }
         }
 
-        public static function searchPodcasts() {}
+        public static function searchPodcasts() {
+
+        }
+
+        public static function Subcribe($podcast_id){
+            if (CUser::isLogged()){
+                $view = new VPodcast;
+                $userId = USession::getInstance()->getSessionElement('user');
+                $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+
+                if($podcast){
+                    $isSub = FPersistentManager::getInstance()->isSubscribed($userId,$podcast_id);
+                    if (!$isSub){
+                        $subscribe = new ESubscribe($podcast_id, $userId);
+                        $result = FPersistentManager::getInstance()->createObj($subscribe);
+                        if($result){
+                            $view->showSucces(); //il bottone iscriviti diventa bottone iscritto 
+                        }else{
+                            $view->showErrorPage(); //errore durante l'iscrizione 
+                        }
+                    }else{
+                        $view->showErrorPage(); //sei già iscritto al podcast 
+                    }
+                }else{
+                    $view->showErrorPage(); //podcast non trovato 
+                }
+            }
+        }
     }
     

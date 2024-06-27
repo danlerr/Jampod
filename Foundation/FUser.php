@@ -110,6 +110,15 @@
 
         return FDataBase::getInstance()->existInDb($queryResult);
     }
+
+    //verifica che l'utente passato per parametro sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db
+    public static function userValdiation($queryResult, $idUser){
+        if(FDataBase::getInstance()->existInDb($queryResult) && $queryResult[0][FUser::getKey()] == $idUser){
+            return true;
+        }else{
+            return false;
+        }
+    }
     
     public static function getUserByUsername($username)
     {

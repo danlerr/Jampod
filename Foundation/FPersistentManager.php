@@ -48,7 +48,7 @@
         }
 
      
-        //----------------------------------------------VERIFY USER-----------------------------------------------
+        //----------------------------------------------USER-----------------------------------------------
 
 
         /**
@@ -64,27 +64,20 @@
              * verify if exist a user with this email (also mod)
              * @param string $email
              */
-            public static function verifyUserEmail($email){
+        public static function verifyUserEmail($email){
                 $result = FUser::verify('email', $email);
 
                 return $result;
             }
             //verifica che l'utente passato per parametro sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db
-            public static function checkUser($queryResult, $idUser){
-                if(FDataBase::getInstance()->existInDb($queryResult) && $queryResult[0][FUser::getKey()] == $idUser){
-                    return true;
-                }else{
-                    return false;
-                }
+        public static function checkUser($queryResult, $idUser){
+            if(FUser::userValdiation($queryResult, $idUser)){
+                return true;
+            }else{
+                return false;
             }
+        }
         
-
-        //--------------------------------------------------------------------------------------------------------
-
-            /**
-         * return a User findig it not on the id but on it's username
-         * @param string $username Refers to the username of the user to get
-         */
         public static function retriveUserOnUsername($username)
         {
             $result = FUser::getUserByUsername($username);
@@ -92,10 +85,9 @@
             return $result;
         }
 
-
        //-------------------------------------FILE VALIDATION-----------------------------------------------------
-       public static function validateImage($file)
-    {
+        public static function validateImage($file)
+        {
         $imageMaxSize = 2 * 1024 * 1024; // 2 MB ??????
         $allowedImageTypes = ['image/jpeg', 'image/png'];
 
@@ -114,55 +106,55 @@
         return [true, null];
     }
 
-    public static function validateAudio($file)
-    {
-        $audioMaxSize = 200 * 1024 * 1024; // 200 MB ?????
-        $allowedAudioTypes = ['audio/mpeg', 'audio/wav'];
-    
-        if (!is_uploaded_file($file['tmp_name'])) {
-            return [false, 'Impossibile eseguire l\'upload del file.'];
+        public static function validateAudio($file)
+        {
+            $audioMaxSize = 200 * 1024 * 1024; // 200 MB ?????
+            $allowedAudioTypes = ['audio/mpeg', 'audio/wav'];
+        
+            if (!is_uploaded_file($file['tmp_name'])) {
+                return [false, 'Impossibile eseguire l\'upload del file.'];
+            }
+        
+            if ($file['size'] > $audioMaxSize) {
+                return [false, 'File troppo grande! Dimensione massima consentita: ' . ($audioMaxSize / 1024 / 1024) . ' MB'];
+            }
+        
+            if (!in_array($file['type'], $allowedAudioTypes)) {
+                return [false, 'Tipo di file non supportato. Sono ammessi solo file audio di tipo MP3 o WAV.'];
+            }
+        
+            return [true, null];
         }
-    
-        if ($file['size'] > $audioMaxSize) {
-            return [false, 'File troppo grande! Dimensione massima consentita: ' . ($audioMaxSize / 1024 / 1024) . ' MB'];
-        }
-    
-        if (!in_array($file['type'], $allowedAudioTypes)) {
-            return [false, 'Tipo di file non supportato. Sono ammessi solo file audio di tipo MP3 o WAV.'];
-        }
-    
-        return [true, null];
-    }
 
        //-------------------------------------EPISODE-----------------------------------------------------
-    public static function retrieveCommentsOnEpisode($episode_id) {
-        $comments = FComment::retrieveMoreComments($episode_id);
-        if ($comments !== null){
-            return $comments;
+        public static function retrieveCommentsOnEpisode($episode_id) {
+            $comments = FComment::retrieveMoreComments($episode_id);
+            if ($comments !== null){
+                return $comments;
+            }
+            else {
+                return null;
+            }
         }
-        else {
-            return null;
-        }
-    }
     //-------------------------------------VOTE-----------------------------------------------------
 
-    public static function getAverageVoteOnEpisode($episode_id) {
-        $votesOnEpisode = FVote::retrieveVotesOnEpisode($episode_id);
-    
-        if (empty($votesOnEpisode)) {
-            return 0; // O è il valore che indichi che non ci sono voti
+        public static function getAverageVoteOnEpisode($episode_id) {
+            $votesOnEpisode = FVote::retrieveVotesOnEpisode($episode_id);
+        
+            if (empty($votesOnEpisode)) {
+                return 0; // O è il valore che indichi che non ci sono voti
+            }
+        
+            $values = array_map(function($vote) { //il valore dei voti sono estratti in un nuovo array
+                return $vote->getValue();
+            }, $votesOnEpisode);
+        
+            $sum = array_sum($values);
+            $count = count($values);
+        
+            $avgVote = $sum / $count; // media
+            return round($avgVote, 1); //arrotondata
         }
-    
-        $values = array_map(function($vote) { //il valore dei voti sono estratti in un nuovo array
-            return $vote->getValue();
-        }, $votesOnEpisode);
-    
-        $sum = array_sum($values);
-        $count = count($values);
-    
-        $avgVote = $sum / $count; // media
-        return round($avgVote, 1); //arrotondata
-    }
     
 
     //-------------------------------------PODCAST-----------------------------------------------------
@@ -174,6 +166,14 @@
                 return $podcasts;
             }else{
                 return null;
+            }
+        }
+        public static function isSubscribed($userId, $podcast_id){
+            $result = FSubscribe::isSub($userId, $podcast_id);
+            if($result){
+                return true;
+            }else{
+                return false;
             }
         }
 }

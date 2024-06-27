@@ -153,13 +153,13 @@
             }
         }
 
-        public static function queryCheck ($queryResult) :bool
+        public static function queryCheck ($queryResult) :bool       
         {
             return count($queryResult) > 0; //return true if there are results, otherwise false 
         }
         public static function existInDb($queryResult){
-            if(count($queryResult) > 0){
-                return true;
+            if(is_array($queryResult)||is_object($queryResult)){        //$quesry result può essere sia un array che un oggetto
+                return count((array)$queryResult) > 0;        //casting
             }else{
                 return false;
             }
