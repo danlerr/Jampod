@@ -69,6 +69,15 @@
 
                 return $result;
             }
+            //verifica che l'utente passato per parametro sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db
+            public static function checkUser($queryResult, $idUser){
+                if(FDataBase::getInstance()->existInDb($queryResult) && $queryResult[0][FUser::getKey()] == $idUser){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        
 
         //--------------------------------------------------------------------------------------------------------
 
@@ -124,6 +133,41 @@
     
         return [true, null];
     }
+
+       //-------------------------------------EPISODE-----------------------------------------------------
+    public static function retrieveCommentsOnEpisode($episode_id) {
+        $comments = FComment::retrieveMoreComments($episode_id);
+        if ($comments !== null){
+            return $comments;
+        }
+        else {
+            return null;
+        }
+    }
+    //-------------------------------------VOTE-----------------------------------------------------
+
+    public static function getAverageVoteOnEpisode($episode_id) {
+        $votesOnEpisode = FVote::retrieveVotesOnEpisode($episode_id);
+    
+        if (empty($votesOnEpisode)) {
+            return 0; // O è il valore che indichi che non ci sono voti
+        }
+    
+        $values = array_map(function($vote) { //il valore dei voti sono estratti in un nuovo array
+            return $vote->getValue();
+        }, $votesOnEpisode);
+    
+        $sum = array_sum($values);
+        $count = count($values);
+    
+        $avgVote = $sum / $count; // media
+        return round($avgVote, 1); //arrotondata
+    }
+    
+    
+    
+
+    
     
    
 

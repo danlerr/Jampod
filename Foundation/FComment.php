@@ -77,18 +77,46 @@ class FComment{
     }
 
     //
-    public static function createEntity($queryResult){          //metodo che crea un nuovo oggetto della classe ECreditCard
-       
-            $comment = new EComment($queryResult[0]['comment_text'], $queryResult[0]['user_id'], $queryResult[0]['episode_id']);
-            $comment->setCommentId($queryResult[0]['comment_id']);
-            $dateTime =  DateTime::createFromFormat('Y-m-d H:i:s', $queryResult[0]['comment_creation_date']);
+    public static function createEntity($queryResult) {
+        $comments = array();
+    
+        foreach ($queryResult as $result) {
+            $comment = new EComment($result['comment_text'], $result['user_id'], $result['episode_id']);
+            $comment->setCommentId($result['comment_id']);
+            
+            $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $result['comment_creation_date']);
             $comment->setCommentCreationTime($dateTime);
-            if (!is_null($queryResult[0]['parent_comment_id'])) {
-                $comment->setParentCommentId($queryResult[0]['parent_comment_id']);
+            
+            if (!is_null($result['parent_comment_id'])) {
+                $comment->setParentCommentId($result['parent_comment_id']);
             }
-            //$comment->setBan($queryResult[0]['removed']);   da inserire!
-            return $comment;
-        
+            
+            // Aggiungere eventuali altri campi come setBan() 
+            // $comment->setBan($result['removed']);
+    
+            $comments[] = $comment;
         }
+    
+        // Restituisce un singolo oggetto commento se c'è un solo elemento nell'array
+        if (count($comments) === 1) {
+            return $comments[0];
+        }
+    
+        // Restituisce un array di commenti se ci sono più elementi nell'array
+        return $comments;
+    }
+
+    
+    //metodo che permette di prendere dal db tutti i commenti dato un episodio. Ritorna un array di commenti
+    public static function retrieveMoreComments($episode_id) {
+        $result = FDataBase::getInstance()->retrieve(self::getTable(), FEpisode::getKey(), $episode_id); 
+        if(count($result) > 0){
+            $comments = self::createEntity($result);
+            return $comments;
+        }else{
+            return null;
+        }
+    }
+
 
     }

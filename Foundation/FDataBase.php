@@ -164,11 +164,4 @@
                 return false;
             }
         }
-        public static function checkUser($queryResult, $idUser){
-            if(self::existInDb($queryResult) && $queryResult[0][FUser::getKey()] == $idUser){
-                return true;
-            }else{
-                return false;
-            }
-        }
-    }
+    }       

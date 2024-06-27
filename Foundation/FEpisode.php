@@ -100,7 +100,7 @@ public static function updateObject($obj, $field, $fieldValue){
     }
 }
 
-//metodo che cancella un oggetto dato l'id 
+//metodo che cancella un oggetto dato l'id e dato un utente ( viene effettuato il controllo)
 public static function deleteObject($id){
     $result = FDatabase::getInstance()->delete(self::getTable(), self::getKey(), $id);
     if($result) return true;

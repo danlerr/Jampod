@@ -85,6 +85,18 @@ public static function deleteObject( $id){
         return false;
     }
 }
+//metodo che ritorna in un array tutti i voti di un episodio
+public static function retrieveVotesOnEpisode($episode_id) {
+    $result = FDataBase::getInstance()->retrieve(self::getTable(), FEpisode::getKey(), $episode_id); 
+    if(count($result) > 0){
+        $votes = self::createEntity($result);
+        return $votes;
+    }else{
+        return null;
+    }
+
+
+}
 
 
 
