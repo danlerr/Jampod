@@ -43,6 +43,13 @@ class EComment{
      */
     private $episode_id;
 
+
+    /**
+     * identificativo commento commentato
+     * @AttributeType int
+     */
+    private $parentCommentId = null; // Campo parentCommentId, inizializzato a null
+
     // CONSTRUCTOR
     public function __construct($comment_text,$user_id,$episode_id) {
         $this->comment_text = $comment_text;
@@ -94,6 +101,16 @@ class EComment{
     public function getEpisodeId() {
         return $this->episode_id;}
     
+    /**
+     * Get the value of parentCommentId
+     *
+     * @return $parentCommentId
+     */
+    
+    public function getParentCommentId() {
+        return $this->parentCommentId;
+    }
+    
 
 
     // SET METHODS
@@ -131,7 +148,15 @@ class EComment{
     public function setCommentCreationTime(DateTime $commentTime){
         $this->comment_time = $commentTime;
     }
-   
+    
+    /**
+     * Set the value of parentCommentId
+     * 
+     * @return $parentCommentId
+     */
+    public function setParentCommentId($parentCommentId) {
+        $this->parentCommentId = $parentCommentId;
+    }
 
     }
 ?>

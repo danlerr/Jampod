@@ -3,7 +3,7 @@
 class FComment{
     
     private static $table="comment";
-    private static $value="(NULL,:comment_text,:comment_creation_date,:user_id,:episode_id)";
+    private static $value="(NULL,:comment_text,:comment_creation_date,:user_id,:episode_id,:parent_comment_id)";
     private static $key="comment_id";
 
     
@@ -28,7 +28,8 @@ class FComment{
         $stmt->bindValue(":comment_creation_date", $comment->getCommentTime()->format('Y-m-d H:i:s'), PDO::PARAM_STR);
         //$stmt->bindValue(":removed", $comment->isBanned(), PDO::PARAM_BOOL); da inserire!
         $stmt->bindValue(":episode_id", $comment->getEpisodeId(), PDO::PARAM_INT);
-        $stmt->bindValue(":user_id", $comment->getUserId(), PDO::PARAM_INT); // controlla i tipi 
+        $stmt->bindValue(":user_id", $comment->getUserId(), PDO::PARAM_INT); 
+        $stmt->bindValue(":parent_comment_id", $comment->getParentCommentId(), PDO::PARAM_INT); 
     }
 
 
@@ -82,6 +83,9 @@ class FComment{
             $comment->setCommentId($queryResult[0]['comment_id']);
             $dateTime =  DateTime::createFromFormat('Y-m-d H:i:s', $queryResult[0]['comment_creation_date']);
             $comment->setCommentCreationTime($dateTime);
+            if (!is_null($queryResult[0]['parent_comment_id'])) {
+                $comment->setParentCommentId($queryResult[0]['parent_comment_id']);
+            }
             //$comment->setBan($queryResult[0]['removed']);   da inserire!
             return $comment;
         
