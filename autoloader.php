@@ -1,6 +1,6 @@
 <?php
     function my_autoloader($className) {
-        $firstLetter = $className[0];
+        $firstLetter = strtoupper($className[0]);
         switch ($firstLetter) {
             case 'E':
                 include_once(__DIR__ . '/Model/' . $className . '.php');
