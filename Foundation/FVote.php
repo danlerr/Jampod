@@ -77,8 +77,8 @@ public static function deleteObject( $id){
       else return false;
 
   }
-  public static function updateObject( $field, $fieldValue, $cond, $condValue){
-    $updateVote = FDataBase::getInstance()->update(self::getTable() , $field, $fieldValue, $cond, $condValue);
+  public static function updateObject( $obj, $field, $fieldValue){
+    $updateVote = FDataBase::getInstance()->update(self::getTable() , $field, $fieldValue, self::getKey(), $obj->getId());
     if($updateVote !== null){
         return true;
     }else{

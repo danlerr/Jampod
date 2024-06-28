@@ -89,7 +89,7 @@
         public static function validateImage($file)
         {
         $imageMaxSize = 2 * 1024 * 1024; // 2 MB ??????
-        $allowedImageTypes = ['image/jpeg', 'image/png'];
+        $allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
         if (!is_uploaded_file($file['tmp_name'])) {
             return [false, 'Impossibile eseguire l\'upload del file.'];

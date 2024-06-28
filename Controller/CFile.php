@@ -7,7 +7,7 @@ class CFile{
     // Ottieni il file dalle richieste HTTP usando UHTTPMethods::files('imagefile')
     $file = UHTTPMethods::files('imagefile');
 
-    // Esegue la validazione dell'immagine usando FPersistentManager::validateImage
+    // Esegue la validazione dell'immagine 
     $validationResult = FPersistentManager::validateImage($file);
 
     // Controlla se la validazione dell'immagine è passata
