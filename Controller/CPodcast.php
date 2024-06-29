@@ -62,10 +62,20 @@
 
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
 
+                $userId = USession::getInstance()->getSessionElement('user')->getId();
+                $userRole = ($userId == $podcast->getUserId()) ? 'creator' : 'listener';
+                $sub = (FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id));
+
                 if($podcast!==null){
                     // Recupera la lista degli episodi associati al podcast
                     $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);   
-                    $view->showPodcast($podcast, $episodes);
+
+                    if ($userRole == 'creator'){                                           //
+                        $view->showPodcast($podcast, $episodes, $userRole);               //controllo per la scelta del bottone 
+                    }else{                                                               //da mostrare nella pagina del podcast 
+                        $view->showPodcast($podcast, $episodes, $userRole, $sub);       //
+                    }
+                    
                 }else{
                     $view->showErrorPage;
                 }
@@ -107,16 +117,20 @@
         public static function Subcribe($podcast_id){
             if (CUser::isLogged()){
                 $view = new VPodcast;
-                $userId = USession::getInstance()->getSessionElement('user');
+                $userId = USession::getInstance()->getSessionElement('user')->getId();
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
 
                 if($podcast){
                     $isSub = FPersistentManager::getInstance()->isSubscribed($userId,$podcast_id);
                     if (!$isSub){
                         $subscribe = new ESubscribe($podcast_id, $userId);
+
                         $result = FPersistentManager::getInstance()->createObj($subscribe);
+
+                        $podcast->setSubcribe_counter(($podcast->getSubscribeCounter)+1);
+
                         if($result){
-                            $view->showSucces(); //il bottone iscriviti diventa bottone iscritto 
+                            $view->showSucces(); //il bottone iscriviti diventa bottone iscritto
                         }else{
                             $view->showErrorPage(); //errore durante l'iscrizione 
                         }
@@ -125,6 +139,42 @@
                     }
                 }else{
                     $view->showErrorPage(); //podcast non trovato 
+                }
+            }
+        }
+
+        public static function deleteSub($subscribe_id,$podcast_id) {
+            if (CUser::isLogged()) {
+                $view = new VPodcast;
+                $userId = USession::getInstance()->getSessionElement('user')->getId();
+                $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+        
+                if ($podcast) {
+                    $isSub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);
+                    if ($isSub) {
+                        // Trova l'iscrizione esistente
+                        $subscribe = FPersistentManager::getInstance()->retrieveObj('ESubscribe', $subscribe_id);
+        
+                        if ($subscribe) {
+                            // Elimina l'iscrizione
+                            $result = FPersistentManager::getInstance()->deleteObj($subscribe);
+        
+                            // Decrementa il contatore delle iscrizioni
+                            $podcast->setSubscribeCounter($podcast->getSubscribeCounter() - 1);
+        
+                            if ($result) {
+                                $view->showSucces(); // Il bottone iscritto diventa bottone iscriviti
+                            } else {
+                                $view->showErrorPage(); // Errore durante la rimozione dell'iscrizione
+                            }
+                        } else {
+                            $view->showErrorPage(); // Iscrizione non trovata
+                        }
+                    } else {
+                        $view->showErrorPage(); // Non sei iscritto al podcast
+                    }
+                } else {
+                    $view->showErrorPage(); // Podcast non trovato
                 }
             }
         }

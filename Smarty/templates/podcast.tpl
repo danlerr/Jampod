@@ -81,7 +81,11 @@
                     {if $userRole == 'creator'}
                         <a href="creazioneEpisodio.html" class="btn btn-primary">Crea un nuovo episodio</a>
                     {else}
-                        <a href="iscrizionePodcast.html" class="btn btn-primary">Iscriviti al podcast</a>
+                        {if $sub == false}
+                            <a href="iscrizionePodcast.html" class="btn btn-primary">Iscriviti al podcast</a>
+                        {else}
+                            <a href="iscrizionePodcast.html" class="btn btn-primary">Iscritto</a>
+                        {/if}
                     {/if}
                 </div>
             </div>
