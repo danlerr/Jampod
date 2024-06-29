@@ -4,14 +4,12 @@
 //PARTE PLAYER
 // Select all the elements in the HTML page
 // and assign them to a variable
-let now_playing = document.querySelector(".now-playing");
 let track_art = document.querySelector(".track-art");
 let track_name = document.querySelector(".track-name");
 let track_artist = document.querySelector(".track-artist");
  
 let playpause_btn = document.querySelector(".playpause-track");
-let next_btn = document.querySelector(".next-track");
-let prev_btn = document.querySelector(".prev-track");
+
  
 let seek_slider = document.querySelector(".seek_slider");
 let volume_slider = document.querySelector(".volume_slider");
@@ -162,8 +160,10 @@ function createInputBox() {
 
     div.setAttribute("class", "comment-details"); 
 
-    div.innerHTML += `<textarea class="form-control" style="resize: none;" id="comment" rows="3" required></textarea>
-                      <button class="btn btn-outline-success submit mt-2">Submit</button>`; 
+    div.innerHTML += `<form action="da scegliere..." method="post" class="comment-form">
+                        <textarea class="form-control" style="resize: none;" name="comment" rows="3" required></textarea>
+                        <button type="submit" class="btn btn-outline-success submit mt-2">Submit</button>
+                      </form>`; 
     return div; 
 } 
 
@@ -204,9 +204,15 @@ commentContainer.addEventListener("click", function (e) {
 
     if (submitClicked) { 
         const commentDetails = e.target.closest(".comment-details"); 
-        if (commentDetails.children[0].value) { 
-            closestCard.appendChild(addReply(commentDetails.children[0].value)); 
+        const commentForm = commentDetails.querySelector('.comment-form');
+        
+        // Invia il modulo al server
+        commentForm.submit();
+        
+        // Aggiungi il commento localmente
+        if (commentForm.children[0].value) { 
+            closestCard.appendChild(addReply(commentForm.children[0].value)); 
             commentDetails.remove(); 
-        } 
+        }
     } 
 });

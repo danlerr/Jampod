@@ -97,7 +97,16 @@ public static function retrieveVotesOnEpisode($episode_id) {
 
 
 }
+//Metodo che verifica se esiste un voto da parte di un utente su un determinato episodio. Ritorna true se esiste, insieme all'oggetto voto, false altrimenti
+public static function voteValidation($idUser, $episode_id){
+    $result = FDatabase::getInstance()->loadMoreAttributesObjects(self::$table, FUser::getKey(), $idUser, FEpisode::getKey(), $episode_id);
 
+    if(FDataBase::getInstance()->existInDb($result) ){
+        return [true, $result[0]];
+    }else{
+        return [false,null];
+    }
+}
 
 
 }

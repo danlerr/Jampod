@@ -89,47 +89,45 @@ public static function visitEpisode($episode_id) {
         }
     } 
 }
-
+//permette all'utente di votare o di aggiornare il proprio voto 
 public static function voteEpisode($episode_id, $value) {
     if (CUser::isLogged()) {
         $view = new VEpisode();
-        $userId = USession::getInstance()->getSessionElement('user');       
-        $vote = new EVote($value, $userId, $episode_id);
-        $result = FPersistentManager::getInstance()->createObj($vote);
-        
-        if ($result) {
-            // Recupera i voti aggiornati e calcola la media
-            $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-            $view->showAvgVoteUpdated($avgVote); // DA CONTROLLARE COSA RESTITUISCE 
-        } else {
-            $view->showVoteEpisodeError("Errore durante la votazione dell'episodio."); // DA CONTROLLARE COSA RESTITUISCE 
-        }
-    }
-}
-
-
-
-public static function updateVoteEpisode($vote_id, $newvalue) { 
-    if (CUser::isLogged()) {
-        $view = new VEpisode();
         $userId = USession::getInstance()->getSessionElement('user');
-        $vote = FPersistentManager::getInstance()->retrieveObj('EVote', $vote_id); // Oggetto voto
-        $check = FPersistentManager::getInstance()->checkUser((array)$vote, $userId);
+        $checkarray = FPersistentManager::getInstance()->checkVote($episode_id, $userId);
         
-        if ($check) {
-            $update = FPersistentManager::getInstance()->updateObj($vote, 'value', $newvalue);
+        if ($checkarray[0]) {
+            // L'utente ha già votato: aggiornare il voto esistente
+            $vote = $checkarray[1];
+            $update = FPersistentManager::getInstance()->updateObj($vote, 'value', $value);
             
             if ($update) {
+                
                 $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($vote->getEpisodeId());
-                $view->showAvgVoteUpdated($avgVote); // DA CONTROLLARE COSA RESTITUISCE 
+                $view->showEpisodePage()///???? oppure visit???
+                return ['success' => true, 'avgVote' => $avgVote];
             } else {
-                $view->showVoteEpisodeError("Errore durante la votazione dell'episodio."); // DA CONTROLLARE COSA RESTITUISCE 
+                $view->showEpisodePage()///???? oppure visit???
+                return ['success' => false, 'error' => 'Errore durante la votazione dell\'episodio.'];
+            }
+        } else {
+            // L'utente non ha votato: creare un nuovo voto
+            $vote = new EVote($value, $userId, $episode_id);
+            $result = FPersistentManager::getInstance()->createObj($vote);
+            
+            if ($result) {
+                $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
+                $view->showEpisodePage()///???? oppure visit???
+                return ['success' => true, 'avgVote' => $avgVote];
+            } else {
+                $view->showEpisodePage()///???? oppure visit???
+                return ['success' => false, 'error' => 'Errore durante la votazione dell\'episodio.'];
             }
         }
+    } else {
+        return ['success' => false, 'error' => 'Utente non autenticato.'];
     }
 }
-
-
 
 
 

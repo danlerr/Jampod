@@ -71,7 +71,7 @@
             }
             //verifica che l'utente passato per parametro sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db
         public static function checkUser($queryResult, $idUser){
-            if(FUser::userValdiation($queryResult, $idUser)){
+            if(FUser::userValidation($queryResult, $idUser)){
                 return true;
             }else{
                 return false;
@@ -154,6 +154,13 @@
         
             $avgVote = $sum / $count; // media
             return round($avgVote, 1); //arrotondata
+        }
+//verifica se esiste un voto da parte di un utente su un determinato episodio. Ritorna true se esiste, false altrimenti
+
+        public static function checkVote($episode_id, $user_id) {
+            $result = FVote::voteValidation($user_id, $episode_id);
+            return $result;
+
         }
     
 
