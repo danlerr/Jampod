@@ -1,6 +1,28 @@
 {include file="header.tpl" pageTitle=""}
 
-
+<style>
+      .podcast-container {
+            display: flex;
+            gap: 20px;
+        }
+        .podcast-cover {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 0 0 200px; /* Larghezza fissa per la colonna della copertina */
+        }
+        .podcast-cover img {
+            width: 100%;
+            max-width: 200px; /* Larghezza massima per la copertina */
+            border-radius: 10px;
+        }
+        .podcast-episodes {
+            flex: 1;
+        }
+        .podcast-episodes .card {
+            width: 100%;
+        }
+</style>
 <!--podcast-->
 	  <div class="page-body">
         <div class="container-xl">
