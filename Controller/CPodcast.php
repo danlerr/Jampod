@@ -68,12 +68,14 @@
 
                 if($podcast!==null){
                     // Recupera la lista degli episodi associati al podcast
+                    $image = [$podcast->getImageMimeType, $podcast->getEncodedImageData()];
+
                     $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);   
 
-                    if ($userRole == 'creator'){                                           //
-                        $view->showPodcast($podcast, $episodes, $userRole);               //controllo per la scelta del bottone 
-                    }else{                                                               //da mostrare nella pagina del podcast 
-                        $view->showPodcast($podcast, $episodes, $userRole, $sub);       //
+                    if ($userRole == 'creator'){                                                   //
+                        $view->showPodcast($podcast, $image, $episodes, $userRole);               //controllo per vedere se chi visita il podcast 
+                    }else{                                                                       //è il creatore di quel podcast  
+                        $view->showPodcast($podcast, $image, $episodes, $userRole, $sub);       //
                     }
                     
                 }else{

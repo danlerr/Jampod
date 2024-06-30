@@ -22,19 +22,28 @@
         .podcast-episodes .card {
             width: 100%;
         }
+        .small-badge {
+            font-size: 1em; /* Modifica questa dimensione secondo necessità */
+            background-color: #929dab; /* Colore di sfondo */
+            color: white; /* Colore del testo */
+            
+        }
 </style>
 <!--podcast-->
 	  <div class="page-body">
         <div class="container-xl">
-            <h1 class="text mb-5">Nome podcast</h1>
-            <h4 class="text mb-5">Nome creatore</h4>
-            <h4 class="text mb-5">Descrizione:It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the .accordion-body, though the transition does limit overflow.</h4>
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h1 class="text mb-0">{$podcast_name}</h1>
+                <span class="badge small-badge">{$subscribeCounter} iscritti</span>
+            </div>
+            <h4 class="text mb-5">{$podcast_creator}</h4>
+            <h4 class="text mb-5">Descrizione:{$podcast_description}</h4>
             
             <div class="podcast-container">
                 <!-- Copertina del podcast -->
                 <div class="podcast-cover">
                     <a href="#" class="d-block aspect-ratio-1x1">
-                        <img src="https://content.wepik.com/statics/19928772/preview-page0.jpg" alt="Copertina podcast">
+                        <img src="{podcast.image}" alt="Copertina podcast">
                     </a>
                 </div>
 
@@ -56,6 +65,9 @@
                                             <a href="episodio{$episode.id}.html" style="text-decoration: none; color: inherit;">
                                                 {$episode.title}
                                             </a>
+                                        </div>
+                                        <div class="col-auto text-secondary">
+                                            {$episode.creationtime}
                                         </div>
                                         <div class="col-auto text-secondary">
                                             {$episode.duration}
