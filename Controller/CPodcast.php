@@ -7,7 +7,7 @@
 
             if (CUser::isLogged()){
                 $view = new VPodcast;
-                $userId = USession::getInstance()->getSessionElement('user');
+                $userId = USession::getInstance()->getSessionElement('user');//->getId();
 
                 $podcast = new EPodcast(UHTTPMethods::post('podcast_name'),
                                         UHTTPMethods::post('podcast_description'),
@@ -19,15 +19,15 @@
                     $podcast->setImageData(CFile::getImageInfo()['imagedata']);
                     $podcast->setImageMimetype(CFile::getImageInfo()['imagemimetype']);
                 }else{
-                    $view->showErrorPage();
+                    $view->showPodcastError();
                 }
 
                 $result = FPersistentManager::getInstance()->createObj($podcast);
 
                 if($result){
-                    //$view->showPodcastPage();
+                    $view->showPodcastPage($podcast, $imageInfo, "Podcast creato con successo!");
                 }else{
-                    //$view->showErrorPage();
+                    $view->showPodcastError();
                 }
             }
         }
@@ -45,13 +45,13 @@
 
                     if($result){
                         
-                        $view->showSuccess();
+                        $view->showDeleteSuccess();
                     }else{
                         
-                        $view->showErrorPage();
+                        $view->showPodcastError();
                     }
                 }else{
-                    $view->showErrorPage();
+                    $view->showPodcastError();
                 }
             }
         }
@@ -72,14 +72,14 @@
 
                     $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);   
 
-                    if ($userRole == 'creator'){                                                   //
-                        $view->showPodcast($podcast, $image, $episodes, $userRole);               //controllo per vedere se chi visita il podcast 
-                    }else{                                                                       //è il creatore di quel podcast  
-                        $view->showPodcast($podcast, $image, $episodes, $userRole, $sub);       //
+                    if ($userRole == 'creator'){                                                       //
+                        $view->showPodcastPage($podcast, $image, $episodes, $userRole);               //controllo per vedere se chi visita il podcast 
+                    }else{                                                                           //è il creatore di quel podcast  
+                        $view->showPodcastPage($podcast, $image, $episodes, $userRole, $sub);       //
                     }
                     
                 }else{
-                    $view->showErrorPage;
+                    $view->showPodcastError();
                 }
             }
         }
@@ -99,15 +99,15 @@
                         $result = FPersistentManager::getInstance()->updateObj($podcast, $field, $value);
         
                         if ($result) {
-                            $view->showSuccess("Podcast aggiornato con successo.");
+                            $view->showEditSuccess("Podcast aggiornato con successo.");
                         } else {
-                            $view->showError("Errore durante l'aggiornamento del podcast.");
+                            $view->showPodcastError("Errore durante l'aggiornamento del podcast.");
                         }
                     } else {
-                        $view->showEditForm($podcast);
+                        //$view->showEditForm($podcast);
                     }
                 } else {
-                    $view->showError("Podcast non trovato o non autorizzato.");
+                    $view->showPodcastError("Podcast non trovato o non autorizzato.");
                 }
             }
         }
@@ -132,15 +132,15 @@
                         $podcast->setSubcribe_counter(($podcast->getSubscribeCounter)+1);
 
                         if($result){
-                            $view->showSucces(); //il bottone iscriviti diventa bottone iscritto
+                            $view->showSubSuccess(); //il bottone iscriviti diventa bottone iscritto
                         }else{
-                            $view->showErrorPage(); //errore durante l'iscrizione 
+                            $view->showPodcastError(); //errore durante l'iscrizione 
                         }
                     }else{
-                        $view->showErrorPage(); //sei già iscritto al podcast 
+                        $view->showPodcastError(); //sei già iscritto al podcast 
                     }
                 }else{
-                    $view->showErrorPage(); //podcast non trovato 
+                    $view->showPodcastError(); //podcast non trovato 
                 }
             }
         }
@@ -165,18 +165,18 @@
                             $podcast->setSubscribeCounter($podcast->getSubscribeCounter() - 1);
         
                             if ($result) {
-                                $view->showSucces(); // Il bottone iscritto diventa bottone iscriviti
+                                $view->showDeleteSubSuccess(); // Il bottone iscritto diventa bottone iscriviti
                             } else {
-                                $view->showErrorPage(); // Errore durante la rimozione dell'iscrizione
+                                $view->showPodcastError(); // Errore durante la rimozione dell'iscrizione
                             }
                         } else {
-                            $view->showErrorPage(); // Iscrizione non trovata
+                            $view->showPodcastError(); // Iscrizione non trovata
                         }
                     } else {
-                        $view->showErrorPage(); // Non sei iscritto al podcast
+                        $view->showPodcastError(); // Non sei iscritto al podcast
                     }
                 } else {
-                    $view->showErrorPage(); // Podcast non trovato
+                    $view->showPodcastError(); // Podcast non trovato
                 }
             }
         }

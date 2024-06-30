@@ -1,4 +1,4 @@
-{include file="header.tpl" pageTitle=""}
+{include file="header.tpl"}
 
 <style>
       .podcast-container {
@@ -29,6 +29,16 @@
             
         }
 </style>
+
+<!--alert-->
+    {if isset($textalert) && $textalert}
+        {if $success}
+            {include file="successAlert.tpl"}
+        {else}
+            {include file="failAlert.tpl"}
+        {/if}
+    {/if}
+
 <!--podcast-->
 	  <div class="page-body">
         <div class="container-xl">
@@ -43,7 +53,7 @@
                 <!-- Copertina del podcast -->
                 <div class="podcast-cover">
                     <a href="#" class="d-block aspect-ratio-1x1">
-                        <img src="{podcast.image}" alt="Copertina podcast">
+                        <img src="data:{mimetype};base64,{imagedata}" alt="Copertina podcast">
                     </a>
                 </div>
 
