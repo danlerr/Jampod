@@ -81,15 +81,16 @@ public static function visitEpisode($episode_id) {
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
         
         if ($episode !== null) {
+            $image = [$episode->getImageMimeType, $episode->getEncodedImageData()];
             $comments = FPersistentManager::getInstance()->retrieveCommentsOnEpisode($episode_id); // Array di commenti
             $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-            $view->showEpisodePage($episode, $comments, $avgVote); // Passa l'episodio, commenti e voto medio alla vista
+            $view->showEpisodePage($episode, $comments, $avgVote, $image); // Passa l'episodio, commenti ,voto medio e immagine alla vista
         } else {
             $view->showEpisodeError("Impossibile trovare l'episodio");
         }
     } 
 }
-
+//???????????
 public static function listenEpisode($episode_id) {
     $audioTrack = FPersistentManager::getAudioTrack($episode_id);
 
@@ -107,7 +108,7 @@ public static function listenEpisode($episode_id) {
 }
 
 
-
+//???????????
 
 
 
@@ -128,10 +129,10 @@ public static function voteEpisode($episode_id) {
             if ($update) {
                 
                 $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($vote->getEpisodeId());
-                $view->showEpisodePage()///???? oppure visit???
+                $view->showEpisodePage();///???? oppure visit???
                 return ['success' => true, 'avgVote' => $avgVote];
             } else {
-                $view->showEpisodePage()///???? oppure visit???
+                $view->showEpisodePage();///???? oppure visit???
                 return ['success' => false, 'error' => 'Errore durante la votazione dell\'episodio.'];
             }
         } else {
@@ -141,10 +142,10 @@ public static function voteEpisode($episode_id) {
             
             if ($result) {
                 $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-                $view->showEpisodePage()///???? oppure visit???
+                $view->showEpisodePage();///???? oppure visit???
                 return ['success' => true, 'avgVote' => $avgVote];
             } else {
-                $view->showEpisodePage()///???? oppure visit???
+                $view->showEpisodePage();///???? oppure visit???
                 return ['success' => false, 'error' => 'Errore durante la votazione dell\'episodio.'];
             }
         }

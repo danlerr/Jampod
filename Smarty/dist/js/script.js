@@ -98,7 +98,6 @@ function setVolume() {
 
 function seekUpdate() {
   let seekPosition = 0;
- 
   // Check if the current track duration is a legible number
   if (!isNaN(curr_track.duration)) {
       seekPosition = curr_track.currentTime * (100 / curr_track.duration);
@@ -135,7 +134,7 @@ function createInputBox() {
 
     div.innerHTML += `<form action="da scegliere..." method="post" class="comment-form">
                         <textarea class="form-control" style="resize: none;" name="comment" rows="3" required></textarea>
-                        <button type="submit" class="btn btn-outline-success submit mt-2">Submit</button>
+                        <button type="submit" class="btn btn-outline-success submit mt-2">Post Reply</button>
                       </form>`; 
     return div; 
 } 
