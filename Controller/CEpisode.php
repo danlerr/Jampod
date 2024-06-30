@@ -89,10 +89,34 @@ public static function visitEpisode($episode_id) {
         }
     } 
 }
+
+public static function listenEpisode($episode_id) {
+    $audioTrack = FPersistentManager::getAudioTrack($episode_id);
+
+    if (!$audioTrack) {
+        http_response_code(404);
+        echo 'Traccia audio non trovata';
+        return;
+    }
+
+    // Imposta l'header Content-Type per il tipo MIME dell'audio
+    header('Content-Type: ' . $audioTrack['audiomimetype']);
+
+    // Restituisci i dati dell'audio direttamente come blob
+    echo $audioTrack['audiodata'];
+}
+
+
+
+
+
+
+
 //permette all'utente di votare o di aggiornare il proprio voto 
-public static function voteEpisode($episode_id, $value) {
+public static function voteEpisode($episode_id) {
     if (CUser::isLogged()) {
         $view = new VEpisode();
+        $value = UHTTPMethods::post('rating');
         $userId = USession::getInstance()->getSessionElement('user');
         $checkarray = FPersistentManager::getInstance()->checkVote($episode_id, $userId);
         

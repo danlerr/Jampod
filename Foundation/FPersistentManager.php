@@ -136,6 +136,9 @@
                 return null;
             }
         }
+        public static function getAudioTrack($episode_id) {
+            return FEpisode::retrieveAudioTrack($episode_id);
+        }
     //-------------------------------------VOTE-----------------------------------------------------
 
         public static function getAverageVoteOnEpisode($episode_id) {
@@ -183,6 +186,7 @@
                 return false;
             }
         }
+        
 }
 
             

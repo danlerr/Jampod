@@ -119,6 +119,25 @@ public static function retrieveMoreEpisodes($podcast_id) {
         return null;
     }
 }
+public static function retrieveAudioTrack($episode_id) {
+    try {
+        $episode = self::retrieveObject($episode_id);
+        
+        if ($episode === null) {
+            throw new Exception('Episodio non trovato');
+        }
+
+        return [
+            'audiodata' => $episode->getAudioData(),
+            'audiomimetype' => $episode->getAudioMimeType(),
+        ];
+
+    } catch (Exception $e) {
+        
+        error_log('Errore nel recupero della traccia audio: ' . $e->getMessage());
+        return null;
+    }
+}
 
 
 

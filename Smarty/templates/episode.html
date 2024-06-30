@@ -15,13 +15,19 @@
 			 <div class="col-lg-8 col-md-8">
 			   
 				 <header class="text-center">
-					 <!-- Titolo dell'episodio -->
-		   
-					 <h3 class="h4 mb-2">{$episode_title}</h3>    <!-- max 38 caratteri -->
-		   
-					 
-					 <!-- Autore -->
-					 <small class="text-muted">{$author}</small>
+					<!-- Titolo dell'episodio -->
+          
+					<h3 class="h4 mb-2">{$episode_title}</h3> <!-- max 38 caratteri -->
+        
+					<div class="svg-container text-center">
+						<!-- Replace 'image.svg' with your SVG image file -->
+						<img src="/Smarty/images/headphones.svg" alt="SVG Image" style="max-width: 50px; vertical-align: middle;">
+						<!-- Replace 'Your Number' with your chosen number -->
+						<span class="ml-2 h6" style="vertical-align: middle;">{$episode_streams}</span>
+					</div>
+					
+					<!-- Autore -->
+					<small class="text-muted">{authorUsername}</small>
 					 <div class="player">
 		  
 			 
@@ -74,14 +80,16 @@
 			</div>
 			<div class="col ">
 				<div class="d-flex justify-content-center align-items-center mt-2">
-					<select id="rating-default" class="form-select">
-						<option value="">Select a rating</option>
-						<option value="5">Excellent</option>
-						<option value="4">Very Good</option>
-						<option value="3">Average</option>
-						<option value="2">Poor</option>
-						<option value="1">Terrible</option>
-					</select>
+					<form action="DA SELEZIONARE" method="post" class="comment-form">
+						<select id="rating-default" class="form-select" name="rating">
+							<option value="">Select a rating</option>
+							<option value="5">Excellent</option>
+							<option value="4">Very Good</option>
+							<option value="3">Average</option>
+							<option value="2">Poor</option>
+							<option value="1">Terrible</option>
+						</select>
+					</form>
           <h3 class="h6 mb-0" style="margin-top: 0px;">{$avgVote}</h3>
 
 				</div>
@@ -199,6 +207,23 @@
 	})
 	// @formatter:on
   </script>
+   <!-- Parte per far arrivare il rating al server  -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ratingSelect = document.getElementById('rating-default');
+        const stars = document.querySelectorAll('.gl-star-full');
+
+        stars.forEach((star, index) => {
+            star.addEventListener('click', function () {
+                const value = stars.length - index;
+                ratingSelect.value = value;
+                // Simulazione di submit del form quando l'utente clicca sulla stella
+                ratingSelect.form.submit();
+            });
+        });
+    });
+</script>
 
 
 {include file="footer.tpl"}
