@@ -77,7 +77,7 @@ public static function deleteEpisode($episode_id) {
 
 public static function visitEpisode($episode_id) {
     if (CUser::isLogged()) {
-        $view = new VPodcast();
+        $view = new VEpisode();
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
         
         if ($episode !== null) {

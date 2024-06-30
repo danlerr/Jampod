@@ -278,3 +278,13 @@ i {
 
 
  /*fine classi per player*/
+
+
+
+ /*ALERTS*/
+ 
+ .custom-alert {
+         
+  max-width: 1000px; /* Imposta la larghezza massima dell'alert */
+  margin: 0 auto; /* Centra l'alert orizzontalmente */
+}
