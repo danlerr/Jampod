@@ -22,16 +22,22 @@
             $this->smarty->assign('userRole', $userRole);
             $this->smarty->assign('sub', $sub);
             $this->smarty->assign('success', $success);
-            $this->smarty->display('podcast_page.tpl');
+            $this->smarty->display('podcast.tpl');
 
         }
 
+        //metodo per mostrare modifiche/errori tramite alert nella pagina del podcast 
         public function showPodcastError($podcast, $imageInfo,$episodes, $textalert = null, $userRole, $sub = null, $success = null){
             self::showPodcastPage($podcast, $imageInfo,$episodes, $textalert = null, $userRole, $sub = null, $success = null);
-        }
+        } 
 
         public function showMyPodcastPage(){
 
+        }
+
+        public function showError($string){
+            $this->smarty->assign('string', $string);
+            $this->smarty->display('error.tpl');
         }
 
         // public function showEditSuccess(){

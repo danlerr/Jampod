@@ -87,8 +87,7 @@
                     }
                     
                 }else{
-                    //$view->NotFound();
-                    echo 'not found';
+                    $view->showError('impossibile trovare il podcast');
                 }
             }
         }
@@ -153,8 +152,7 @@
                         self::visitPodcast($podcast_id); // Se l'utente è già iscritto, semplicemente mostra il podcast
                     }
                 } else {
-                    echo 'not found';
-                    //$view->NotFound();
+                    $view->showError("impossibile effettuare l'iscrizione al podcast");
                 }
             }
         }
@@ -187,8 +185,7 @@
                         self::visitPodcast($podcast_id); // Se l'utente non è iscritto, semplicemente mostra il podcast
                     }
                 } else {
-                    //$view->NotFound();
-                    echo 'not found';
+                    $view->showError("impossibile eliminare l'iscrizione al podcast");
                 }
             }
         }

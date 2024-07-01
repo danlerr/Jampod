@@ -1,4 +1,4 @@
-{include file="header.tpl" pageTitle=""}
+{include file="header.tpl"}
 
     <!--bottone per creare un nuovo podcast-->
     <div class="d-grid gap-2" style="margin-top: 1%;">
