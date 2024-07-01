@@ -24,8 +24,14 @@
 
                 $result = FPersistentManager::getInstance()->createObj($podcast);
 
+                $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast->getId());
+
+                $userRole ='creator';
+
+                $success = 'true';
+
                 if($result){
-                    $view->showPodcastPage($podcast, $imageInfo, "Podcast creato con successo!");
+                    $view->showPodcastPage($podcast, $imageInfo, $episodes, "Podcast creato con successo!", $userRole, $success);
                 }else{
                     $view->showPodcastError();
                 }
@@ -43,15 +49,17 @@
 
                     $result = FPersistentManager::getInstance()->deleteObj($podcast);
 
+                    //$success = false;
+
                     if($result){
                         
-                        $view->showDeleteSuccess();
+                        $view->showMyPodcastPage();
                     }else{
                         
-                        $view->showPodcastError();
+                        $view->showMyPodcastPage();
                     }
                 }else{
-                    $view->showPodcastError();
+                    $view->showMyPodcastPage();
                 }
             }
         }
@@ -72,10 +80,10 @@
 
                     $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);   
 
-                    if ($userRole == 'creator'){                                                       //
-                        $view->showPodcastPage($podcast, $image, $episodes, $userRole);               //controllo per vedere se chi visita il podcast 
-                    }else{                                                                           //è il creatore di quel podcast  
-                        $view->showPodcastPage($podcast, $image, $episodes, $userRole, $sub);       //
+                    if ($userRole == 'creator'){                                                             //
+                        $view->showPodcastPage($podcast, $image, $episodes, $userRole, $sub);               //controllo per vedere se chi visita il podcast 
+                    }else{                                                                                 //è il creatore di quel podcast  
+                        $view->showPodcastPage($podcast, $image, $episodes, $userRole, $sub);             //
                     }
                     
                 }else{
@@ -84,33 +92,33 @@
             }
         }
 
-        public static function editPodcast($podcast_id){
+        // public static function editPodcast($podcast_id){
 
-            if (CUser::isLogged()) {
-                $view = new VPodcast;
-                $userId = USession::getInstance()->getSessionElement('user');
-                $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+        //     if (CUser::isLogged()) {
+        //         $view = new VPodcast;
+        //         $userId = USession::getInstance()->getSessionElement('user');
+        //         $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
         
-                if ($podcast && $podcast->getUserId() == $userId) {
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        $field = UHTTPMethods::post('field'); // Nome del campo da aggiornare (es. 'podcast_name')
-                        $value = UHTTPMethods::post('value'); // Nuovo valore del campo
+        //         if ($podcast && $podcast->getUserId() == $userId) {
+        //             if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        //                 $field = UHTTPMethods::post('field'); // Nome del campo da aggiornare (es. 'podcast_name')
+        //                 $value = UHTTPMethods::post('value'); // Nuovo valore del campo
         
-                        $result = FPersistentManager::getInstance()->updateObj($podcast, $field, $value);
+        //                 $result = FPersistentManager::getInstance()->updateObj($podcast, $field, $value);
         
-                        if ($result) {
-                            $view->showEditSuccess("Podcast aggiornato con successo.");
-                        } else {
-                            $view->showPodcastError("Errore durante l'aggiornamento del podcast.");
-                        }
-                    } else {
-                        //$view->showEditForm($podcast);
-                    }
-                } else {
-                    $view->showPodcastError("Podcast non trovato o non autorizzato.");
-                }
-            }
-        }
+        //                 if ($result) {
+        //                     $view->showEditSuccess("Podcast aggiornato con successo.");
+        //                 } else {
+        //                     $view->showPodcastError("Errore durante l'aggiornamento del podcast.");
+        //                 }
+        //             } else {
+        //                 //$view->showEditForm($podcast);
+        //             }
+        //         } else {
+        //             $view->showPodcastError("Podcast non trovato o non autorizzato.");
+        //         }
+        //     }
+        // }
 
         public static function searchPodcasts() {
 
@@ -130,6 +138,8 @@
                         $result = FPersistentManager::getInstance()->createObj($subscribe);
 
                         $podcast->setSubcribe_counter(($podcast->getSubscribeCounter)+1);
+
+                        
 
                         if($result){
                             $view->showSubSuccess(); //il bottone iscriviti diventa bottone iscritto
