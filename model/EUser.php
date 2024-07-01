@@ -10,7 +10,7 @@ class EUser {
     private string $password; 
     private int $user_id;
     private  float $balance;
-    private $admin = false;
+    private $is_admin = false;
     protected $ban = false;
 
     //constructor
@@ -81,7 +81,7 @@ class EUser {
     }
     public function isAdmin()
     {
-        return $this->admin;
+        return $this->is_admin;
     }
 
     public function isBanned()
@@ -113,8 +113,11 @@ class EUser {
     {
         $this->password = $password;
     }
-    public function getAdmin() {
-        return $this->admin;
+    public function setAdmin(bool $admin) {
+        $this->is_admin = $admin;
+    }
+    public function setBan(bool $ban) {
+        $this->ban = $ban;
     }
 }
 

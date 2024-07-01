@@ -4,7 +4,7 @@
 
     private static $table = "user";
 
-    private static $value = "(:user_id,:username,:email,:password,:balance,:is_admin)";
+    private static $value = "(:user_id,:username,:email,:password,:balance,:is_admin,:ban)";
 
     private static $key = "user_id";
 
@@ -39,7 +39,7 @@
         }
     }
 
-    public static function retrieveObject($user_id) :?EUser{      //metodo per recuperare un oggetto user dal DB
+    public static function retrieveObject($user_id){      //metodo per recuperare un oggetto user dal DB
         $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $user_id);
         if(count($result) > 0){
             $obj = self::createEntity($result);
@@ -78,10 +78,14 @@
                 $result['email'],
                 $result['password'],
                 $result['username']);
+            
 
             $user->setUserId($result['user_id']);
-            // Aggiungi qui eventuali altri metodi setter se necessario, es.:
+            
             // $user->setHash($result['hash']);
+            $user->setBalance($result['balance']);
+            $user->setBan($result['ban']);
+            $user->setAdmin($result['is_admin']);
             $users[] = $user;
         }
     
@@ -100,7 +104,9 @@
         $stmt->bindValue(':email',$user->getEmail(), PDO::PARAM_STR);
         $stmt->bindValue(':password',$user->getPassword(), PDO::PARAM_STR);
         $stmt->bindValue(':balance',$user->getBalance(), PDO::PARAM_STR);
-        $stmt->bindValue(':is_admin',$user->getAdmin(), PDO::PARAM_BOOL);
+        $stmt->bindValue(':is_admin',$user->isAdmin(), PDO::PARAM_BOOL);
+        $stmt->bindValue(':ban',$user->isBanned(), PDO::PARAM_BOOL);
+
     }
 
     //--------------------------------------------------------------------------------
@@ -111,7 +117,7 @@
         return FDataBase::getInstance()->existInDb($queryResult);
     }
 
-    //verifica che l'utente passato per parametro sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db
+    //verifica che l'id dell'utente, passato per parametro, sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db
     public static function userValidation($queryResult, $idUser){
         if(FDataBase::getInstance()->existInDb($queryResult) && $queryResult[0][FUser::getKey()] == $idUser){
             return true;
@@ -130,6 +136,11 @@
         }else{
             return null;
         }
+    }
+    //restituisce lo username dello user di cui è stato passato l'id per parametro
+    public static function getUserUsername($user_id) {
+        $user = self::retrieveObject($user_id);
+        return $user->getUsername();
     }
 
 

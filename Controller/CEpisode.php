@@ -79,12 +79,18 @@ public static function visitEpisode($episode_id) {
     if (CUser::isLogged()) {
         $view = new VEpisode();
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
+        $podcast_id = $episode->getPodcastId();
+        $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+        $podcast_title = $podcast->getPodcastName();
+        $creatorId = $podcast->getUserId();
+        $user = FPersistentManager::getInstance()->retrieveObj('EUser',$creatorId);
+        $usernamecreator = $user->getUsername();
         
         if ($episode !== null) {
             $image = [$episode->getImageMimeType, $episode->getEncodedImageData()];
             $comments = FPersistentManager::getInstance()->retrieveCommentsOnEpisode($episode_id); // Array di commenti
             $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-            $view->showEpisodePage($episode, $comments, $avgVote, $image); // Passa l'episodio, commenti ,voto medio e immagine alla vista
+            $view->showEpisodePage($episode,$podcast_title, $usernamecreator, $comments, $avgVote, $image); // Passa l'episodio, commenti ,voto medio e immagine alla vista
         } else {
             $view->showEpisodeError("Impossibile trovare l'episodio");
         }

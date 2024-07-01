@@ -3,7 +3,7 @@
 class FComment{
     
     private static $table="comment";
-    private static $value="(NULL,:comment_text,:comment_creation_date,:user_id,:episode_id,:parent_comment_id)";
+    private static $value="(NULL,:comment_text,:comment_creation_date,:user_id,:episode_id,:parent_comment_id,:commentUsername)";
     private static $key="comment_id";
 
     
@@ -29,7 +29,8 @@ class FComment{
         //$stmt->bindValue(":removed", $comment->isBanned(), PDO::PARAM_BOOL); da inserire!
         $stmt->bindValue(":episode_id", $comment->getEpisodeId(), PDO::PARAM_INT);
         $stmt->bindValue(":user_id", $comment->getUserId(), PDO::PARAM_INT); 
-        $stmt->bindValue(":parent_comment_id", $comment->getParentCommentId(), PDO::PARAM_INT); 
+        $stmt->bindValue(":parent_comment_id", $comment->getParentCommentId(), PDO::PARAM_INT);
+        $stmt->bindValue(":commentUsername", FUser::getUserUsername($comment->getUserId()), PDO::PARAM_STR); 
     }
 
 
@@ -83,6 +84,7 @@ class FComment{
         foreach ($queryResult as $result) {
             $comment = new EComment($result['comment_text'], $result['user_id'], $result['episode_id']);
             $comment->setCommentId($result['comment_id']);
+            $comment->setcommentUsername($result['commentUsername']);
             
             $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $result['comment_creation_date']);
             $comment->setCommentCreationTime($dateTime);

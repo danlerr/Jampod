@@ -1,6 +1,14 @@
 
 {include file="header.tpl" }
 	   <!-- episode -->
+		<!--alert-->
+	{if isset($textalert) && $textalert}
+        {if $success}
+            {include file="successAlert.tpl"}
+        {else}
+            {include file="failAlert.tpl"}
+        {/if}
+    {/if}
 
 	   <h3 class="fw-bold text-center mt-2" id="albumTitle">{$podcast_title}</h3>
 	   <div class="episode-container ">
@@ -8,7 +16,7 @@
 			 <!-- Colonna sinistra per l'immagine del podcast e il titolo -->
 			 <div class="col-lg-4 col-md-4 align-self-center">
 				 <div class="text-center">
-					 <img src="/Smarty/images/podcast.jpg" alt="Episode image" class="media-album-icon">
+					 <img src="data:{$mimetype};base64,{$imagedata}" alt="Episode image" class="media-album-icon">
 				 </div>
 				 
 			 </div>
@@ -28,7 +36,7 @@
 					</div>
 					
 					<!-- Autore -->
-					<small class="text-muted">{authorUsername}</small>
+					<small class="text-muted">{$usernamecreator}</small>
 					 <div class="player">
 		  
 			 
@@ -170,12 +178,12 @@
 									<div class="d-flex justify-content-between align-items-start">
 										<div class="user d-flex flex-column">
 											<span>
-												<small class="fw-bold text-primary">{$comment.username}</small>
+												<small class="fw-bold text-primary">{$comment->getcommentUsername()}</small>
 											</span>
 											<span class="comment-text">
-												<small class="fw-bold">{$comment.text}</small>
+												<small class="fw-bold">{$comment->getCommentText()}</small>
 											</span>
-											<small class="ml-auto">{$comment.time}</small>
+											<small class="ml-auto">{$comment->getCommentTime()}</small>
 										</div>
 										<div class="reply px-0">
 											<a href="#" class="btn btn-outline-success reply">Reply</a>

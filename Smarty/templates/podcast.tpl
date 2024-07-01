@@ -53,7 +53,7 @@
                 <!-- Copertina del podcast -->
                 <div class="podcast-cover">
                     <a href="#" class="d-block aspect-ratio-1x1">
-                        <img src="data:{mimetype};base64,{imagedata}" alt="Copertina podcast">
+                        <img src="data:{$mimetype};base64,{$imagedata}"" alt="Copertina podcast">
                     </a>
                 </div>
 

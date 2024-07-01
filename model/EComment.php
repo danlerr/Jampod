@@ -49,6 +49,7 @@ class EComment{
      * @AttributeType int
      */
     private $parentCommentId = null; // Campo parentCommentId, inizializzato a null
+    private $commentUsername;
 
     // CONSTRUCTOR
     public function __construct($comment_text,$user_id,$episode_id) {
@@ -58,6 +59,7 @@ class EComment{
         $this->setTime();
 
     }
+
     // GET METHODS
     /**
      * Get the value of comment_id
@@ -158,5 +160,11 @@ class EComment{
         $this->parentCommentId = $parentCommentId;
     }
 
+    
+    public function setcommentUsername($commentUsername) {
+        $this->commentUsername = $commentUsername;
     }
-?>
+    public function getcommentUsername() {
+        return $this->commentUsername;
+    }
+}
