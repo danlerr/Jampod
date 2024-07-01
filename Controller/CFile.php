@@ -18,7 +18,7 @@ class CFile{
 
         // Leggi i dati binari dell'immagine
         $imagedata = file_get_contents($file['tmp_name']);
-        $imagedata = addslashes($imagedata);
+        
 
         echo "File $imagename inserito correttamente!";
         
@@ -53,7 +53,6 @@ class CFile{
      
              // Leggi i dati binari del file audio
              $audiodata = file_get_contents($file['tmp_name']);               
-             $audiodata = addslashes($audiodata);
      
              echo "File $audioname inserito correttamente!";            
              return [

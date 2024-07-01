@@ -69,7 +69,12 @@
 
                 return $result;
             }
-            //verifica che l'utente passato per parametro sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db
+
+
+            
+        //verifica che l'utente passato per parametro sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db.
+        //( si suppone che $queryResult sia un array)
+           
         public static function checkUser($queryResult, $idUser){
             if(FUser::userValidation($queryResult, $idUser)){
                 return true;

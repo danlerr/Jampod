@@ -12,37 +12,39 @@ public static function uploadEpisode($podcast_id)
             UHTTPMethods::post('description'),
             $podcast_id
         );
+        $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+        $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
+        $userRole ='creator';
+        $podcastimage = [$podcast->getImageMimeType, $podcast->getEncodedImageData()];
 
         // Get audio info
         $audioInfo = CFile::getAudioInfo();
         if (is_array($audioInfo) && !empty($audioInfo['audiodata']) && !empty($audioInfo['audiomimetype'])) {
             $episode->setAudioData($audioInfo['audiodata']);
             $episode->setAudioMimetype($audioInfo['audiomimetype']);
-        } else {
-            $view->showPodcastError("Errore durante il caricamento dell'audio.");
-            return;
-        }
-
+        } else { 
+                $view->showNotfound();
+                return;
+            }
         // Get image info
         $imageInfo = CFile::getImageInfo();
         if (is_array($imageInfo) && !empty($imageInfo['imagedata']) && !empty($imageInfo['imagemimetype'])) {
             $episode->setImageData($imageInfo['imagedata']);
             $episode->setImageMimetype($imageInfo['imagemimetype']);
         } else {
-            $view->showPodcastError("Errore durante il caricamento dell'immagine.");
-            return;
-        }
-
+                $view->showNotFound();
+                return;
+            }
         // Create in db
-        $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
         $check = FPersistentManager::getInstance()->checkUser((array)$podcast, $userId); // Controllo che chi sta facendo l'upload dell'episodio sia il creatore del podcast
+        
         if ($check) {
-            $result = FPersistentManager::getInstance()->createObj($episode);
-
-            if ($result) {
-                $view->showPodcastPage(); // Rimanda alla pagina del podcast con l'episodio aggiunto
-            } else {
-                $view->showPodcastError('Impossibile effettuare il caricamento.');
+            $result = FPersistentManager::getInstance()->createObj($episode);           
+            if ($result) {         
+                $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast 
+                $view->showPodcastPage($podcast,$podcastimage, $episodesupdated, "Episodio aggiunto con successo", $userRole, true); // Rimanda alla pagina del podcast con l'alert di conferma e l'episodio aggiunto
+            } else {      
+                $view->showPodcastError($podcast, $podcastimage, $episodesbefore, "Impossibile effettuare il caricamento dell'episodio", $userRole, false); // Rimanda alla pagina del podcast con l'alert di errore aggiunta
             }
         }
     }
@@ -54,24 +56,23 @@ public static function deleteEpisode($episode_id) {
         $view = new VPodcast();
         $userId = USession::getInstance()->getSessionElement('user');
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
+        $podcast_id = $episode->getPodcastId();
+        $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+        $podcastimage = [$podcast->getImageMimeType, $podcast->getEncodedImageData()];
+        $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
+
         $check = FPersistentManager::getInstance()->checkUser((array)$episode, $userId); // Controllo che il creatore dell'episodio sia lo stesso che lo sta eliminando
         if ($check) {
             $result = FPersistentManager::getInstance()->deleteObj($episode); 
             
             if ($result) {
-                $view->showPodcastPage();
-                echo "Episodio eliminato correttamente.";
-                return true;
+                $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast       
+                $view->showPodcastPage($podcast,$podcastimage, $episodesupdated, 'Episodio eliminato correttamente', 'creator', true);
             } else {
-                $view->showPodcastError("Errore durante l'eliminazione dell'episodio");
-                echo "Errore durante l'eliminazione dell'episodio.";
-                return false;
+                $view->showPodcastError($podcast,$podcastimage, $episodesbefore, "Impossibile eliminare l'episodio", 'creator', false);
+
             }
-        } else {
-            $view->showPodcastError("L'utente non ha il diritto di eliminare questo episodio.");
-            echo "L'utente non ha il diritto di eliminare questo episodio.";
-            return false;
-        }
+        } 
     } 
 }
 
@@ -79,20 +80,19 @@ public static function visitEpisode($episode_id) {
     if (CUser::isLogged()) {
         $view = new VEpisode();
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
-        $podcast_id = $episode->getPodcastId();
-        $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+        $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $episode->getPodcastId());
         $podcast_title = $podcast->getPodcastName();
         $creatorId = $podcast->getUserId();
-        $user = FPersistentManager::getInstance()->retrieveObj('EUser',$creatorId);
-        $usernamecreator = $user->getUsername();
+        $usercreator= FPersistentManager::getInstance()->retrieveObj('EUser',$creatorId);
+        $usernamecreator = $usercreator->getUsername();
         
         if ($episode !== null) {
-            $image = [$episode->getImageMimeType, $episode->getEncodedImageData()];
+            $episodeimage = [$episode->getImageMimeType, $episode->getEncodedImageData()];
             $comments = FPersistentManager::getInstance()->retrieveCommentsOnEpisode($episode_id); // Array di commenti
             $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-            $view->showEpisodePage($episode,$podcast_title, $usernamecreator, $comments, $avgVote, $image); // Passa l'episodio, commenti ,voto medio e immagine alla vista
+            $view->showEpisodePage($episode,$podcast_title, $usernamecreator, $comments, $avgVote, $episodeimage); // Passa l'episodio, commenti ,voto medio e immagine alla vista
         } else {
-            $view->showEpisodeError("Impossibile trovare l'episodio");
+            $view->showNotFound();
         }
     } 
 }
@@ -132,14 +132,11 @@ public static function voteEpisode($episode_id) {
             $vote = $checkarray[1];
             $update = FPersistentManager::getInstance()->updateObj($vote, 'value', $value);
             
-            if ($update) {
-                
-                $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($vote->getEpisodeId());
-                $view->showEpisodePage();///???? oppure visit???
-                return ['success' => true, 'avgVote' => $avgVote];
+            if ($update) {  
+                self::visitEpisode($episode_id);         
             } else {
-                $view->showEpisodePage();///???? oppure visit???
-                return ['success' => false, 'error' => 'Errore durante la votazione dell\'episodio.'];
+                $view->showNotFound("Impossibile modificare la votazione");
+                
             }
         } else {
             // L'utente non ha votato: creare un nuovo voto
@@ -147,17 +144,13 @@ public static function voteEpisode($episode_id) {
             $result = FPersistentManager::getInstance()->createObj($vote);
             
             if ($result) {
-                $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-                $view->showEpisodePage();///???? oppure visit???
-                return ['success' => true, 'avgVote' => $avgVote];
+                self::visitEpisode($episode_id);
+               
             } else {
-                $view->showEpisodePage();///???? oppure visit???
-                return ['success' => false, 'error' => 'Errore durante la votazione dell\'episodio.'];
+                $view->shotNotFound();
             }
         }
-    } else {
-        return ['success' => false, 'error' => 'Utente non autenticato.'];
-    }
+    } 
 }
 
 
