@@ -19,7 +19,7 @@
                     $podcast->setImageData(CFile::getImageInfo()['imagedata']);
                     $podcast->setImageMimetype(CFile::getImageInfo()['imagemimetype']);
                 }else{
-                    $view->showPodcastError();
+                    //$view->showNotFound();
                 }
 
                 $result = FPersistentManager::getInstance()->createObj($podcast);
@@ -33,7 +33,7 @@
                 if($result){
                     $view->showPodcastPage($podcast, $imageInfo, $episodes, "Podcast creato con successo!", $userRole, $success);
                 }else{
-                    $view->showPodcastError();
+                    //$view->showNotFound();
                 }
             }
         }
@@ -87,7 +87,8 @@
                     }
                     
                 }else{
-                    $view->showPodcastError();
+                    //$view->NotFound();
+                    echo 'not found';
                 }
             }
         }
@@ -124,69 +125,70 @@
 
         }
 
-        public static function Subcribe($podcast_id){
-            if (CUser::isLogged()){
-                $view = new VPodcast;
-                $userId = USession::getInstance()->getSessionElement('user')->getId();
-                $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
-
-                if($podcast){
-                    $isSub = FPersistentManager::getInstance()->isSubscribed($userId,$podcast_id);
-                    if (!$isSub){
-                        $subscribe = new ESubscribe($podcast_id, $userId);
-
-                        $result = FPersistentManager::getInstance()->createObj($subscribe);
-
-                        $podcast->setSubcribe_counter(($podcast->getSubscribeCounter)+1);
-
-                        
-
-                        if($result){
-                            $view->showSubSuccess(); //il bottone iscriviti diventa bottone iscritto
-                        }else{
-                            $view->showPodcastError(); //errore durante l'iscrizione 
-                        }
-                    }else{
-                        $view->showPodcastError(); //sei già iscritto al podcast 
-                    }
-                }else{
-                    $view->showPodcastError(); //podcast non trovato 
-                }
-            }
-        }
-
-        public static function deleteSub($subscribe_id,$podcast_id) {
+        public static function Subscribe($podcast_id) {
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user')->getId();
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
         
                 if ($podcast) {
+                    $image = [$podcast->getImageMimeType(), $podcast->getEncodedImageData()];
+                    $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
+                    $userRole = 'listener';
+        
                     $isSub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);
-                    if ($isSub) {
-                        // Trova l'iscrizione esistente
-                        $subscribe = FPersistentManager::getInstance()->retrieveObj('ESubscribe', $subscribe_id);
+                    if (!$isSub) {
+                        $subscribe = new ESubscribe($podcast_id, $userId);
+                        $result = FPersistentManager::getInstance()->createObj($subscribe);
         
-                        if ($subscribe) {
-                            // Elimina l'iscrizione
-                            $result = FPersistentManager::getInstance()->deleteObj($subscribe);
-        
-                            // Decrementa il contatore delle iscrizioni
-                            $podcast->setSubscribeCounter($podcast->getSubscribeCounter() - 1);
-        
-                            if ($result) {
-                                $view->showDeleteSubSuccess(); // Il bottone iscritto diventa bottone iscriviti
-                            } else {
-                                $view->showPodcastError(); // Errore durante la rimozione dell'iscrizione
-                            }
+                        if ($result) {
+                            $newSubCount = $podcast->setSubscribeCounter($podcast->getSubscribeCounter() + 1);
+                            FPersistentManager::getInstance()->updateObj($podcast, 'subscribe_counter', $newSubCount); // Assicurati di avere una funzione di aggiornamento per il contatore di iscrizioni
+                            self::visitPodcast($podcast_id);
                         } else {
-                            $view->showPodcastError(); // Iscrizione non trovata
+                            $success = false;
+                            $view->showPodcastError($podcast, $image, $episodes, "Errore durante l'iscrizione al podcast", $userRole, $success);
                         }
                     } else {
-                        $view->showPodcastError(); // Non sei iscritto al podcast
+                        self::visitPodcast($podcast_id); // Se l'utente è già iscritto, semplicemente mostra il podcast
                     }
                 } else {
-                    $view->showPodcastError(); // Podcast non trovato
+                    echo 'not found';
+                    //$view->NotFound();
+                }
+            }
+        }
+
+        public static function Unsubscribe($subscribe_id, $podcast_id) {
+            if (CUser::isLogged()) {
+                $view = new VPodcast;
+                $userId = USession::getInstance()->getSessionElement('user')->getId();
+                $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+        
+                if ($podcast) {
+                    $image = [$podcast->getImageMimeType(), $podcast->getEncodedImageData()];
+                    $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
+                    $userRole = 'listener';
+        
+                    $isSub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);
+                    if ($isSub) {
+                        $subscribe = FPersistentManager::getInstance()->retrieveObj('ESubscribe', $subscribe_id);
+                        $result = FPersistentManager::getInstance()->deleteObj($subscribe);
+        
+                        if ($result) {
+                            $newSubCount = $podcast->setSubscribeCounter($podcast->getSubscribeCounter() - 1);
+                            FPersistentManager::getInstance()->updateObj($podcast, 'subscribe_counter', $newSubCount); // Assicurati di avere una funzione di aggiornamento per il contatore di iscrizioni
+                            self::visitPodcast($podcast_id);
+                        } else {
+                            $success = false;
+                            $view->showPodcastError($podcast, $image, $episodes, "Errore durante la cancellazione dell'iscrizione al podcast", $userRole, $success);
+                        }
+                    } else {
+                        self::visitPodcast($podcast_id); // Se l'utente non è iscritto, semplicemente mostra il podcast
+                    }
+                } else {
+                    //$view->NotFound();
+                    echo 'not found';
                 }
             }
         }

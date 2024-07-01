@@ -9,7 +9,7 @@
     
         }
 
-        public function showPodcastPage($podcast, $imageInfo,$episodes, $textalert = null, $userRole, $sub = null, $success = null){
+        public function showPodcastPage($podcast, $imageInfo, $episodes, $textalert = null, $userRole, $sub = null, $success = null){
 
             $this->smarty->assign('podcast_name', $podcast->getPodcastName);
             $this->smarty->assign('podcast_description', $podcast->getPodcastDescription);
@@ -26,24 +26,15 @@
 
         }
 
-        public function showPodcastError(){
-
+        public function showPodcastError($podcast, $imageInfo,$episodes, $textalert = null, $userRole, $sub = null, $success = null){
+            self::showPodcastPage($podcast, $imageInfo,$episodes, $textalert = null, $userRole, $sub = null, $success = null);
         }
 
         public function showMyPodcastPage(){
 
         }
 
-        public function showEditSuccess(){
+        // public function showEditSuccess(){
 
-        }
-
-        public function showSubSuccess(){
-
-        }
-
-        public function showDeleteSubSuccess(){
-
-        }
-
+        // }
     }
