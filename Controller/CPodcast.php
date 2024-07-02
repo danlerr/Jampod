@@ -52,14 +52,18 @@
                     //$success = false;
 
                     if($result){
-                        
-                        $view->showMyPodcastPage();
+                        $myPodcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
+                        $success = true;
+                        $textalert = 'eliminazione del podcast avvenuta con successo :)';
+                        $view->showMyPodcastPage($myPodcasts, $success, $textalert);
                     }else{
-                        
-                        $view->showMyPodcastPage();
+                        $myPodcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
+                        $success = false;
+                        $textalert = "problemi con l'eliminazione del podcast :(";
+                        $view->showMyPodcastPage($myPodcasts, $success, $textalert);
                     }
                 }else{
-                    $view->showMyPodcastPage();
+                    $view->showError('Impossibile eliminare il podcast');
                 }
             }
         }
@@ -187,6 +191,15 @@
                 } else {
                     $view->showError("impossibile eliminare l'iscrizione al podcast");
                 }
+            }
+        }
+
+        public function myPodcast(){
+            if (CUser::isLogged()){
+                $userId = USession::getInstance()->getSessionElement('user');
+                $view = new VPodcast;
+                $myPodcast = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
+                $view->showMyPodcastPage($myPodcast);
             }
         }
     }

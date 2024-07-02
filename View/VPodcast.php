@@ -31,8 +31,11 @@
             self::showPodcastPage($podcast, $imageInfo,$episodes, $textalert = null, $userRole, $sub = null, $success = null);
         } 
 
-        public function showMyPodcastPage(){
-
+        public function showMyPodcastPage($myPodcasts, $success = null, $textalert = null){
+            $this->smarty->assign('userPodcasts',$myPodcasts);
+            $this->smarty->assign('success', $success);
+            $this->smarty->assign('textalert', $textalert);
+            
         }
 
         public function showError($string){
