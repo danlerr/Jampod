@@ -1,4 +1,4 @@
-{include file="header.tpl"}
+{include file="Smarty/templates/header.tpl"}
 
 <style>
       .podcast-container {
@@ -33,9 +33,9 @@
 <!--alert-->
     {if isset($textalert) && $textalert}
         {if $success}
-            {include file="successAlert.tpl"}
+            {include file="Smarty/templates/successAlert.tpl"}
         {else}
-            {include file="failAlert.tpl"}
+            {include file="Smarty/templates/failAlert.tpl"}
         {/if}
     {/if}
 
@@ -46,8 +46,9 @@
                 <h1 class="text mb-0">{$podcast_name}</h1>
                 <span class="badge small-badge">{$subscribeCounter} iscritti</span>
             </div>
-            <h4 class="text mb-5">{$podcast_creator}</h4>
-            <h4 class="text mb-5">Descrizione:{$podcast_description}</h4>
+            <h3 class="text mb-1">{$podcast_creator}</h3>
+            <small class="text mb-5">{$podcast_category}</small>
+            <h4 class="text mb-5 mt-5">Descrizione:{$podcast_description}</h4>
             
             <div class="podcast-container">
                 <!-- Copertina del podcast -->
@@ -137,4 +138,4 @@
     </div>
 
 
-{include file="footer.tpl"}
+{include file="Smarty/templates/footer.tpl"}

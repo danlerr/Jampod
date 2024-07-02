@@ -183,6 +183,7 @@
                 return null;
             }
         }
+
         public static function isSubscribed($userId, $podcast_id){
             $result = FSubscribe::isSub($userId, $podcast_id);
             if($result){
@@ -191,6 +192,31 @@
                 return false;
             }
         }
+
+        public static function retrieveNewPodcast(){
+            $new = FPodcast::retrieveNewPods();
+            return $new;
+        }
+
+        public static function retrieveFeature(){
+            $feature = FPodcast::retrieveFeaturePodcasts();
+            return $feature;
+        }
+        
+        public static function retrieveRandomPodcasts(){
+            $randomPodcasts = FPodcast::randomPodcasts();
+            return $randomPodcasts;
+        }
+
+        //-------------------------------------CATEGORIE-----------------------------------------------------
+        public static function retrieveCategories(){ 
+            $categories = FPodcast::allCategories();
+            return $categories;
+        }
+
+        
+
+        
         
 }
 

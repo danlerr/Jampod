@@ -1,4 +1,4 @@
-{include file="header.tpl"}
+{include file="Smarty/templates/header.tpl"}
 
     <!--bottone per creare un nuovo podcast-->
     <div class="d-grid gap-2" style="margin-top: 1%;">
@@ -29,4 +29,4 @@
     </div>
 
 
-{include file="footer.tpl"}
+{include file="Smarty/templates/footer.tpl"}

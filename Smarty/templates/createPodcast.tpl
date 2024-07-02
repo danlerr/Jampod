@@ -1,4 +1,4 @@
-{include file="header.tpl"}
+{include file="Smarty/templates/header.tpl"}
 
 <!-- Form crea un nuovo episodio -->
 <div class="card">
@@ -49,4 +49,4 @@
         </div>
     </div>
 </div>
-{include file="footer.tpl"}
+{include file="Smarty/templates/footer.tpl"}

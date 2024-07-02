@@ -115,4 +115,48 @@
         $stmt->bindValue(':podcast_creation_date',$podcast->getTimetoStr(), PDO::PARAM_STR);
 
     }
+    public static function allCategories(){
+        $table = 'category';
+        $categories = FDataBase::getInstance()->retrieveAll($table);
+        return $categories;
+    }
+
+    public static function retrieveFeaturePodcasts(){
+        
+        $podcasts = FDataBase::retrieveAll(self::getTable());
+        $allfeature = array();
+
+        foreach ($podcasts as $podcast){
+            $podcast_id = $podcast->getId();
+            $episodes = FEpisode::retrieveMoreEpisodes($podcast_id);
+            $sum =0;
+            $count=0;
+            foreach ($episodes as $episode){
+                $episode_id = $episode->getId();
+                $AVGvote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
+                $sum+=$AVGvote;
+                $count++;
+            }
+            $AVGPodcastvote = $sum/$count;
+            if ($AVGPodcastvote > 4){
+                array_push($allfeature, $podcast);
+            }
+        }
+        $arr = array(shuffle($allfeature));
+        $featurearray = array_slice($arr, 5);
+        return $featurearray;
+    }
+
+    public static function retrieveNewPods(){
+        $new = FDataBase::getInstance()->retrieveNewObj(self::getTable(), 5);
+        return $new;
+    }
+
+    public static function randomPodcasts(){
+        $podcasts = FDataBase::getInstance()->retrieveAll(self::getTable());
+        $arr = array(shuffle($podcasts));
+        $rand5 = array_slice($arr, 5);
+
+        return $rand5;
+    }
 }

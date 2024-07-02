@@ -22,7 +22,7 @@
             $this->smarty->assign('userRole', $userRole);
             $this->smarty->assign('sub', $sub);
             $this->smarty->assign('success', $success);
-            $this->smarty->display('podcast.tpl');
+            $this->smarty->display('Smarty/templates/podcast.tpl');
 
         }
 

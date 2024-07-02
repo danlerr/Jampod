@@ -1,4 +1,4 @@
-{include file="header.tpl" pageTitle=""}
+{include file="Smarty/templates/header.tpl"}
 
 <!-- Podcast in evidenza -->
 <div class="page-body">
@@ -84,4 +84,4 @@
     </div>
 </div>
 
-{include file="footer.tpl"}
+{include file="Smarty/templates/footer.tpl"}

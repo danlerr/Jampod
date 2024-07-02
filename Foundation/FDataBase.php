@@ -161,4 +161,33 @@
                 return false;
             }
         }
+
+        public static function retrieveAll($table)
+        {
+            try {
+                $query = "SELECT * FROM $table";
+                $stmt = self::$db->prepare($query);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) {
+                error_log("Load Objects Error: " . $e->getMessage());
+                return array();
+            }
+        }
+
+        
+
+        public static function retrieveNewObj($table, $limit)
+        {
+            try {
+                $query = "SELECT * FROM $table ORDER BY creationTime DESC LIMIT :limit";
+                $stmt = self::$db->prepare($query);
+                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) {
+                error_log("Load Objects Error: " . $e->getMessage());
+                return array();
+            }
+        }
     }       
