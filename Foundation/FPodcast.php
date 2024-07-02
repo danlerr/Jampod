@@ -159,4 +159,9 @@
 
         return $rand5;
     }
+
+    public static function myPodcasts($user_id){
+        $myPodcasts = FDataBase::getInstance()->retrieve(self::getTable(), 'user_id', $user_id);
+        return $myPodcasts;
+    }
 }

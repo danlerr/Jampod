@@ -195,29 +195,49 @@
 
         public static function retrieveNewPodcast(){
             $new = FPodcast::retrieveNewPods();
-            return $new;
+            if ($new){
+                return $new;
+            }else{
+                return null;
+            }
         }
 
         public static function retrieveFeature(){
             $feature = FPodcast::retrieveFeaturePodcasts();
-            return $feature;
+            if ($feature){
+                return $feature;
+            }else{
+                return null;
+            }
         }
         
         public static function retrieveRandomPodcasts(){
             $randomPodcasts = FPodcast::randomPodcasts();
-            return $randomPodcasts;
+            if ($randomPodcasts){
+                return $randomPodcasts;
+            }else{
+                return null;
+            }
+        }
+
+        public static function retrieveMyPodcasts($user_id){
+            $myPodcasts = FPodcast::myPodcasts($user_id);
+            if ($myPodcasts){
+                return $myPodcasts;
+            }else{
+                return null;
+            }
         }
 
         //-------------------------------------CATEGORIE-----------------------------------------------------
         public static function retrieveCategories(){ 
             $categories = FPodcast::allCategories();
-            return $categories;
-        }
-
-        
-
-        
-        
+            if ($categories){
+                return $categories;
+            }else{
+                return null;
+            }
+        }   
 }
 
             
