@@ -1,32 +1,32 @@
 
 
 //PARTE PLAYER
-// Select all the elements in the HTML page
-// and assign them to a variable
 
-let playpause_btn = document.querySelector(".playpause-track");
-let seek_slider = document.querySelector(".seek_slider");
-let volume_slider = document.querySelector(".volume_slider");
-let curr_time = document.querySelector(".current-time");
-let total_duration = document.querySelector(".total-duration");
+// Selezione degli elementi nella pagina HTML e assegnazione a una variabile
 
-// Specify globally used values
+let playpause_btn = document.querySelector(".playpause-track"); // riferimento al bottone playpause
+let seek_slider = document.querySelector(".seek_slider"); // riferimento allo slider del minutaggio
+let volume_slider = document.querySelector(".volume_slider"); // riferimento allo slider del volume
+let curr_time = document.querySelector(".current-time"); // riferimento al minutaggio attuale
+let total_duration = document.querySelector(".total-duration"); // riferimento alla durata effettiva
+
+// Specifica valori globali
 let isPlaying = false;
 let updateTimer;
 
-// Create the audio element for the player
+// Creazione dell'elemento audio nell'html per il player
 let curr_track = document.createElement('audio');
 
 // Funzione per caricare e riprodurre la traccia audio dal backend
-function loadAndPlayAudioTrack(episodeId) {
-  fetch('/api/listenAudio/' + episodeId)
-      .then(response => {
+function loadAudioTrack(episode_id) {
+  fetch('/Jampod/Episode/listenEpisode' + episode_id) // richiesta http
+      .then(response => { // gestione della risposta
           if (!response.ok) {
               throw new Error('Errore nel caricamento della traccia audio');
           }
           return response.blob();
       })
-      .then(blobData => {
+      .then(blobData => { // ricezione dei dati blob
           // Carica la traccia audio nel player
           loadTrackFromBlob(blobData);
       })
@@ -35,30 +35,38 @@ function loadAndPlayAudioTrack(episodeId) {
       });
 }
 
-// Funzione per caricare la traccia audio dal blob
+// Funzione per caricare una traccia audio dalla forma blob
 function loadTrackFromBlob(blobData) {
-  // Crea un URL oggetto per il blob
+  // Creazione di un URL temporaneo che rappresenta il contenuto del blob. 
   let blobUrl = URL.createObjectURL(blobData);
 
-  // Imposta la traccia audio corrente nel player
+  // L' URL è utilizzato come src per l'elemento <audio> (curr_track), il che consente di caricare la traccia audio nel player.
   curr_track.src = blobUrl;
   curr_track.load();
-
-
+  
+  // Aggiorna la durata totale della traccia quando viene caricata
+  curr_track.addEventListener('loadedmetadata', () => {
+    let durationMinutes = Math.floor(curr_track.duration / 60);
+    let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
+    if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
+    if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
+    total_duration.textContent = durationMinutes + ":" + durationSeconds;
+  });
 }
 
-
-
-// Function to reset all values to their default
+// Reset ai valori di default 
 function resetValues() {
   curr_time.textContent = "00:00";
   total_duration.textContent = "00:00";
   seek_slider.value = 0;
 }
 
-// Function to play or pause the track
-function playpauseTrack() {
+// Play/pause track
+function playpauseTrack(element) {
+  let episodeId = element.getAttribute('data-episode-id');
+  
   if (!isPlaying) {
+      loadAudioTrack(episodeId); // Carica e riproduce la traccia audio
       playTrack();
   } else {
       pauseTrack();
@@ -70,8 +78,10 @@ function playTrack() {
   curr_track.play();
   isPlaying = true;
  
-  // Replace icon with the pause icon
+  // Sostituisce l'icona con l'icona pause
   playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
+
+  
 }
 
 function pauseTrack() {
@@ -81,6 +91,9 @@ function pauseTrack() {
  
   // Replace icon with the play icon
   playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
+
+  // Interrompe l'aggiornamento della posizione del seek slider e del tempo trascorso
+  clearInterval(updateTimer);
 }
 
 function seekTo() {
@@ -120,6 +133,9 @@ function seekUpdate() {
       total_duration.textContent = durationMinutes + ":" + durationSeconds;
   }
 }
+// Aggiorna continuamente il seek slider e il tempo trascorso durante la riproduzione
+curr_track.addEventListener('timeupdate', seekUpdate);
+
 
 
 

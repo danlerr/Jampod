@@ -7,23 +7,23 @@ class EPodcast{
     /**
     * @var int|null $podcast_id The ID of the podcast. Auto-incremented by the database.
     */
-    private int $podcast_id;
+    private  $podcast_id;
 
-    private string $podcast_name;
+    private  $podcast_name;
 
-    private string $podcast_description;
+    private  $podcast_description;
 
-    private string $category;
+    private  $category;
 
-    private int $user_id;
+    private  $user_id;
 
-    private int $subcribe_counter;
+    private  $subcribe_counter;
 
-    private string $image_mimetype;
+    private  $image_mimetype;
 
     private $image_data;
 
-    private DateTime $podcast_creationtime;
+    private  $podcast_creationtime;
 
     //constructor
 
@@ -162,11 +162,11 @@ class EPodcast{
         return $this->image_data;
     }
 
-    public function setImageData(string $image_data) {
+    public function setImageData($image_data) {
         $this->image_data = $image_data;
     }
     
-    public function setImageMimetype(string $image_mimetype) {
+    public function setImageMimetype( $image_mimetype) {
         $this->image_mimetype = $image_mimetype;
     }
     

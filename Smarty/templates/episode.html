@@ -45,6 +45,8 @@
 						 <div class="buttons">
 						   
 						   <div class="playpause-track" onclick="playpauseTrack()">
+							<div class="playpause-track" data-episode-id={$episode_id} onclick="playpauseTrack(this)"> <!-- this si riferisce all'elemento html playpause-->
+
 							 <i class="fa fa-play-circle fa-5x text-dark "></i>
 						   </div>
 						   
@@ -87,10 +89,10 @@
 					</span>
 				</button>
 			</div>
-			<div class="col ">
+			<div class="col">
 				<div class="d-flex justify-content-center align-items-center mt-2">
 					<form action="DA SELEZIONARE" method="post" class="comment-form">
-						<select id="rating-default" class="form-select" name="rating">
+						<select id="rating-default" class="form-select" name="rating" style="display:none;">
 							<option value="">Select a rating</option>
 							<option value="5">Excellent</option>
 							<option value="4">Very Good</option>
@@ -98,12 +100,13 @@
 							<option value="2">Poor</option>
 							<option value="1">Terrible</option>
 						</select>
+						<button type="submit" style="display:none;">Submit</button>
 					</form>
-          <h3 class="h6 mb-0" style="margin-top: 0px;">{$avgVote}</h3>
-
+					<h3 class="h6 mb-0" style="margin-top: 0px;">{$avgVote}</h3>
 				</div>
-				
 			</div>
+			<input type="hidden" id="user-rating" value="{$votevalue|default:0}">
+
 			<div class="col d-flex justify-content-start align-items-center" >
 				<a href="donation.html" class="link-secondary">
 					<img class="currency-icon  mt-2 " src="/Smarty/images/currency-dollar.svg" alt="Currency Dollar Icon">
@@ -210,28 +213,36 @@
 
  <!-- Script per lo star rating JS.  StarRating è inizializzato sul selettore #rating-default, che è il <select> HTML nel form. -->
 	<script>
-		// @formatter:off
 		document.addEventListener("DOMContentLoaded", function () {
-		
-		  const rating = new StarRating('#rating-default', {  
+			const userRating = document.getElementById('user-rating').value;
+			const ratingSelect = document.getElementById('rating-default');
+	
+			// Imposta il valore del selettore in base al valore del voto dell'utente
+			if (userRating) {
+				ratingSelect.value = userRating;
+			}
+	
+			// Inizializza il sistema di stelle
+			const rating = new StarRating('#rating-default', {
 				tooltip: false, 
 				clearable: false,
 				stars: function (el, item, index) {
-					 el.innerHTML = `<!-- Download SVG icon from http://tabler-icons.io/i/star-filled --><svg xmlns="http://www.w3.org/2000/svg" class="icon gl-star-full icon-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" stroke-width="0" fill="currentColor" /></svg>`;
+					el.innerHTML = `<!-- Download SVG icon from http://tabler-icons.io/i/star-filled --><svg xmlns="http://www.w3.org/2000/svg" class="icon gl-star-full icon-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" stroke-width="0" fill="currentColor" /></svg>`;
 				},
-			 })
-		})
-		// @formatter:on
-	  </script>
-	   <!-- Parte per far arrivare dal click di una stella il rating al server  -->
+			});
 	
-	  <script>
-		document.addEventListener("DOMContentLoaded", function () {
-			const ratingSelect = document.getElementById('rating-default');
+			// Colora le stelle in base al valore del selettore
+			if (userRating > 0) {
+				rating.setRating(userRating);
+			} else {
+				rating.setRating(0); // Assicura che le stelle siano vuote se il voto è 0
+			}
+	
+			// Aggiungi il listener per il click sulle stelle
 			const stars = document.querySelectorAll('.gl-star-full');
-	
 			stars.forEach((star, index) => {
-				star.addEventListener('click', function () {
+				star.addEventListener('click', function (event) {
+					event.preventDefault();  // Previene il comportamento predefinito del click
 					const value = stars.length - index;
 					ratingSelect.value = value;
 					// Simulazione di submit del form quando l'utente clicca sulla stella
@@ -240,3 +251,5 @@
 			});
 		});
 	</script>
+	
+	  

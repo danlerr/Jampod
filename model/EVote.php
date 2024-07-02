@@ -62,7 +62,7 @@ class EVote {
      * 
      * @return $value
      */
-    public function setValue(int $value){
+    public function setValue( $value){
             if ($value >= 1 && $value <= 5) {
                 $this->value = $value;
             } else {

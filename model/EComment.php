@@ -28,7 +28,7 @@ class EComment{
      * data e ora in cui è avvenuto il commento
      * @AttributeType Datetime
      */
-    private Datetime $comment_time;
+    private  $comment_time;
 
     /**
      * utente che ha effettuato il commento
@@ -147,7 +147,7 @@ class EComment{
         $this->comment_time = new DateTime("now");
     }
 
-    public function setCommentCreationTime(DateTime $commentTime){
+    public function setCommentCreationTime( $commentTime){
         $this->comment_time = $commentTime;
     }
     

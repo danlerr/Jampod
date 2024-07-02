@@ -5,11 +5,11 @@ class EUser {
     /**
     * @var int|null $user_id The ID of the user. Auto-incremented by the database.
     */
-    private string $username; 
-    private string $email; 
-    private string $password; 
-    private int $user_id;
-    private  float $balance;
+    private  $username; 
+    private  $email; 
+    private  $password; 
+    private  $user_id;
+    private   $balance;
     private $is_admin = false;
     protected $ban = false;
 

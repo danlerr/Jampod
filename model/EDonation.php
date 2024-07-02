@@ -53,7 +53,7 @@ class EDonation{
      * data e ora in cui è avvenuto il commento
      * @AttributeType Datetime
      */
-    private Datetime $time;
+    private  $time;
 
     // CONSTRUCTOR
     public function __construct($amount,$text,$sender_id,$recipient_id) {
