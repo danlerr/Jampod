@@ -54,7 +54,7 @@
                 <!-- Copertina del podcast -->
                 <div class="podcast-cover">
                     <a href="#" class="d-block aspect-ratio-1x1">
-                        <img src="data:{$mimetype};base64,{$imagedata}"" alt="Copertina podcast">
+                        <img src="data:{$mimetype};base64,{$imagedata}" alt="Copertina podcast">
                     </a>
                 </div>
 
@@ -67,33 +67,18 @@
                                 <div class="list-group-item">
                                     <div class="row g-2 align-items-center">
                                         <div class="col-auto fs-3">
-                                            {$episode.episode_number}
+                                            {$episode->getEpisode_title()}
                                         </div>
                                         <div class="col-auto">
-                                            <img src="{$episode.image}" class="rounded" alt="{$episode.title}" width="40" height="40">
+                                            <img src="data:{$episode->getImageMimeType()};base64,{$episode->getImageData()}" class="rounded" alt="{$episode.title}" width="40" height="40">
                                         </div>
                                         <div class="col">
-                                            <a href="episodio{$episode.id}.html" style="text-decoration: none; color: inherit;">
-                                                {$episode.title}
+                                            <a href="Jampod/Episode/{$episode->getId()}" style="text-decoration: none; color: inherit;">
+                                                {$episode->getEpisode_title()}
                                             </a>
                                         </div>
                                         <div class="col-auto text-secondary">
-                                            {$episode.creationtime}
-                                        </div>
-                                        <div class="col-auto text-secondary">
-                                            {$episode.duration}
-                                        </div>
-                                        <div class="col-auto">
-                                            <a href="#" class="link-secondary">
-                                                <button class="switch-icon" data-bs-toggle="switch-icon">
-                                                    <span class="switch-icon-a text-muted">
-                                                        <img src="/Smarty/images/bookmark.svg" alt="Bookmark Icon">
-                                                    </span>
-                                                    <span class="switch-icon-b text-red">
-                                                        <img src="/Smarty/images/bookmark-filled.svg" alt="Bookmark Icon">
-                                                    </span>
-                                                </button>
-                                            </a>
+                                            {$episode->getEpisode_creationtime}
                                         </div>
                                         <div class="col-auto lh-1">
                                             <div class="dropdown">
@@ -124,12 +109,12 @@
             <div class="col-lg-8">
                 <div class="mt-3 d-flex justify-content-center">
                     {if $userRole == 'creator'}
-                        <a href="creazioneEpisodio.html" class="btn btn-primary">Crea un nuovo episodio</a>
+                        <a href="Jampod/Episode/...." class="btn btn-primary">Crea un nuovo episodio</a>
                     {else}
                         {if $sub == false}
-                            <a href="iscrizionePodcast.html" class="btn btn-primary">Iscriviti al podcast</a>
+                            <a href="......" class="btn btn-primary">Iscriviti al podcast</a>
                         {else}
-                            <a href="iscrizionePodcast.html" class="btn btn-primary">Iscritto</a>
+                            <a href="......" class="btn btn-primary">Iscritto</a>
                         {/if}
                     {/if}
                 </div>

@@ -47,5 +47,9 @@
 
         // }
 
-        public function showForm(){}
+        public function showForm($categories){
+
+            $this->smarty->assign('categories', $categories);
+            $this->smarty->display('Smarty/templates/createPodcast.tpl');
+        }
     }

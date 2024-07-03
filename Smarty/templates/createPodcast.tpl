@@ -26,13 +26,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="categorySelect" class="form-label">Categoria</label>
-                        <select name='podcast_category' class="form-select" id="categorySelect" aria-label="Seleziona una categoria">
+                        <select name="podcast_category" class="form-select" id="categorySelect" aria-label="Seleziona una categoria">
                             <option selected>Seleziona una categoria</option>
-                            <option value="1">Tecnologia</option>
-                            <option value="2">Scienza</option>
-                            <option value="3">Arte</option>
-                            <option value="4">Sport</option>
-                            <option value="5">Musica</option>
+                            {foreach $categories as $category}
+                                <option>{$category.category_name}</option>
+                            {/foreach}
                         </select>
                     </div>
                 </div>

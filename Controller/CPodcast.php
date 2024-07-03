@@ -204,7 +204,11 @@
         }
 
         public function creationForm(){
-            
+            if (Cuser::isLogged()){
+                $view = new VPodcast;
+                $categories = FPersistentManager::getInstance()->retrieveCategories(); //prendo le categorie per passarle al form 
+                $view->showForm($categories);
+            }
         }
     }
     
