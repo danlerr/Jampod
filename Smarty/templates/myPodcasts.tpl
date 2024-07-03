@@ -25,7 +25,7 @@
                     <div class="col">
                         <div class="card">
                             <a href="podcast.php?id={$podcast.id}" class="d-block aspect-ratio-1x1">
-                                <img src="{podcast_(/.)imageeeeeeeeeeeeeeeeeeeeeeee}" class="card-img-top" alt="...">  !!!!!!
+                                <img src="{podcast.image}" class="card-img-top" alt="...">  
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">{$podcast.title}</h5>

@@ -19,21 +19,21 @@
                     $podcast->setImageData(CFile::getImageInfo()['imagedata']);
                     $podcast->setImageMimetype(CFile::getImageInfo()['imagemimetype']);
                 }else{
-                    //$view->showNotFound();
+                    $view->showError("Problemi con il caricamento dell'immagine di copertina :(");
                 }
 
                 $result = FPersistentManager::getInstance()->createObj($podcast);
 
-                $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast->getId());
+                $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast->getId()); //forse non serve, quando viene creato un podcast non ha episodi 
 
                 $userRole ='creator';
 
                 $success = 'true';
 
                 if($result){
-                    $view->showPodcastPage($podcast, $imageInfo, $episodes, "Podcast creato con successo!", $userRole, $success);
+                    $view->showPodcastPage($podcast, $imageInfo, $episodes, $userRole, "Podcast creato con successo! :)", $success);
                 }else{
-                    //$view->showNotFound();
+                    $view->showError('Impossibile creare il podcast :('); 
                 }
             }
         }
@@ -63,7 +63,7 @@
                         $view->showMyPodcastPage($myPodcasts, $success, $textalert);
                     }
                 }else{
-                    $view->showError('Impossibile eliminare il podcast');
+                    $view->showError('Registrati :/');
                 }
             }
         }
@@ -91,7 +91,7 @@
                     }
                     
                 }else{
-                    $view->showError('impossibile trovare il podcast');
+                    $view->showError('impossibile trovare il podcast :(');
                 }
             }
         }
@@ -150,13 +150,13 @@
                             self::visitPodcast($podcast_id);
                         } else {
                             $success = false;
-                            $view->showPodcastError($podcast, $image, $episodes, "Errore durante l'iscrizione al podcast", $userRole, $success);
+                            $view->showPodcastError($podcast, $image, $episodes, "Errore durante l'iscrizione al podcast :(", $userRole, $success);
                         }
                     } else {
                         self::visitPodcast($podcast_id); // Se l'utente è già iscritto, semplicemente mostra il podcast
                     }
                 } else {
-                    $view->showError("impossibile effettuare l'iscrizione al podcast");
+                    $view->showError("impossibile effettuare l'iscrizione al podcast :(");
                 }
             }
         }
@@ -201,6 +201,10 @@
                 $myPodcast = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
                 $view->showMyPodcastPage($myPodcast);
             }
+        }
+
+        public function creationForm(){
+            
         }
     }
     

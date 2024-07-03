@@ -9,7 +9,7 @@
     
         }
 
-        public function showPodcastPage($podcast, $imageInfo, $episodes, $textalert = null, $userRole, $sub = null, $success = null){
+        public function showPodcastPage($podcast, $imageInfo, $episodes, $userRole, $textalert = null, $sub = null, $success = null){
 
             $this->smarty->assign('podcast_name', $podcast->getPodcastName);
             $this->smarty->assign('podcast_description', $podcast->getPodcastDescription);
@@ -27,8 +27,8 @@
         }
 
         //metodo per mostrare modifiche/errori tramite alert nella pagina del podcast 
-        public function showPodcastError($podcast, $imageInfo,$episodes, $textalert = null, $userRole, $sub = null, $success = null){
-            self::showPodcastPage($podcast, $imageInfo,$episodes, $textalert = null, $userRole, $sub = null, $success = null);
+        public function showPodcastError($podcast, $imageInfo,$episodes, $userRole, $textalert = null, $sub = null, $success = null){
+            self::showPodcastPage($podcast, $imageInfo,$episodes, $userRole, $textalert = null, $sub = null, $success = null);
         } 
 
         public function showMyPodcastPage($myPodcasts, $success = null, $textalert = null){
@@ -46,4 +46,6 @@
         // public function showEditSuccess(){
 
         // }
+
+        public function showForm(){}
     }
