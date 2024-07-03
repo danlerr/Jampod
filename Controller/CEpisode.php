@@ -7,42 +7,45 @@ public static function uploadEpisode($podcast_id)
     if (CUser::isLogged()) {
         $view = new VPodcast();
         $userId = USession::getInstance()->getSessionElement('user');
-        $episode = new EEpisode(
-            UHTTPMethods::post('title'),
-            UHTTPMethods::post('description'),
-            $podcast_id
-        );
         $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
-        $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
-        $userRole ='creator';
-        $podcastimage = [$podcast->getImageMimeType(), $podcast->getEncodedImageData()];
+        $check = FPersistentManager::getInstance()->checkUser((array)$podcast, $userId); // Controllo che chi sta facendo l'upload dell'episodio sia il creatore del podcast
 
-        // Get audio info
-        $audioInfo = CFile::getAudioInfo();
-        if ($audioInfo) {
-            $episode->setAudioData($audioInfo['audiodata']);
-            $episode->setAudioMimetype($audioInfo['audiomimetype']);
-        } else { 
+        if ($check) {
+            $episode = new EEpisode(
+                UHTTPMethods::post('title'),
+                UHTTPMethods::post('description'),
+                $podcast_id
+            );
+            $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
+            $userRole ='creator';
+            $podcastimage = [$podcast->getImageMimeType(), $podcast->getEncodedImageData()];
+
+            // Get audio info
+            $audioInfo = CFile::getAudioInfo();
+            if ($audioInfo) {
+                $episode->setAudioData($audioInfo['audiodata']);
+                $episode->setAudioMimetype($audioInfo['audiomimetype']);
+            } else { 
                 $view->showError("Errore durante il caricamento dell'audio");
                 return;
             }
-        // Get image info
-        $imageInfo = CFile::getImageInfo();
-        if ($imageInfo) {
-            $episode->setImageData($imageInfo['imagedata']);
-            $episode->setImageMimetype($imageInfo['imagemimetype']);
-        } else {
+
+            // Get image info
+            $imageInfo = CFile::getImageInfo();
+            if ($imageInfo) {
+                $episode->setImageData($imageInfo['imagedata']);
+                $episode->setImageMimetype($imageInfo['imagemimetype']);
+            } else {
                 $view->showError("Errore durante il caricamento dell'immagine");
                 return;
             }
-        // Create in db
-        $check = FPersistentManager::getInstance()->checkUser((array)$podcast, $userId); // Controllo che chi sta facendo l'upload dell'episodio sia il creatore del podcast
-        
-        if ($check) {
-            $result = FPersistentManager::getInstance()->createObj($episode);           
+
+            // Create in db
+            $result = FPersistentManager::getInstance()->createObj($episode);
+            
             if ($result) {         
                 $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast 
-                $view->showPodcastPage($podcast,$podcastimage, $episodesupdated, "Episodio aggiunto con successo", $userRole, true); // Rimanda alla pagina del podcast con l'alert di conferma e l'episodio aggiunto
+                $view->showPodcastPage($podcast, $podcastimage, $episodesupdated, "Episodio aggiunto con successo", $userRole, true); // Rimanda alla pagina del podcast con l'alert di conferma e l'episodio aggiunto
             } else {      
                 $view->showPodcastError($podcast, $podcastimage, $episodesbefore, "Impossibile effettuare il caricamento dell'episodio", $userRole); // Rimanda alla pagina del podcast con l'alert di errore aggiunta
             }
@@ -50,31 +53,34 @@ public static function uploadEpisode($podcast_id)
     }
 }
 
+
 //metodo per cancellare un episodio
-public static function deleteEpisode($episode_id) {
+public static function deleteEpisode($episode_id)
+{
     if (CUser::isLogged()) {
         $view = new VPodcast();
         $userId = USession::getInstance()->getSessionElement('user');
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
-        $podcast_id = $episode->getPodcastId();
-        $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
-        $podcastimage = [$podcast->getImageMimeType(), $podcast->getEncodedImageData()];
-        $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
-
         $check = FPersistentManager::getInstance()->checkUser((array)$episode, $userId); // Controllo che il creatore dell'episodio sia lo stesso che lo sta eliminando
+        
         if ($check) {
+            $podcast_id = $episode->getPodcastId();
+            $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+            $podcastimage = [$podcast->getImageMimeType(), $podcast->getEncodedImageData()];
+            $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
+            
             $result = FPersistentManager::getInstance()->deleteObj($episode); 
             
             if ($result) {
                 $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast       
-                $view->showPodcastPage($podcast,$podcastimage, $episodesupdated, 'Episodio eliminato correttamente', 'creator', true);
+                $view->showPodcastPage($podcast, $podcastimage, $episodesupdated, 'Episodio eliminato correttamente', 'creator', true);
             } else {
-                $view->showPodcastError($podcast,$podcastimage, $episodesbefore, "Impossibile eliminare l'episodio", 'creator');
-
+                $view->showPodcastError($podcast, $podcastimage, $episodesbefore, "Impossibile eliminare l'episodio", 'creator');
             }
         } 
     } 
 }
+
 
 public static function visitEpisode($episode_id) {
     if (CUser::isLogged()) {
@@ -95,7 +101,7 @@ public static function visitEpisode($episode_id) {
             $episodeimage = [$episode->getImageMimeType(), $episode->getEncodedImageData()];
             $comments = FPersistentManager::getInstance()->retrieveCommentsOnEpisode($episode_id); // Array di commenti
             $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-            $view->showEpisodePage($episode,$podcast_title, $usernamecreator,  $comments,$votevalue, $avgVote, $episodeimage); // Passa l'episodio, commenti ,voto medio e immagine alla vista
+            $view->showEpisodePage($episode,$podcast_title, $usernamecreator, $comments, $votevalue, $avgVote, $episodeimage); // Passa l'episodio, commenti ,voto medio e immagine alla vista
         } else {
             $view->showError("Impossibile trovare l'episodio");
         }

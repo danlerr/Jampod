@@ -9,8 +9,9 @@
     
         }
     
-        public function show404($string){
-            $this->smarty->assign('string',$string);
+        public function show404(){
+            $this->smarty -> display('Smarty/templates/404.tpl');
+            
         }
 
         public function showHome($featuredPodcasts, $categories, $newPodcasts, $recommendedPodcasts){

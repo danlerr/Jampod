@@ -1,12 +1,12 @@
 
-{include file="header.tpl" }
+{include file="Smarty/templates/header.tpl" }
 	   <!-- episode -->
 		<!--alert-->
 	{if isset($textalert) && $textalert}
         {if $success}
-            {include file="successAlert.tpl"}
+            {include file="Smarty/templates/successAlert.tpl"}
         {else}
-            {include file="failAlert.tpl"}
+            {include file="Smarty/templates/failAlert.tpl"}
         {/if}
     {/if}
 
@@ -28,24 +28,15 @@
           
 					<h3 class="h4 mb-2">{$episode_title}</h3> <!-- max 38 caratteri -->
         
-					<div class="svg-container text-center">
-						<!-- Replace 'image.svg' with your SVG image file -->
-						<img src="/Smarty/images/headphones.svg" alt="SVG Image" style="max-width: 50px; vertical-align: middle;">
-						<!-- Replace 'Your Number' with your chosen number -->
-						<span class="ml-2 h6" style="vertical-align: middle;">{$episode_streams}</span>
-					</div>
-					
 					<!-- Autore -->
 					<small class="text-muted">{$usernamecreator}</small>
 					 <div class="player">
-		  
-			 
 		  
 						 <!-- Define the section for displaying track buttons -->
 						 <div class="buttons">
 						   
 						   <div class="playpause-track" onclick="playpauseTrack()">
-							<div class="playpause-track" data-episode-id={$episode_id} onclick="playpauseTrack(this)"> <!-- this si riferisce all'elemento html playpause-->
+							<div class="playpause-track" data-episode-id= {$episode_id} onclick="playpauseTrack(this)"> <!-- this si riferisce all'elemento html playpause-->
 
 							 <i class="fa fa-play-circle fa-5x text-dark "></i>
 						   </div>
@@ -79,15 +70,12 @@
 	 <div class="container">
 		<div class="row text-center">
 			<div class="col  d-flex justify-content-end align-items-center  ">
-				<button class="switch-icon " data-bs-toggle="switch-icon">
-					<span class="switch-icon-a text-muted ">
-						<img src="/Smarty/images/bookmark.svg" alt="Bookmark Icon" class="mt-1 ">
-
-					</span>
-					<span class="switch-icon-b text-red ">
-						<img  src="/Smarty/images/bookmark-filled.svg" alt="Bookmark Icon" class="mt-1">
-					</span>
-				</button>
+				<div class="svg-container text-center mt-2">
+					<!-- Replace 'image.svg' with your SVG image file -->
+					<img src="/Smarty/images/headphones.svg" alt="SVG Image" style="max-width: 50px; vertical-align: bottom;">
+					<!-- Replace 'Your Number' with your chosen number -->
+					<span class="ml-2 h6" style="vertical-align: bottom;">{$episode_streams}</span>
+				</div>
 			</div>
 			<div class="col">
 				<div class="d-flex justify-content-center align-items-center mt-2">
@@ -156,7 +144,6 @@
 								<textarea class="form-control"   style = "resize: none;"  id="comment" rows="3" required></textarea>
 								<!-- fine form per pubblicare un commento -->
 							</div>
-	
 							<div class="col-12">
 								<div class="d-grid">
 									<button class="btn btn-dark btn-lg" type="submit">Post Comment</button>
@@ -169,38 +156,37 @@
 		</div>
 	
 		<!-- Box che mostra il commento -->
-		<div class="container mt-4"> 
-			<div class="row d-flex justify-content-center">
-				<div class="col-md-8">
-					<!-- Card commento -->
-					<div class="container">
-						<div id="comment-container" class="comment-container"> <!-- Id del comment container passato a js -->
-							<div class="all-comment">
-								{foreach from=$comments item=comment}
-								<div class="card p-2">
-									<div class="d-flex justify-content-between align-items-start">
-										<div class="user d-flex flex-column">
-											<span>
-												<small class="fw-bold text-primary">{$comment->getcommentUsername()}</small>
-											</span>
-											<span class="comment-text">
-												<small class="fw-bold">{$comment->getCommentText()}</small>
-											</span>
-											<small class="ml-auto">{$comment->getCommentTime()}</small>
-										</div>
-										<div class="reply px-0">
-											<a href="#" class="btn btn-outline-success reply">Reply</a>
-										</div>
-									</div>
+<div class="container mt-4"> 
+	<div class="row d-flex justify-content-center">
+		<div class="col-md-8">
+			<!-- Card commento -->
+			<div class="container">
+				<div id="comment-container" class="comment-container"> <!-- Id del comment container passato a js -->
+						{foreach from=$comments item=comment}
+						<div class="card p-2">
+							<div class="d-flex justify-content-between align-items-start">
+								<div class="user d-flex flex-column">
+									<span>
+										<small class="fw-bold text-primary">{$comment->getcommentUsername()}</small>
+									</span>
+									<span class="comment-text">
+										<small class="fw-bold">{$comment->getCommentText()}</small>
+									</span>
+									<small class="ml-auto">{$comment->getCommentTime()}</small>
 								</div>
-								{/foreach}
+								<div class="reply px-0">
+									<a href="#" class="btn btn-outline-success reply">Reply</a>
+								</div>
 							</div>
 						</div>
-					</div>
-					<!-- fine card commento -->
+						{/foreach}
 				</div>
 			</div>
+			<!-- fine card commento -->
 		</div>
+	</div>
+  </div>
+		
 		
 		
 	</section>
@@ -208,10 +194,10 @@
 
 
 
-{include file="footer.tpl"}
+{include file="Smarty/templates/footer.tpl"}
 
 
- <!-- Script per lo star rating JS.  StarRating è inizializzato sul selettore #rating-default, che è il <select> HTML nel form. -->
+ <!-- Script JS per lo star rating.  StarRating è inizializzato sul selettore #rating-default, che è il <select> HTML nel form. -->
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
 			const userRating = document.getElementById('user-rating').value;

@@ -44,9 +44,7 @@ body {
 .icons i {
     margin-left: 20px;
 }
-.all-comment:not(:first-child) {
-    margin-left: 4rem;
-}
+
 
 
 /* Stile per la risposta */

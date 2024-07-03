@@ -1,6 +1,6 @@
 
 
-//PARTE PLAYER
+//AUDIO PLAYER
 
 // Selezione degli elementi nella pagina HTML e assegnazione a una variabile
 
@@ -140,67 +140,54 @@ curr_track.addEventListener('timeupdate', seekUpdate);
 
 
 
-//PARTE COMMENTI
+
+// COMMENTS
 let commentContainer = document.getElementById("comment-container");
 
-function createInputBox() { 
-    let div = document.createElement("div"); 
+function createInputBox(commentUsername, commentText) {
+    // Rimuove eventuali form di risposta già esistenti 
+    let existingForm = document.querySelector(".comment-details"); 
+    if (existingForm) {
+        existingForm.remove();
+    }
 
-    div.setAttribute("class", "comment-details"); 
+    let div = document.createElement("div");
+    div.setAttribute("class", "comment-details mt-3"); // Imposta la classe della div
 
-    div.innerHTML += `<form action="da scegliere..." method="post" class="comment-form">
-                        <textarea class="form-control" style="resize: none;" name="comment" rows="3" required></textarea>
-                        <button type="submit" class="btn btn-outline-success submit mt-2">Post Reply</button>
-                      </form>`; 
-    return div; 
-} 
+    let prefix = `In risposta a @${commentUsername}: ${commentText}\n`;
 
-function addReply(text) { 
-    let div = document.createElement("div"); 
+    div.innerHTML += `
+        <form action="add_comment.php" method="post" class="comment-form">
+            <div class="form-group">
+                <div class="form-control-plaintext" style="white-space: pre-wrap;">${prefix}</div>
+                <textarea class="form-control" style="resize: none;" name="replyComment" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-success submit mt-2">Post Reply</button>
+        </form>`;
 
-    div.setAttribute("class", "all-comment"); 
-    
-    div.innerHTML += `<div class="card p-2"> 
-                      <div class="d-flex justify-content-between align-items-start">
-                          <div class="user d-flex flex-column">
-                          <span>
-												<small class="fw-bold text-primary">utentecherisponde</small>
-											    </span>
-                              <span class="comment-text">
-                                  <small class="fw-bold">${text}</small> 
-                              </span>
-                              <small class="ml-auto">Just now</small>
-                          </div>
-                          <div class="reply px-0">
-                              <a href="#" class="btn btn-outline-success reply">Reply</a>
-                          </div>
-                      </div>
-                  </div>`; 
-    return div; 
-} 
+    return div;
+}
 
-commentContainer.addEventListener("click", function (e) { 
+commentContainer.addEventListener("click", function (e) {
     e.preventDefault();  // Previene il comportamento predefinito
 
-    let replyClicked = e.target.classList.contains("reply"); 
-    let submitClicked = e.target.classList.contains("submit"); 
-    let closestCard = e.target.closest(".all-comment"); 
+    let replyClicked = e.target.classList.contains("reply"); //verifica che abbia la classe reply, cioè che sia il bottone reply
+    let closestCard = e.target.closest(".card"); //trova la card più vicina
 
-    if (replyClicked) { 
-        closestCard.appendChild(createInputBox()); 
-    } 
+    if (replyClicked) {
+        let commentUsername = closestCard.querySelector('.text-primary').innerText;
+        let commentText = closestCard.querySelector('.comment-text').innerText;
 
-    if (submitClicked) { 
-        const commentDetails = e.target.closest(".comment-details"); 
-        const commentForm = commentDetails.querySelector('.comment-form');
-        
-        // Invia il modulo al server
-        commentForm.submit();
-        
-        // Aggiungi il commento localmente
-        if (commentForm.children[0].value) { 
-            closestCard.appendChild(addReply(commentForm.children[0].value)); 
-            commentDetails.remove(); 
-        }
-    } 
+        let inputBox = createInputBox(commentUsername, commentText);
+        closestCard.appendChild(inputBox);
+
+        // Combina il prefisso e il commento dell'utente prima del submit
+        let commentForm = inputBox.querySelector(".comment-form"); //seleziona il form di risposta appena creato
+        commentForm.addEventListener("submit", function () {
+            let userComment = commentForm.querySelector('textarea[name="replyComment"]').value;
+            commentForm.querySelector('textarea[name="replyComment"]').value = `In risposta a @${commentUsername}: ${commentText}\n` + userComment;
+            //Nel server accedo alla reply con  $_POST['replyComment'].
+        });
+    }
 });
+

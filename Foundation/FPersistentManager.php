@@ -138,7 +138,7 @@
                 return $comments;
             }
             else {
-                return null;
+                return array();
             }
         }
         public static function getAudioTrack($episode_id) {
@@ -180,7 +180,7 @@
             if($podcasts!== null){
                 return $podcasts;
             }else{
-                return null;
+                return array();
             }
         }
 

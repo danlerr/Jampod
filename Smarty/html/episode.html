@@ -239,12 +239,7 @@
           
           <h3 class="h4 mb-2">Il crimine di Elisabetta </h3> <!-- max 38 caratteri -->
         
-          <div class="svg-container text-center">
-              <!-- Replace 'image.svg' with your SVG image file -->
-              <img src="/Smarty/images/headphones.svg" alt="SVG Image" style="max-width: 50px; vertical-align: middle;">
-              <!-- Replace 'Your Number' with your chosen number -->
-              <span class="ml-2 h6" style="vertical-align: middle;">822</span>
-          </div>
+          
           
           <!-- Autore -->
           <small class="text-muted">by leonpastorelli</small>
@@ -301,15 +296,12 @@
 	 <div class="container">
 		<div class="row text-center">
 			<div class="col  d-flex justify-content-end align-items-center  ">
-				<button class="switch-icon " data-bs-toggle="switch-icon">
-					<span class="switch-icon-a text-muted ">
-						<img src="/Smarty/images/bookmark.svg" alt="Bookmark Icon" class="mt-1 ">
-
-					</span>
-					<span class="switch-icon-b text-red ">
-						<img  src="/Smarty/images/bookmark-filled.svg" alt="Bookmark Icon" class="mt-1">
-					</span>
-				</button>
+				<div class="svg-container text-center mt-2">
+          <!-- Replace 'image.svg' with your SVG image file -->
+          <img src="/Smarty/images/headphones.svg" alt="SVG Image" style="max-width: 50px; vertical-align: bottom;">
+          <!-- Replace 'Your Number' with your chosen number -->
+          <span class="ml-2 h6" style="vertical-align: bottom;">822</span>
+      </div>
 			</div>
 			<div class="col">
         <div class="d-flex justify-content-center align-items-center mt-2">
@@ -388,39 +380,40 @@
 			</div>
 		</div>
 	
-		<!-- Box che mostra il commento -->
-		<div class="container mt-4"> <!-- Aggiunto margine top per separare il form dal box dei commenti -->
-			<div class="row d-flex justify-content-center">
-				<div class="col-md-8">
-					<!-- Card commento -->
-					<div class="container">
-						<div id="comment-container" class="comment-container">
-							<div class="all-comment">
-								<div class="card p-2">
-									<div class="d-flex justify-content-between align-items-start">
-										<div class="user d-flex flex-column">
-											<span>
-												<small class="fw-bold text-primary">leonpastorelli</small>
-											</span>
-											<span class="comment-text">
-												<small class="fw-bold">Bellissimo episodio</small>
-											</span>
-											<small class="ml-auto">2 days ago</small>
-										</div>
-										<div class="reply px-0">
-											<a href="#" class="btn btn-outline-success reply">Reply</a>
-										</div>
-									</div>
-								</div>
-                
-							</div>
-							<!-- Aggiungi ulteriori commenti qui -->
-						</div>
-					</div>
-					<!-- fine card commento -->
-				</div>
-			</div>
-		</div>
+	<!-- Box che mostra il commento -->
+<div class="container mt-4"> 
+  <div class="row d-flex justify-content-center">
+      <div class="col-md-8">
+          <!-- Card commento -->
+          <div class="container">
+              <div id="comment-container" class="comment-container"> <!-- Id del comment container passato a js -->
+                      {foreach from=$comments item=comment}
+                      <div class="card p-2">
+                          <div class="d-flex justify-content-between align-items-start">
+                              <div class="user d-flex flex-column">
+                                  <span>
+                                      <small class="fw-bold text-primary">{$comment->getcommentUsername()}</small>
+                                  </span>
+                                  <span class="comment-text">
+                                      <small class="fw-bold">{$comment->getCommentText()}</small>
+                                  </span>
+                                  <small class="ml-auto">{$comment->getCommentTime()}</small>
+                              </div>
+                              <div class="reply px-0">
+                                  <a href="#" class="btn btn-outline-success reply">Reply</a>
+                              </div>
+                          </div>
+                      </div>
+                      {/foreach}
+              </div>
+          </div>
+          <!-- fine card commento -->
+      </div>
+  </div>
+</div>
+
+  
+
     
     
     
