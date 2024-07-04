@@ -246,12 +246,19 @@
         //-------------------------------------DONATION-----------------------------------------------------
         public static function retrieveDonationsReceived($userId){ //metodo che a partire dall' userId restituisce 
             $donations=FDonation::retrieveDonationsReceived($userId);     //tutte le donazioni fatte a quell'utente
-            return $donations;
+            return is_array($donations) ? $donations : []; //per assicurarmi che ritorni un array
+            
         }
 
         public static function retrieveDonationsMade($userId){ //metodo che a partire dall' userId restituisce 
             $donations=FDonation::retrieveDonationsMade($userId);     // tutte le donazioni fatte da quell'utente
-            return $donations;
+            return is_array($donations) ? $donations : [];   //per assicurarmi che ritorni un array
+        }
+
+        //-------------------------------------CREDIT CARD-----------------------------------------------------
+        public static function retrieveUserCreditCards($userId){ //metodo che a partire dall' userId restituisce 
+            $creditCards=FCreditCard::retrieveOwnedCreditCards($userId); //tutte le carte di credito di quell'utente
+            return $creditCards;
         }
 }
 

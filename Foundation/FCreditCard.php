@@ -87,6 +87,17 @@ class FCreditCard{
     
     }
 
+    public static function retrieveOwnedCreditCards($userId){
+        $result=FDataBase::getInstance()->retrieve(self::getTable(),'user_id',$userId);
+        if(count($result) > 0){
+            $creditCards = self::createEntity($result);
+            return $creditCards;
+        }else{
+            return null;
+        }
+
+    }
+
 }
 
 
