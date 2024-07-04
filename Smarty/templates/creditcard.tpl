@@ -1,5 +1,12 @@
 
 {include file="Smarty/templates/header.tpl"}
+{if isset($textalert) && $textalert}
+        {if $success}
+            {include file="Smarty/templates/successAlert.tpl "  textalert=$textalert}
+        {else}
+            {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
+        {/if}
+    {/if}
 
 <div class="page-wrapper">
   <!-- Page header -->
@@ -8,7 +15,7 @@
       <div class="row g-2 align-items-center">
         <div class="col">
           <h2 class="page-title">
-            Account Settings
+            Impostazioni account
           </h2>
         </div>
       </div>
@@ -22,14 +29,14 @@
           <div class="col-12 col-md-3 border-end">
             <div class="card-body">
               <div class="list-group list-group-transparent">
-                <a href="./settings.html" class="list-group-item list-group-item-action d-flex align-items-center">My Account</a>
-                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center active">My Credit Cards</a>
+                <a href="./settings.html" class="list-group-item list-group-item-action d-flex align-items-center">Il mio account</a>
+                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center active">Carte di credito</a>
               </div>
             </div>
           </div>
           <div class="col-12 col-md-9 d-flex flex-column">
             <div class="card-body">
-              <h2 class="mb-4">My credit cards</h2>
+              <h2 class="mb-4">Carte di credito</h2>
 
               <div class="payment-card mt-5 d-flex justify-content-between align-items-center mb-5">
                 <div class="card-details d-flex flex-row align-items-center">
@@ -52,7 +59,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <form>
+                    <form action="/Jampod/User/addCreditCard" method="post" >
                         <div class="mb-3">
                           <label for="numeroCarta" class="form-label">Numero Carta</label>
                           <input type="text" class="form-control" id="numeroCarta" placeholder="Inserisci numero carta">
@@ -86,7 +93,8 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <form>
+                  <form action="/Jampod/User/removeCreditCard" method="post" >
+
                         <div class="mb-3">
                           <label for="cartaSelezionataPrelievo" class="form-label">Seleziona Carta di Credito</label>
                           <select class="form-select" id="cartaSelezionataPrelievo">

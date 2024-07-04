@@ -31,13 +31,13 @@
 </style>
 
 <!--alert-->
-    {if isset($textalert) && $textalert}
-        {if $success}
-            {include file="Smarty/templates/successAlert.tpl"}
-        {else}
-            {include file="Smarty/templates/failAlert.tpl"}
-        {/if}
-    {/if}
+{if isset($textalert) && $textalert}
+{if $success}
+    {include file="Smarty/templates/successAlert.tpl "  textalert=$textalert}
+{else}
+    {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
+{/if}
+{/if}
 
 <!--podcast-->
 	  <div class="page-body">

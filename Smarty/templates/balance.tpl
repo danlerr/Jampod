@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="movimenti-section bg-white p-4 rounded shadow-sm">
-            <h2>Movimenti Precedenti</h2>
+            <h2>Storico delle donazioni</h2>
             <table class="table table-striped mt-3">
                 <thead>
                     <tr>

@@ -12,7 +12,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Settings - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
+    <title>Jampod</title>
     <!-- CSS files -->
     <link href="/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
     <link href="/Smarty/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
@@ -91,10 +91,48 @@
                     </div>
                     <h3 class="card-title mt-4">Password</h3>
                     <div>
-                      <a href="#" class="btn">
-                        Set new password
-                      </a>
+                      <button class="btn" data-bs-toggle="modal" data-bs-target="#setpasswordModal">Cambia password</button>
+
                     </div>
+
+                    <div class="modal fade" id="setpasswordModal" tabindex="-1" aria-labelledby="ricaricaModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                         <div class="modal-content">
+                          <div class="modal-header">
+                             <h5 class="modal-title" id="cambiapassword">Cambia password</h5>
+                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                 </div>
+                               <div class="modal-body">
+                                  <form>
+                                               
+                             <div class="mb-3">
+                                 <label for="vecchiapassword" class="form-label">Vecchia Password</label>
+                                 <input type="password" class="form-control" id="vecchiapassword" placeholder="Inserisci la vecchia password">
+                             </div>
+                             <div class="mb-3">
+                                 <label for="nuovapassword" class="form-label">Nuova Password</label>
+                                 <input type="password" class="form-control" id="nuovapassword" placeholder="Inserisci la nuova password">
+                             </div>
+                            
+                             <div class="text-end">
+                                 <button type="button" class="btn" id="confermamodificapassword">Conferma</button>
+                             </div>
+                         
+                     
+                 </form>
+             </div>
+         </div>
+     </div>
+ </div>
+
+
+
+
+
+
+
+
+
                   </div>
                   
                 </div>

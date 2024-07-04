@@ -235,4 +235,67 @@ class CUser{
                 }
             }
         }
+
+
+        //--------------------------------------------------CREDIT CARD-----------------------------------------------------------------------
+    
+     /**
+     * Adds a credit card taking info from the compiled form
+     * $userId Refers to the id of the user who owns the card
+     * 
+     */
+
+     public static function addCreditCard() { 
+        $userId = USession::getInstance()->getSessionElement('user');
+        $creditCard = new ECreditCard(UHTTPMethods::post('card_holder'),UHTTPMethods::post('card_number'),UHTTPMethods::post('security_code'),UHTTPMethods::post('expiration_date'),$userId);
+    
+        $result = FPersistentManager::getInstance()->createObj($creditCard);
+        if ($result) {
+            $view->showCreditCardSuccess("carta inserita con successo! :)");
+        } else {
+            $view::showCreditCardErrorView("problemi con l'inserimento della carta :(");
+        }
+    }
+
+     /**
+     * Remove a credit card 
+     * @param int $cardId Refers to the id of the card to remove
+     * 
+     */
+
+     public static function removeCreditCard($cardId) { 
+        $userId = USession::getInstance()->getSessionElement('user');
+        $creditCard = FPersistentManager::getInstance()->retrieveObj('ECreditCard',$cardId);
+    
+        $result = FPersistentManager::getInstance()->deleteObj($creditCard);
+        if ($result) {
+            $view->showCreditCardSuccess("carta rimossa con successo! :)");
+        } else {
+            $view::showCreditCardErrorView("Non è stato possibile rimuovere la carta :(");
+        }
+    }
+
+
+    public static function showUserCreditCards() {       //metodo che mostra tutte le carte dell'utente 
+        $userId = USession::getInstance()->getSessionElement('user');
+        $creditCards = FPersistentManager::getInstance()->retrieveUserCreditCards($userId);
+        
+        if ($creditCards) {
+            if ($creditCards) {
+                // Maschera i numeri delle carte di credito
+                foreach ($creditCards as &$creditCard) {
+                    $maskedNumber = self::maskCreditCardNumber($creditCard->getCardNumber());
+                    $creditCard->setCardNumber($maskedNumber);
+                }
+            VCreditCard::showCreditCards($creditCards);
+        } else {
+            VCreditCard::showCreditCardErrorView("Nessuna carta di credito trovata.");
+        }
+        }
+    }
+    
+    public static function maskCreditCardNumber($cardNumber) {    //metodo che fa visualizzare solo le ultime 4 cifre di una carta
+        return str_repeat('*', strlen($cardNumber) - 4) . substr($cardNumber, -4);  //di credito per motivi di sicurezza
+    }
+
     }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Jampod</title>
-    <!-- Aggiungi il tag link per l'icona -->
+   
   
     <!-- CSS files -->
     <link href="/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
@@ -38,18 +38,18 @@
 
         <div class="card card-md">
           <div class="card-body">
-            <h2 class="h2 text-center mb-4">Login to your account</h2>
-            <form id="login" action="DA INSERIRE" method="post" autocomplete="off" >
+            <h2 class="h2 text-center mb-4">Login</h2>
+            <form id="login" action="/Jampod/User/login" method="post" autocomplete="off" >
               <div class="mb-3">
-                <label class="form-label">Email address</label>
-                <input type="email" class="form-control" placeholder="your@email.com" autocomplete="off">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="latua@email.com" autocomplete="off">
               </div>
               <div class="mb-2">
                 <label class="form-label">
                   Password
                 </label>
                 <div class="input-group input-group-flat">
-                  <input type="password" class="form-control" id="password" placeholder="Your password" autocomplete="off">
+                  <input type="password" class="form-control" id="password" placeholder="La tua password" autocomplete="off">
                   <span class="input-group-text">
                     <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip" onclick="togglePasswordVisibility()">
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -62,13 +62,13 @@
                 </div>
               </div>
               <div class="form-footer">
-                <button type="submit" class="btn btn-dark w-100">Sign in</button>
+                <button type="submit" class="btn btn-dark w-100">Login</button>
               </div>
             </form>
           </div>
         </div>
         <div class="text-center text-secondary mt-3">
-          Don't have an account yet? <a href="/Jampod/User/showRegistrationForm" tabindex="-1">Sign up</a>
+          Non hai ancora un account? <a href="/Jampod/User/registrationForm" tabindex="-1">Registrati</a>
         </div>
       </div>
     </div>

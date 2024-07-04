@@ -11,7 +11,7 @@
                 {foreach $userPodcasts item=podcast}
                     <div class="col">
                         <div class="card">
-                            <a href="Jampod/Podcast/visitPodcast/{podcast->getId}" class="d-block aspect-ratio-1x1">
+                            <a href="/Jampod/Podcast/visitPodcast/{podcast->getId}" class="d-block aspect-ratio-1x1">
                                 <img src="data:{$podcast->getImageMimeType};base64,{$podcast->getImageData}" class="card-img-top" alt="{$podcast->getPodcastName}">  
                             </a>
                             <div class="card-body">
