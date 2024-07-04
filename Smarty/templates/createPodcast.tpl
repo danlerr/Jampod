@@ -1,6 +1,6 @@
 {include file="Smarty/templates/header.tpl"}
 
-<!-- Form crea un nuovo episodio -->
+<!-- Form crea un nuovo podcast -->
 <div class="card">
     <div class="container" style="margin-top: 5%;margin-bottom: 5%;">
         <h1 class="mb-4">Crea un nuovo podcast</h1>
@@ -29,7 +29,7 @@
                         <select name="podcast_category" class="form-select" id="categorySelect" aria-label="Seleziona una categoria">
                             <option selected>Seleziona una categoria</option>
                             {foreach $categories as $category}
-                                <option>{$category.category_name}</option>
+                                <option>{$category.category_name}</option> !!!!
                             {/foreach}
                         </select>
                     </div>

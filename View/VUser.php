@@ -1,0 +1,37 @@
+<?php
+    class VUser{
+        
+        private $smarty;
+
+        public function __construct(){
+
+            $this->smarty = StartSmarty::configuration();
+    
+        }
+
+        public function showLoginForm(){
+            $this->smarty->display('Smarty/templates/login.tpl');
+        }
+        
+        public function showRegistrationForm(){
+            $this->smarty->display('Smarty/templates/login.tpl');
+        }
+
+        public function showError($string, $error){
+            $this->smarty->assign('string', $string);
+            $this->smarty->assign('error', $error);
+            $this->smarty->assign('Smarty/templates/login.tpl');
+        }
+
+        public function profile($podcasts){
+            $this->smarty->assign('podcasts', $podcasts);
+            $this->smarty->display('Smarty/templates/profile.tpl');
+        }
+
+        public function settings($username, $email, $pass){
+            $this->smarty->assign('username', $username);
+            $this->smarty->assign('email', $email);
+            $this->smarty->assign('pass', $pass);
+            $this->smarty->display('Smarty/templates/settings.tpl');
+        }
+    }

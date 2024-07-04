@@ -109,12 +109,12 @@
             <div class="col-lg-8">
                 <div class="mt-3 d-flex justify-content-center">
                     {if $userRole == 'creator'}
-                        <a href="Jampod/Episode/...." class="btn btn-primary">Crea un nuovo episodio</a>
+                        <a href="/Jampod/Episode/creationEpisodeForm" class="btn btn-primary">Crea un nuovo episodio</a>
                     {else}
                         {if $sub == false}
-                            <a href="......" class="btn btn-primary">Iscriviti al podcast</a>
+                            <a href="/Jampod/Podcast/Subscribe" class="btn btn-primary">Iscriviti al podcast</a>
                         {else}
-                            <a href="......" class="btn btn-primary">Iscritto</a>
+                            <a href="/Jampod/Podcast/Unsubscribe" class="btn btn-primary">Iscritto</a>
                         {/if}
                     {/if}
                 </div>
