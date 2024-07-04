@@ -1,6 +1,14 @@
 <?php
 class CEpisode {
 
+public static function creationEpisodeForm() {
+    if (Cuser::isLogged()){
+        $view = new VEpisode;
+        $view->showCreationForm();
+    }
+
+}
+
 //metodo per fare l'upload di un episodio in un podcast
 public static function uploadEpisode($podcast_id)
 {

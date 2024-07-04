@@ -157,7 +157,7 @@ function createInputBox(commentUsername, commentText) {
     let prefix = `In risposta a @${commentUsername}: ${commentText}\n`;
 
     div.innerHTML += `
-        <form action="add_comment.php" method="post" class="comment-form">
+        <form action="DA SELEZIONARE" method="post" class="comment-form">
             <div class="form-group">
                 <div class="form-control-plaintext" style="white-space: pre-wrap;">${prefix}</div>
                 <textarea class="form-control" style="resize: none;" name="replyComment" rows="3" required></textarea>

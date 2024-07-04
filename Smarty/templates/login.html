@@ -32,10 +32,14 @@
           <img src="/Smarty/images/logo.svg" alt="Jampod" style="width: 120px; height: auto; margin-left: 5px;">
           <h1>Jampod</h1>
         </div>
+        {if $error}
+          {include file="Smarty/templates/failAlert.tpl"}
+        {/if}
+
         <div class="card card-md">
           <div class="card-body">
             <h2 class="h2 text-center mb-4">Login to your account</h2>
-            <form id="login" action=".......DA INSERIRE" method="post" autocomplete="off" >
+            <form id="login" action="DA INSERIRE" method="post" autocomplete="off" >
               <div class="mb-3">
                 <label class="form-label">Email address</label>
                 <input type="email" class="form-control" placeholder="your@email.com" autocomplete="off">
@@ -64,7 +68,7 @@
           </div>
         </div>
         <div class="text-center text-secondary mt-3">
-          Don't have an account yet? <a href="./sign-up.html" tabindex="-1">Sign up</a>
+          Don't have an account yet? <a href="/Jampod/User/showRegistrationForm" tabindex="-1">Sign up</a>
         </div>
       </div>
     </div>

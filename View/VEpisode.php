@@ -9,6 +9,9 @@ class VEpisode{
         $this->smarty = StartSmarty::configuration();
  
     }
+    public function showCreationForm() {
+        $this->smarty->display('creationEpisode.tpl')
+    }
 
     public function showEpisodePage($episode, $podcast_title,$usernamecreator, $comments, $votevalue=null, $avgVote, $image , $textalert= null, $success =null) {
         $this->smarty -> assign('podcast_title', $podcast_title);
@@ -25,11 +28,6 @@ class VEpisode{
         $this->smarty -> assign('success', $success);
         $this->smarty -> assign ('episode_id', $episode->getId());
         $this->smarty -> display('episode.tpl');
-        //manca audio 
-
-
-
-
     }
     public function showEpisodeError($episode, $podcast_title, $usernamecreator, $comments, $avgVote, $image, $textalert = null, $success = null) {
         $this->showEpisodePage($episode, $podcast_title, $usernamecreator, $comments, $avgVote, $image, $textalert, false);
@@ -40,10 +38,11 @@ class VEpisode{
     public function showVote() {
 
     }
-    //???????? show error???
+    
     public function showError($string){
         $this->smarty->assign('string', $string);
         $this->smarty->display('error.tpl');
     }
+
     
 }
