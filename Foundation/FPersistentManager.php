@@ -238,6 +238,17 @@
                 return null;
             }
         }   
+
+        //-------------------------------------DONATION-----------------------------------------------------
+        public static function retrieveDonationsReceived($userId){ //metodo che a partire dall' userId restituisce 
+            $donations=FDonation::retrieveDonationsReceived($userId);     //tutte le donazioni fatte a quell'utente
+            return $donations;
+        }
+
+        public static function retrieveDonationsMade($userId){ //metodo che a partire dall' userId restituisce 
+            $donations=FDonation::retrieveDonationsMade($userId);     // tutte le donazioni fatte da quell'utente
+            return $donations;
+        }
 }
 
             

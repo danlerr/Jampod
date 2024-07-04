@@ -67,5 +67,28 @@ class FDonation{
     
     }
 
+    public static function retrieveDonationsReceived($userId){   //metodo che restituisce tutte le donazioni fatte all'utente con userId=$userId
+        $result=FDataBase::getInstance()->retrieve(self::getTable(),'recipient_id',$userId);
+        if(count($result) > 0){
+            $donations = self::createEntity($result);
+            return $donations;
+        }else{
+            return null;
+        }
+
+    }
+
+    public static function retrieveDonationsMade($userId){   //metodo che restituisce tutte le donazioni fatte dall'utente con userId=$userId
+        $result=FDataBase::getInstance()->retrieve(self::getTable(),'sender_id',$userId);
+        if(count($result) > 0){
+            $donations = self::createEntity($result);
+            return $donations;
+        }else{
+            return null;
+        }
+
+    }
+
+
 }
 

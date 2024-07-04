@@ -32,6 +32,24 @@ class CComment{
 
     public static function deleteComment($comment_id){
         $userId=USession::getInstance()->getSessionElement('user');
-        res
+        $comment=FPersistentManager::getInstance()->retrieveObj('EComment',$comment_id);
+        if ($comment === null) {
+            VComment::commentErrorView("Comment not found.");
+            return;
+        }
+    
+        // Controlla se l'utente ha il permesso di eliminare il commento : deve essere un admin o l'utente che ha scritto il commento
+        if ($comment->getUserId() !== $userId && !(FPersistentManager::getInstance()->retrieveObj('EUser',$userId)->isAdmin())) {
+            VComment::commentErrorView("Unauthorized action.");
+            return;
+        }
+        
+        $result=FPersistentManager::getInstance()->deleteObj($comment);
+        if ($result) {
+            VComment::commentDeletedView();
+        } else {
+            VComment::commentErrorView("Failed to delete comment");
+        }
+
     }
 }
