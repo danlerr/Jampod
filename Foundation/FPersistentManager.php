@@ -141,6 +141,10 @@
                 return array();
             }
         }
+        public static function commentAndReplies($episode_id) {
+            $commentAndReplies = FComment::getCommentAndReplies($episode_id);
+            return $commentAndReplies;
+        }
         public static function getAudioTrack($episode_id) {
             return FEpisode::retrieveAudioTrack($episode_id);
         }

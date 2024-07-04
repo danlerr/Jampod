@@ -107,9 +107,9 @@ public static function visitEpisode($episode_id) {
         }
         if ($episode !== null) {
             $episodeimage = [$episode->getImageMimeType(), $episode->getEncodedImageData()];
-            $comments = FPersistentManager::getInstance()->retrieveCommentsOnEpisode($episode_id); // Array di commenti
+            $commentAndReplies = FPersistentManager::getInstance()->commentAndReplies($episode_id); // Array di commenti
             $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-            $view->showEpisodePage($episode,$podcast_title, $usernamecreator, $comments, $votevalue, $avgVote, $episodeimage); // Passa l'episodio, commenti ,voto medio e immagine alla vista
+            $view->showEpisodePage($episode,$podcast_title, $usernamecreator, $commentAndReplies, $votevalue, $avgVote, $episodeimage); // Passa l'episodio, commenti ,voto medio e immagine alla vista
         } else {
             $view->showError("Impossibile trovare l'episodio");
         }

@@ -157,35 +157,21 @@
 	
 <!-- Box che mostra il commento -->
 <div class="container mt-4"> 
-	<div class="row d-flex justify-content-center">
-		<div class="col-md-8">
-			<!-- Card commento -->
-			<div class="container">
-				<div id="comment-container" class="comment-container"> <!-- Id del comment container passato a js -->
-						{foreach from=$comments item=comment}
-						<div class="card p-2">
-							<div class="d-flex justify-content-between align-items-start">
-								<div class="user d-flex flex-column">
-									<span>
-										<small class="fw-bold text-primary">{$comment->getcommentUsername()}</small>
-									</span>
-									<span class="comment-text">
-										<small class="fw-bold">{$comment->getCommentText()}</small>
-									</span>
-									<small class="ml-auto">{$comment->getCommentTime()}</small>
-								</div>
-								<div class="reply px-0">
-									<a href="#" class="btn btn-outline-success reply">Reply</a>
-								</div>
-							</div>
-						</div>
-						{/foreach}
-				</div>
-			</div>
-			<!-- fine card commento -->
-		</div>
-	</div>
-  </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <!-- Card commento -->
+            <div class="container">
+                <div id="comment-container" class="comment-container"> <!-- Id del comment container passato a js -->
+                    {foreach from=$commentAndReplies item=commentWithReplies}
+                        {include file='comment.tpl' comment=$commentWithReplies.0 replies=$commentWithReplies.1}
+                    {/foreach}
+                </div>
+            </div>
+            <!-- fine card commento -->
+        </div>
+    </div>
+</div>
+
 		
 		
 		

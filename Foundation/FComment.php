@@ -109,16 +109,74 @@ class FComment{
     }
 
     
-    //metodo che permette di prendere dal db tutti i commenti dato un episodio. Ritorna un array di commenti
-    public static function retrieveMoreComments($episode_id) {
-        $result = FDataBase::getInstance()->retrieve(self::getTable(), FEpisode::getKey(), $episode_id); 
-        if(count($result) > 0){
-            $comments = self::createEntity($result);
-            return $comments;
-        }else{
-            return null;
-        }
-    }  
-   
 
+        // Metodo che permette di prendere dal db tutti i commenti dato un episodio. Ritorna un array di commenti
+        public static function retrieveMoreComments($episode_id) {
+            $result = FDataBase::getInstance()->retrieve(self::getTable(), FEpisode::getKey(), $episode_id); 
+            if (count($result) > 0) {
+                $comments = self::createEntity($result);
+                return $comments;
+            } else {
+                return null;
+            }
+        } 
+    
+       // Metodo che permette di prendere tutte le risposte a un commento
+    public static function replies($parent_comment_id) {
+        $rep = FDataBase::getInstance()->retrieve(self::getTable(), 'parent_comment_id', $parent_comment_id);
+        if (count($rep) > 0) {
+            $replies = self::createEntity($rep);
+            return $replies;
+        } else {
+            return [];
+        }
     }
+
+    // Metodo che recupera tutte le risposte di un commento in modo ricorsivo e le organizza in un array associativo
+    public static function getRepliesRecursive($comment_id) {
+        // Array per mantenere la struttura delle risposte
+        $replyStructure = [];
+
+        // Recupera tutte le risposte al commento specificato
+        $replies = self::replies($comment_id);
+
+        // Itera attraverso ogni risposta trovata
+        foreach ($replies as $reply) {
+                // Ricorsivamente otteniamo le risposte per questa risposta
+                $replyStructure[] = [
+                    'comment' => $reply,
+                    'replies' => self::getRepliesRecursive($reply->getId())
+                ];
+            }
+        // Restituisce l'array di risposte (che può contenere altre risposte)
+        return $replyStructure;
+        }
+
+
+    // Metodo che ritorna un array di array in cui sono presenti [commento, risposte a quel commento]
+    public static function getCommentAndReplies($episode_id) {
+        $commentAndReplies = [];
+
+        // Recupera tutti i commenti per l'episodio specificato
+        $comments = self::retrieveMoreComments($episode_id);
+
+        if ($comments) { // Verifica se ci sono commenti
+            foreach ($comments as $comment) {
+                // Verifica se il commento non ha un commento genitore (quindi è un commento principale)
+                if ($comment->getParentCommentId() === null) {
+                    $comment_id = $comment->getId();
+                    // Recupera ricorsivamente tutte le risposte al commento principale
+                    $replies = self::getRepliesRecursive($comment_id);
+                    // Aggiunge il commento principale e le sue risposte all'array di risultati
+                    $commentAndReplies[] = [
+                        'comment' => $comment,
+                        'replies' => $replies
+                    ];
+                }
+            }
+        }
+
+        // Restituisce l'array di commenti principali e le loro risposte
+        return $commentAndReplies;
+    }
+}

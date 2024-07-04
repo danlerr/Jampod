@@ -286,3 +286,154 @@ i {
   max-width: 1000px; /* Imposta la larghezza massima dell'alert */
   margin: 0 auto; /* Centra l'alert orizzontalmente */
 }
+
+
+/*COMMENTS*/
+.replies {
+  margin-left: 20px; /* Aumenta il valore per maggiore indentazione */
+}
+
+
+/*Credit card*/
+
+
+.payment-card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 5px 6px 6px 2px #e9ecef;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.card-image {
+  border-radius: 8px;
+ 
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5rem;
+}
+
+.card-type {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.card-number {
+  color: #aba4a4;
+}
+
+
+
+/*ADDCARD*/
+
+.launch-btn {
+  height: 50px;
+}
+
+.close-modal {
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.modal-body {
+  height: 450px;
+}
+
+.nav-tabs {
+  border: none !important;
+}
+
+.nav-tabs .nav-link.active {
+  color: #495057;
+  background-color: #fff;
+  border-color: #ffffff #ffffff #fff;
+  border-top: 3px solid blue !important;
+}
+
+.nav-tabs .nav-link {
+  margin-bottom: -1px;
+  border: 1px solid transparent;
+  border-top-left-radius: 0rem;
+  border-top-right-radius: 0rem;
+  border-top: 3px solid #eee;
+  font-size: 20px;
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: #e9ecef #ffffff #ffffff;
+}
+
+.nav-tabs {
+  display: table !important;
+  width: 100%;
+}
+
+.nav-item {
+  display: table-cell;
+}
+
+.form-control-custom {
+  border-bottom: 1px solid #eee !important;
+  border: none;
+  font-weight: 600;
+}
+
+.form-control-custom:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #8bbafe;
+  outline: 0;
+  box-shadow: none;
+}
+
+.input-box {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.input-box span {
+  position: absolute;
+  top: 7px;
+  left: 11px;
+  transition: 0.5s;
+}
+
+.input-box i {
+  position: absolute;
+  top: 13px;
+  right: 8px;
+  transition: 0.5s;
+  color: #3F51B5;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-box input:focus~span {
+  transform: translateX(-0px) translateY(-15px);
+  font-size: 12px;
+}
+
+.input-box input:valid~span {
+  transform: translateX(-0px) translateY(-15px);
+  font-size: 12px;
+}
+
+.pay-button button {
+  height: 47px;
+  border-radius: 37px;
+}
+
+
+
