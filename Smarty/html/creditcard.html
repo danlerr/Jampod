@@ -56,8 +56,8 @@
                   <div class="card-body">
                     
                     <div class="list-group list-group-transparent">
-                      <a href="./settings.html" class="list-group-item list-group-item-action d-flex align-items-center active">My Account</a>
-                      <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">My Credit Cards</a>
+                      <a href="./settings.html" class="list-group-item list-group-item-action d-flex align-items-center">My Account</a>
+                      <a href="#" class="list-group-item list-group-item-action d-flex align-items-center  active">My Credit Cards</a>
                       
                     </div>
                     
@@ -79,27 +79,20 @@
                         </div>
                         
                       </div>
-                      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ricaricaModal">Aggiungi carta</button>
-                      <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#prelevaModal">Rimuovi carta</button>
+                      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#aggiungiModal">Aggiungi carta</button>
+                      <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rimuoviModal">Rimuovi carta</button>
 
 
-                       <div class="modal fade" id="ricaricaModal" tabindex="-1" aria-labelledby="ricaricaModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ricaricaModalLabel">Ricarica Saldo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        
-                        
-                        <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#aggiungiCartaForm">Aggiungi Carta</button>
-                            <button type="submit" class="btn btn-outline-success">Conferma</button>
-                        </div>
-                        <div class="collapse mt-3" id="aggiungiCartaForm">
-                            <div class="card card-body">
+                       <div class="modal fade" id="aggiungiModal" tabindex="-1" aria-labelledby="ricaricaModalLabel" aria-hidden="true">
+                         <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                             <div class="modal-header">
+                                <h5 class="modal-title" id="ricaricaModalLabel">Aggiungi carta</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                  <div class="modal-body">
+                                     <form>
+                                                  
                                 <div class="mb-3">
                                     <label for="numeroCarta" class="form-label">Numero Carta</label>
                                     <input type="text" class="form-control" id="numeroCarta" placeholder="Inserisci numero carta">
@@ -117,15 +110,48 @@
                                     <input type="text" class="form-control" id="cvv" placeholder="CVV">
                                 </div>
                                 <div class="text-end">
-                                    <button type="button" class="btn btn-primary" id="confermaAggiungiCarta">Conferma Aggiunta Carta</button>
+                                    <button type="button" class="btn btn-outline-success" id="confermaAggiungiCarta">Conferma Aggiunta Carta</button>
                                 </div>
-                            </div>
-                        </div>
+                            
+                        
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="rimuoviModal" tabindex="-1" aria-labelledby="ricaricaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+           <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="ricaricaModalLabel">Rimuovi carta</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                   </div>
+                 <div class="modal-body">
+                    <form>
+                                 
+                        <div class="mb-3">
+                            <label for="cartaSelezionataPrelievo" class="form-label">Seleziona Carta di Credito</label>
+                            <select class="form-select" id="cartaSelezionataPrelievo">
+                                <option selected>Seleziona una carta...</option>
+                                <option value="1">Carta Visa **** 1234</option>
+                                <option value="2">Carta MasterCard **** 5678</option>
+                                
+                            </select>
+                        </div>
+               <div class="text-end">
+                   <button type="button" class="btn btn-outline-danger" id="confermaAggiungiCarta">Conferma Rimozione Carta</button>
+               </div>
+           
+       
+   </form>
+</div>
+</div>
+</div>
+</div>
+
+
+    
 
 
                      
