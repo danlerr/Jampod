@@ -14,7 +14,7 @@
         }
         
         public function showRegistrationForm(){
-            $this->smarty->display('Smarty/templates/login.tpl');
+            $this->smarty->display('Smarty/templates/registration.tpl');
         }
 
         public function showError($string, $error){
@@ -23,15 +23,19 @@
             $this->smarty->assign('Smarty/templates/login.tpl');
         }
 
-        public function profile($podcasts){
+        public function profile($username, $podcasts){
             $this->smarty->assign('podcasts', $podcasts);
+            $this->smarty->assign('username', $username);
             $this->smarty->display('Smarty/templates/profile.tpl');
         }
 
-        public function settings($username, $email, $pass){
+        
+
+        public function settings($username, $email, $pass, $textalert = null, $success = true){
             $this->smarty->assign('username', $username);
             $this->smarty->assign('email', $email);
-            $this->smarty->assign('pass', $pass);
+            $this->smarty->assign('textalert', $textalert);
+            $this->smarty->assign('success', $success);
             $this->smarty->display('Smarty/templates/settings.tpl');
         }
     }

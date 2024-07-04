@@ -52,7 +52,7 @@
 
 
         /**
-         * verify if exist a user with this username (also mod)
+         * verify if exist a user with this username 
          * @param string $username
          */
         public static function verifyUserUsername($username){
@@ -61,7 +61,7 @@
             return $result;
         }
                 /**
-             * verify if exist a user with this email (also mod)
+             * verify if exist a user with this email 
              * @param string $email
              */
         public static function verifyUserEmail($email){
@@ -88,6 +88,20 @@
             $result = FUser::getUserByUsername($username);
 
             return $result;
+        }
+
+        public static function updatePassword($password, $oldHash, $newPassword, $user){
+            $passwordHashed = password_hash($password, PASSWORD_DEFAULT);   //check password 
+            if ($passwordHashed == $oldHash){
+                $result = FPersistentManager::getInstance()->updateObj($user, 'password', $newPassword);
+                if ($result){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
         }
 
        //-------------------------------------FILE VALIDATION-----------------------------------------------------

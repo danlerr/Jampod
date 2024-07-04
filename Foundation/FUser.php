@@ -82,7 +82,7 @@
 
             $user->setUserId($result['user_id']);
             
-            // $user->setHash($result['hash']);
+            $user->setHashedPassword($result['password']);
             $user->setBalance($result['balance']);
             $user->setBan($result['ban']);
             $user->setAdmin($result['is_admin']);

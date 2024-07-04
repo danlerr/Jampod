@@ -8,11 +8,11 @@
             {foreach from=$featuredPodcasts item=podcast}
                 <div class="col">
                     <div class="card">
-                        <a href="Jampod/Podcast/{$podcast.podcast_id}" class="d-block aspect-ratio-1x1">
-                            <img src="data:{$mimetype};base64,{$imagedata}" class="card-img-top" alt="{$podcast.podcast_name}">
+                        <a href="Jampod/Podcast/visitPodcast/{$podcast->getId()}" class="d-block aspect-ratio-1x1">
+                            <img src="data:{$podcast->getImageMimeType()};base64,{$podcast->getImageData()}" class="card-img-top" alt="{$podcast.podcast_name}">
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title">{$podcast.podcast_name}</h5>
+                            <h5 class="card-title">{$podcast->getPodcastName()}</h5>
                         </div>
                     </div>
                 </div>
@@ -29,11 +29,11 @@
             {foreach from=$categories item=category}
                 <div class="col">
                     <div class="card">
-                        <a href="Jampod/Podcast/{$category_name}" class="d-block aspect-ratio-1x1">
+                        <a href="Jampod/Podcast/visitCategory{$category_name}" class="d-block aspect-ratio-1x1">
                             <!-- Immagine della categoria, se disponibile -->
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title">{$category.category_name}</h5>
+                            <h5 class="card-title">{$category}</h5>
                         </div>
                     </div>
                 </div>
@@ -50,11 +50,11 @@
             {foreach from=$newPodcasts item=podcast}
                 <div class="col">
                     <div class="card">
-                        <a href="Jampod/Podcast/{podcast.podcast_id}" class="d-block aspect-ratio-1x1">
-                            <img src="data:{$mimetype};base64,{$imagedata}" class="card-img-top" alt="{$podcast.podcast_name}">
+                        <a href="Jampod/Podcast/visitPodcast/{$podcast->getId}" class="d-block aspect-ratio-1x1">
+                            <img src="data:{$podcast->getImageMimeType()};base64,{$podcast->getImageData()}" class="card-img-top" alt="{$podcast->getPodcastName}">
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title">{$podcast.podcast_name}</h5>
+                            <h5 class="card-title">{$podcast->getPodcastName()}</h5>
                         </div>
                     </div>
                 </div>
@@ -71,11 +71,11 @@
             {foreach from=$recommendedPodcasts item=podcast}
                 <div class="col">
                     <div class="card">
-                        <a href="podcast{$podcast.podcast_id}.html" class="d-block aspect-ratio-1x1">
-                            <img src="data:{$mimetype};base64,{$imagedata}" class="card-img-top" alt="{$podcast.podcast_name}">
+                        <a href="podcast{$podcast->getId()}.html" class="d-block aspect-ratio-1x1">
+                            <img src="data:{$podcast->getImageMimeType()};base64,{$podcast->getImageData()}" class="card-img-top" alt="{$podcast->getPodcastName()}">
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title">{$podcast.podcast_name}</h5>
+                            <h5 class="card-title">{$podcast->getPodcastName()}</h5>
                         </div>
                     </div>
                 </div>

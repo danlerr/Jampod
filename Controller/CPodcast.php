@@ -194,7 +194,7 @@
             }
         }
 
-        public function myPodcast(){
+        public static function myPodcast(){
             if (CUser::isLogged()){
                 $userId = USession::getInstance()->getSessionElement('user');
                 $view = new VPodcast;
@@ -203,7 +203,7 @@
             }
         }
 
-        public function creationForm(){
+        public static function creationForm(){
             if (Cuser::isLogged()){
                 $view = new VPodcast;
                 $categories = FPersistentManager::getInstance()->retrieveCategories(); //prendo le categorie per passarle al form 

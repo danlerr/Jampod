@@ -50,7 +50,7 @@ class CUser{
             }
         }
         
-        public static function login(){
+        public static function loginForm(){
             // Verifica se il cookie di sessione PHPSESSID è impostato
             if (UCookie::isSet('PHPSESSID')) {
                 // Controlla se la sessione non è ancora avviata
@@ -89,11 +89,16 @@ class CUser{
                 }
         }
 
+        public function registrationForm(){
+            $view = new VUser;
+            $view->showRegistrationForm();
+        }
+
         /**
          * check if exist the Username inserted, and for this username check the password. If is everything correct the session is created and
          * the User is redirected in the homepage
          */
-        public static function checkLogin(){
+        public static function login(){
             $view = new VUser();
             $username = FPersistentManager::getInstance()->verifyUserUsername(UHTTPMethods::post('username'));    //verifica esistenza username nel db                                         
             if($username){
@@ -127,11 +132,16 @@ class CUser{
             $view->showLoginForm();
         }
 
-        public static function user_profile($userId) { 
+        public static function profile($userId) { 
             if (CUser::isLogged()){
                 $view = new VUser;
+                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
                 $podcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
-                $view->profile($podcasts);
+                if ($userId = USession::getSessionElement('user')){
+                    CPodcast::myPodcast();
+                }else{
+                    $view->profile($podcasts, $username);
+                }
             }
         }
 
@@ -144,6 +154,85 @@ class CUser{
                 $email = $user->getEmail();
                 $pass = $user->getPassword();
                 $view->settings($username, $email, $pass);
+            }
+        }
+
+        public static function editPassword(){
+            if (CUser::isLogged()){
+                $userId = USession::getSessionElement('user');
+                $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
+                if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
+                    $user_password = $user->getPassword();
+                    $password = UHTTPMethods::post('vecchia password');
+                    $newPassword = UHTTPMethods::post('nuova password');
+                    $result = FPersistentManager::getInstance()->updatePassword($password, $user_password, $newPassword, $user); 
+                    if ($result){
+                        self::settings();
+                    }else{
+                        $view = new VUser;
+                        $view->showError('impossibile modificare la password', false);
+                    }
+                }else{
+                    $view = new VUser;
+                    $view->showError('puoi modificare solamente la tua password', false);
+                }
+            }
+        }
+        
+
+        public static function editUsername(){  
+            if (CUser::isLogged()){
+                $userId = USession::getSessionElement('user');
+                $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
+                $email = $user->getEmail();
+                if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
+                    $oldUsername = $user->getUsername();
+                    $newUsername = UHTTPMethods::post('nuovo username');
+                    if (FPersistentManager::getInstance()->verifyUserUsername($newUsername) == false){
+                        $result = FPersistentManager::getInstance()->updateObj($user, 'username', $newUsername);
+                        if ($result){
+                            $view = new VUser;
+                            $view->settings($newUsername, $email, 'username modificato con successo', true);
+                        }else{
+                            $view = new VUser;
+                            $view->settings($oldUsername, $email, 'impossibile modificare lo username', false);
+                        }
+                    }else{
+                         $view = new VUser;
+                         $view->settings($oldUsername, $email, 'username non disponibile', false);
+                    }
+                }else{
+                    $view = new VUser;
+                    $view->showError('puoi modificare solamente il tuo username', false);
+                }
+            }
+        }
+
+        public static function editEmail(){   
+            if (CUser::isLogged()){
+                $userId = USession::getSessionElement('user');
+                $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
+                $username = $user->getUserUsername();
+                if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
+                    $oldEmail = $user->getEmail();
+                    $newEmail = UHTTPMethods::post('nuova email');
+                    if (FPersistentManager::getInstance()->verifyUserUsername($newEmail) == false){
+                        $result = FPersistentManager::getInstance()->updateObj($user, 'email', $newEmail);
+                        if ($result){
+                            $view = new VUser;
+                            $view->settings($username, $newEmail, 'email modificata con successo', true);
+                        }else{
+                            $view = new VUser;
+                            $view->settings($username, $oldEmail, "impossibile modificare l' email", false);
+                        }
+                    }else{
+                         $view = new VUser;
+                         $view->settings($username, $oldEmail, 'email non disponibile', false);
+                    }
+                }else{
+                    $view = new VUser;
+                    $view->showError('puoi modificare solamente la tua email', false);
+                }
             }
         }
     }

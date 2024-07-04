@@ -16,9 +16,8 @@ class CFrontController{
         array_shift($result);          // primi due elementi della url 
 
         if($result[0]=="" || $result[0]=="index.php"){
-            $view = new VHome();
             
-            $view->showHome();
+            CHome::homePage();
             return;
         }
 

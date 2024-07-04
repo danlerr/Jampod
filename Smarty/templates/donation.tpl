@@ -10,7 +10,7 @@
                                 <h4 class="row justify-content-end mb-0">Stai donando a</h4>
                             </div>
                             <div class="col-6">
-                                <h4 class="fw-bold text-primary">leonpastorelli</h4>
+                                <h4 class="fw-bold text-primary">{$recipient_id}</h4>
                             </div>
                         </div>
                         <form>

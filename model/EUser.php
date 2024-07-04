@@ -17,9 +17,10 @@ class EUser {
 
     public function __construct($email, $password, $username)
     {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $this->username = $username;
         $this->email = $email;
-        $this->password = $password;
+        $this->password = $hashedPassword;
         $this->balance = 0.0;
     }
 
@@ -111,11 +112,18 @@ class EUser {
    
     public function setPassword( $password )
     {
-        $this->password = $password;
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = $hashedPassword;
     }
+
+    public function setHashedPassword($hashedPassword){
+        $this->password = $hashedPassword;
+    }
+
     public function setAdmin(bool $admin) {
         $this->is_admin = $admin;
     }
+    
     public function setBan(bool $ban) {
         $this->ban = $ban;
     }
