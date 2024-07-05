@@ -1,5 +1,5 @@
 <?php
-require_once('config.phpconfig.php');
+require_once 'C:\xampp\htdocs\Jampod\config\config.php';
 /**
  * class to access to the $_SESSION superglobal array, you Must use this class instead of using directly the array
  */
