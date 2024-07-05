@@ -28,7 +28,7 @@
         return self::$key;
     }
 
-    public static function createObject($obj) :bool{            //metodo per "salvare" un oggetto user dal DB
+    public static function createObject($obj){            //metodo per "salvare" un oggetto user dal DB
 
         $ObjectUserId = FDataBase::getInstance()->create(self::class, $obj);
         if($ObjectUserId !== null){
@@ -112,7 +112,7 @@
     //--------------------------------------------------------------------------------
     // return bool 
     public static function verify($field, $id){
-        $queryResult = FDataBase::retrieve(self::getTable(), $field, $id);
+        $queryResult = FDataBase::getInstance()->retrieve(self::getTable(), $field, $id);
 
         return FDataBase::getInstance()->existInDb($queryResult);
     }

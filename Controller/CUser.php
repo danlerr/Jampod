@@ -81,15 +81,17 @@ class CUser{
             //verifica che lo username e l'email non esistano nel db
             if(FPersistentManager::getInstance()->verifyUserEmail(UHTTPMethods::post('email')) == false && FPersistentManager::getInstance()->verifyUserUsername(UHTTPMethods::post('username')) == false){
                     $user = new EUser(UHTTPMethods::post('email'),UHTTPMethods::post('password'),UHTTPMethods::post('username')); //nuovo oggetto entity user
-                    FPersistentManager::getInstance()->createObj($user); //salvataggio dell'utente nel db
+                    $result = FPersistentManager::getInstance()->createObj($user); //salvataggio dell'utente nel db
+                if ($result) {
 
                     $view->showLoginForm(); //mostra il form di login 
+                }
             }else{
                     $view->showError('Errore durante la registrazione', false);
                 }
         }
 
-        public function registrationForm(){
+        public static function registrationForm(){
             $view = new VUser;
             $view->showRegistrationForm();
         }
@@ -98,27 +100,36 @@ class CUser{
          * check if exist the Username inserted, and for this username check the password. If is everything correct the session is created and
          * the User is redirected in the homepage
          */
-        public static function login(){
+        public static function login() {
             $view = new VUser();
-            $username = FPersistentManager::getInstance()->verifyUserUsername(UHTTPMethods::post('username'));    //verifica esistenza username nel db                                         
-            if($username){
-                $user = FPersistentManager::getInstance()->retriveUserOnUsername(UHTTPMethods::post('username')); //ritorna l'oggetto user 
-                if(password_verify(UHTTPMethods::post('password'), $user->getPassword())){
-                    if($user->isBanned()){
+            $username = trim(UHTTPMethods::post('username'));
+            $password = trim(UHTTPMethods::post('password'));
+            if (!$username || !$password) {
+                $view->showError('Username e password sono obbligatori', false);
+                return;
+            }
+        
+            $usernameExists = FPersistentManager::getInstance()->verifyUserUsername($username);
+        
+            if ($usernameExists) {
+                $user = FPersistentManager::getInstance()->retriveUserOnUsername($username);
+        
+                if ($user && password_verify($password, $user->getPassword())) {
+                    if ($user->isBanned()) {
                         $view->showError('Sei bannato!', false);
-
-                    }elseif(USession::getSessionStatus() == PHP_SESSION_NONE){
-                        USession::getInstance(); //session start
-                        USession::setSessionElement('user', $user->getId()); //l'id dell'utente viene posto nell'array $_SESSION
+                    } elseif (USession::getSessionStatus() == PHP_SESSION_NONE) {
+                        USession::getInstance(); // Session start
+                        USession::setSessionElement('user', $user->getId()); // L'ID dell'utente viene posto nell'array $_SESSION
                         CHome::homePage();
                     }
-                }else{
-                    $view->showError('Errore durante la registrazione', false);
+                } else {
+                    $view->showError('Password errata', false);
                 }
-            }else{
-                $view->showError('Errore durante la registrazione', false);
+            } else {
+                $view->showError('Username non trovato', false);
             }
         }
+        
 
         /**
          * this method can logout the User, unsetting all the session element and destroing the session. Return the user to the Login Page

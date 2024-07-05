@@ -80,7 +80,7 @@ public static function deleteObject($id){
   }
 
   public static function isSub($userId, $podcastId) {
-    $subscriptions = FDataBase::retrieve(self::getTable(), FUser::getKey(), $userId);
+    $subscriptions = FDataBase::getInstance()->retrieve(self::getTable(), FUser::getKey(), $userId);
     foreach ($subscriptions as $subscription) {
         if ($subscription['podcast_id'] == $podcastId) {
             return true;

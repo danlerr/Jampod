@@ -4,7 +4,7 @@
 
     private static $table = "podcast";
 
-    private static $value = "(:podcast_id,:category_id,:podcast_name,:podcast_description,:user_id,:subscribe_counter,:podcast_creation_date,:image_data,:image_mimetype)";
+    private static $value = "(:podcast_id,:category_name,:podcast_name,:podcast_description,:user_id,:subscribe_counter,:podcast_creation_date,:image_data,:image_mimetype)";
 
     private static $key = "podcast_id";
 
@@ -80,7 +80,7 @@
                 $result['podcast_name'],
                 $result['podcast_description'],
                 $result['user_id'],
-                $result['category_id']
+                $result['category_name']
             );
     
             $p->setPodcastId($result['podcast_id']);
@@ -108,7 +108,7 @@
         $stmt->bindValue(':podcast_name',$podcast->getPodcastName(), PDO::PARAM_STR);
         $stmt->bindValue(':podcast_description',$podcast->getPodcastDescription(), PDO::PARAM_STR);
         $stmt->bindValue(':user_id',$podcast->getUserId(), PDO::PARAM_STR);
-        $stmt->bindValue(':category_id',$podcast->getPodcastCategory(), PDO::PARAM_STR);
+        $stmt->bindValue(':category_name',$podcast->getPodcastCategory(), PDO::PARAM_STR);
         $stmt->bindValue(':subscribe_counter',$podcast->getSubscribeCounter(), PDO::PARAM_STR);
         $stmt->bindValue(':image_data',$podcast->getImageData(), PDO::PARAM_LOB);
         $stmt->bindValue(':image_mimetype',$podcast->getImageMimeType(), PDO::PARAM_STR);
