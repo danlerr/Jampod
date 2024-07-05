@@ -20,7 +20,7 @@
         public function showError($string, $error){
             $this->smarty->assign('string', $string);
             $this->smarty->assign('error', $error);
-            $this->smarty->assign('Smarty/templates/login.tpl');
+            $this->smarty->display('Smarty/templates/error.tpl');
         }
 
         public function profile($username, $podcasts){

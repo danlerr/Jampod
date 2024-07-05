@@ -33,11 +33,6 @@ class VEpisode{
         $this->showEpisodePage($episode, $podcast_title, $usernamecreator, $comments, $avgVote, $image, $textalert, false);
     }
 
-
-    
-    public function showVote() {
-
-    }
     
     public function showError($string){
         $this->smarty->assign('string', $string);
