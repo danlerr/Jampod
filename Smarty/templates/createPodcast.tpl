@@ -1,4 +1,4 @@
-{include file="Smarty/templates/header.tpl"}
+{include file="Smarty/templates/header.tpl" username=$username}
 
 <!-- Form crea un nuovo podcast -->
 <div class="card">
