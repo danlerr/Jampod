@@ -105,10 +105,10 @@ class EDonation{
     /**
      * Get the value of amount
      * 
-     * @return $amount
+     * @return float
      */
     
-    public function getDonationAmount() {
+    public function getDonationAmount():float {
         return $this->amount;}
 
     /**

@@ -434,6 +434,38 @@ input::-webkit-inner-spin-button {
   height: 47px;
   border-radius: 37px;
 }
+/*------------------------DONATION-----------------------------------------------
+/* Stili per il popup di SweetAlert2  */ 
 
+.swal2-popup {
+  font-family: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+  font-size: 16px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: #333;
+  max-width: 600px; /* Larghezza massima del popup */
+}
+
+.swal2-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #dc3545; /* Colore del titolo */
+}
+
+.swal2-content {
+  font-size: 18px;
+  color: #666; /* Colore del testo del contenuto */
+}
+
+.swal2-confirm {
+  background-color: #dc3545; /* Colore di sfondo del pulsante Conferma */
+  color: #fff; /* Colore del testo del pulsante Conferma */
+  border: none;
+}
+
+.swal2-confirm:hover {
+  background-color: #c82333; /* Cambio colore di sfondo al passaggio del mouse */
+}
 
 

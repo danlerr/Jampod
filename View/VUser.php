@@ -38,4 +38,9 @@
             $this->smarty->assign('success', $success);
             $this->smarty->display('Smarty/templates/settings.tpl');
         }
+
+        public function creationCreditCardForm(){
+            $this->smarty->display('Smarty/templates/creditcard.tpl');
+        }
+        
     }

@@ -13,13 +13,20 @@ class CDonation{
      public static function createDonation($podcastId) { //!!!!!!!!!!!!!!!!!!!!!!!!!! quando si dona dalla pagine dell'episodio fornire il podcastId
         $userId = USession::getInstance()->getSessionElement('user');
         $podcast=FPersistentManager::getInstance()->retrieveObj('EPodcast',$podcastId);
-        $donation = new EDonation(UHTTPMethods::post('amount'),UHTTPMethods::post('text'),$userId,$podcast->getUserId());
+        $recipientId=$podcast->getUserId();
+        $donation = new EDonation(UHTTPMethods::post('amount'),UHTTPMethods::post('text'),$userId,$recipientId);
     
         $result = FPersistentManager::getInstance()->createObj($donation);
         if ($result) {
-            $view->showDonationSuccess("donazione effettuata con successo! :)");
+            $sender=FPersistentManager::getInstance()->retrieveObj('EUser',$userId);
+            $recipient=FPersistentManager::getInstance()->retrieveObj('EUser',$recipientId);
+            $balanceS=$sender->setBalance($sender->getBalance()-($donation->getDonationAmount()));
+            $balanceR=$recipient->setBalance($recipient->getBalance()+$donation->getDonationAmount());
+            FPersistentManager::getInstance()->updateObj($sender,'balance',$balanceS);
+            FPersistentManager::getInstance()->updateObj($recipient,'balance',$balanceR);
+            $view->showDonationSuccess("Donazione effettuata con successo!");
         } else {
-            $view::showDonationErrorView("problemi con l'invio della donazione :(");
+            $view->showDonationErrorView("Problemi con l'invio della donazione.");
         }
     }
     //--------------------------------------------------TRANSACTIONS------------------------------------------------------------------------------
@@ -31,7 +38,7 @@ class CDonation{
      public static function showDonationsReceived(){
         $userId = USession::getInstance()->getSessionElement('user');
         $donations = FPersistentManager::getInstance()->retrieveDonationsReceived($userId);
-        VDonation::showDonations($donations);
+        $view->showDonations($donations);
 
      }
 
@@ -42,16 +49,17 @@ class CDonation{
      public static function showDonationsMade(){
         $userId = USession::getInstance()->getSessionElement('user');
         $donations = FPersistentManager::getInstance()->retrieveDonationsMade($userId);
-        VDonation::showDonations($donations);
+        $view->showDonations($donations);
 
      }
     
-
     /**
      * Shows the list of all donations related to the user, both received and made, ordered by date.
      */
     public static function showAllDonations() {
         $userId = USession::getInstance()->getSessionElement('user');
+        $user=FPersistentManager::getInstance()->retrieveObj('EUser',$userId);
+        $balance=$user->getBalance();
 
         // Retrieve donations made and received
         $donationsMade = FPersistentManager::getInstance()->retrieveDonationsMade($userId);
@@ -66,10 +74,15 @@ class CDonation{
         });
 
         // Show donations in the view
-        VDonation::showAllDonations($allDonations);
+        $view->showAllDonations($balance,$allDonations);
     }
      
+    public static function donationForm($recipient_id){
+        if (CUser::isLogged()) {
+            $view = new VDonation;
+            $view->showDonationForm($recipient_id);
+        }
+    }
 
-     
 
-}
+    }

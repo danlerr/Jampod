@@ -70,7 +70,7 @@ class FCreditCard{
         $queryResult = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $card_id);
         $card=self::retrieveObject($card_id);
 
-        if($card !== null && FDatabase::getInstance()->checkUser($queryResult, $card->getCreditCardUserId())){ 
+        if($card !== null && FUser::userValidation($queryResult, $card->getCreditCardUserId())){ 
         
             FDataBase::getInstance()->delete(self::getTable(), self::getKey(), $card_id);
             return true;

@@ -43,6 +43,8 @@ class EComment{
      */
     private $episode_id;
 
+    private $is_ban=null;
+
 
     /**
      * identificativo commento commentato
@@ -113,7 +115,13 @@ class EComment{
         return $this->parentCommentId;
     }
     
-
+    public function isBan(){
+        if($is_ban=True){
+            return True;
+        }else{
+            return False;
+        }
+    }
 
     // SET METHODS
 
@@ -166,5 +174,9 @@ class EComment{
     }
     public function getcommentUsername() {
         return $this->commentUsername;
+    }
+
+    public function setBan(){
+        $this->is_ban=true;
     }
 }

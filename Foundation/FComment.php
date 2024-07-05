@@ -3,7 +3,7 @@
 class FComment{
     
     private static $table="comment";
-    private static $value="(NULL,:comment_text,:comment_creation_date,:user_id,:episode_id,:parent_comment_id,:commentUsername)";
+    private static $value="(NULL,:comment_text,:comment_creation_date,:user_id,:episode_id,:parent_comment_id,:commentUsername,:is_ban)";
     private static $key="comment_id";
 
     
@@ -26,11 +26,11 @@ class FComment{
     public static function bind($stmt, $comment){
         $stmt->bindValue(":comment_text", $comment->getCommentText(), PDO::PARAM_STR);
         $stmt->bindValue(":comment_creation_date", $comment->getCommentTime()->format('Y-m-d H:i:s'), PDO::PARAM_STR);
-        //$stmt->bindValue(":removed", $comment->isBanned(), PDO::PARAM_BOOL); da inserire!
         $stmt->bindValue(":episode_id", $comment->getEpisodeId(), PDO::PARAM_INT);
         $stmt->bindValue(":user_id", $comment->getUserId(), PDO::PARAM_INT); 
         $stmt->bindValue(":parent_comment_id", $comment->getParentCommentId(), PDO::PARAM_INT);
         $stmt->bindValue(":commentUsername", FUser::getUserUsername($comment->getUserId()), PDO::PARAM_STR); 
+        $stmt->bindValue(":is_ban", $comment->isBanned(), PDO::PARAM_BOOL);
     }
 
 
@@ -92,9 +92,12 @@ class FComment{
             if (!is_null($result['parent_comment_id'])) {
                 $comment->setParentCommentId($result['parent_comment_id']);
             }
+
+            if (!is_null($result['is_ban'])) {
+                $comment->setBan();
+            }
             
-            // Aggiungere eventuali altri campi come setBan() 
-            // $comment->setBan($result['removed']);
+        
     
             $comments[] = $comment;
         }
@@ -110,9 +113,9 @@ class FComment{
 
     
 
-        // Metodo che permette di prendere dal db tutti i commenti dato un episodio. Ritorna un array di commenti
+        // Metodo che permette di prendere dal db tutti i commenti dato un episodio. Ritorna un array di commenti che non sono stati bannati
         public static function retrieveMoreComments($episode_id) {
-            $result = FDataBase::getInstance()->retrieve(self::getTable(), FEpisode::getKey(), $episode_id); 
+            $result = FDataBase::getInstance()->loadMoreAttributesObjects(self::getTable(), FEpisode::getKey(), $episode_id,'is_ban',null); 
             if (count($result) > 0) {
                 $comments = self::createEntity($result);
                 return $comments;
@@ -179,4 +182,6 @@ class FComment{
         // Restituisce l'array di commenti principali e le loro risposte
         return $commentAndReplies;
     }
+
+  
 }

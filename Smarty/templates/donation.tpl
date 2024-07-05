@@ -31,4 +31,31 @@
         </div>
     </div>
 
+    {if isset($success_message)}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Successo!',
+                text: '{$success_message}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
+    {/if}
+
+    {if isset($error_message)}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Errore!',
+                text: '{$error_message}',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
+    {/if}
+
+
 {include file="Smarty/templates/footer.tpl"}

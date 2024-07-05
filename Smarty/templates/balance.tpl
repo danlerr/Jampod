@@ -49,6 +49,9 @@
                             <label for="ricaricaImporto" class="form-label">Importo</label>
                             <input type="number" class="form-control" id="ricaricaImporto" placeholder="Inserisci importo">
                         </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-outline-success">Conferma</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -68,6 +71,9 @@
                         <div class="mb-3">
                             <label for="prelevaImporto" class="form-label">Importo</label>
                             <input type="number" class="form-control" id="prelevaImporto" placeholder="Inserisci importo">
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-outline-danger">Conferma</button>
                             </div>
                         </div>
                     </form>

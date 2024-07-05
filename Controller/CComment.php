@@ -52,4 +52,10 @@ class CComment{
         }
 
     }
+
+    public static function getAllComments($episode_id){        //metodo che ritorna tutti i commenti che non sono stati bannati
+        $comments = FPersistentManager::getInstance()->retrieveComments($episode_id);     //di un determinato episodio
+
+
+    }
 }

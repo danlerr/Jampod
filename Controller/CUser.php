@@ -311,4 +311,11 @@ class CUser{
         return str_repeat('*', strlen($cardNumber) - 4) . substr($cardNumber, -4);  //di credito per motivi di sicurezza
     }
 
+
+    public static function creationCreditCardForm() {
+        if (Cuser::isLogged()){
+            $view->showCardCreationForm();
+        }
     }
+
+}
