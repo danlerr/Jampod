@@ -31,7 +31,7 @@
 
         
 
-        public function settings($username, $email, $pass, $textalert = null, $success = true){
+        public function settings($username, $email, $textalert = null, $success = true){
             $this->smarty->assign('username', $username);
             $this->smarty->assign('email', $email);
             $this->smarty->assign('textalert', $textalert);

@@ -1,4 +1,4 @@
-{include file="Smarty/templates/header.tpl"}
+{include file="Smarty/templates/header.tpl" username=$username}
 
    <div class="card">
     <div class="container" style="margin-top: 5%; margin-bottom: 5%;">

@@ -117,10 +117,12 @@ class CUser{
                 if ($user && password_verify($password, $user->getPassword())) {
                     if ($user->isBanned()) {
                         $view->showError('Sei bannato!', false);
-                    } elseif (USession::getSessionStatus() == PHP_SESSION_NONE) {
+                    } else{
+                        if (USession::getSessionStatus() == PHP_SESSION_NONE) {
                         USession::getInstance(); // Session start
                         USession::setSessionElement('user', $user->getId()); // L'ID dell'utente viene posto nell'array $_SESSION
                         CHome::homePage();
+                        }
                     }
                 } else {
                     $view->showError('Password errata', false);
@@ -164,7 +166,7 @@ class CUser{
                 $username = $user->getUsername();
                 $email = $user->getEmail();
                 $pass = $user->getPassword();
-                $view->settings($username, $email, $pass);
+                $view->settings($username, $email);
             }
         }
 
