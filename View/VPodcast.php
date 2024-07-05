@@ -35,6 +35,8 @@
             $this->smarty->assign('userPodcasts',$myPodcasts);
             $this->smarty->assign('success', $success);
             $this->smarty->assign('textalert', $textalert);
+            $this->smarty->display('Smarty/templates/myPodcasts.tpl');
+
             
         }
 
