@@ -29,22 +29,30 @@
         //----------------------------------CRUD------------------------------------------
 
         //C 
-        public static function create($foundClass, $obj){
-            try{
-                // Inizia la transazione
+        public static function create($foundClass, $obj)
+        {
+            try {
+                // Inizia una transazione
                 self::$db->beginTransaction();
+        
                 $query = "INSERT INTO " . $foundClass::getTable() . " VALUES " . $foundClass::getValue() . ";";
                 $stmt = self::$db->prepare($query);
                 $foundClass::bind($stmt, $obj);
                 $stmt->execute();
                 $id = self::$db->lastInsertId();
+        
+                // Conferma la transazione
+                self::$db->commit();
+        
                 return $id;
-            }catch(Exception $e){
-                echo "ERROR: " . $e->getMessage();
+            } catch (Exception $e) {
+                // Annulla la transazione in caso di errore
                 self::$db->rollBack();
+                echo "ERROR: " . $e->getMessage();
                 return null;
             }
         }
+        
 
 
         //R

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.3.0, created on 2024-07-06 11:43:24
+/* Smarty version 5.3.0, created on 2024-07-06 12:14:40
   from 'file:Smarty/templates/login.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.3.0',
-  'unifunc' => 'content_668911bcafb1f3_07202728',
+  'unifunc' => 'content_66891910541b70_00540945',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c33c1999199afd62e064349ab8f4500709395a28' => 
     array (
       0 => 'Smarty/templates/login.tpl',
-      1 => 1720258978,
+      1 => 1720260879,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:Smarty/templates/failAlert.tpl' => 1,
   ),
 ))) {
-function content_668911bcafb1f3_07202728 (\Smarty\Template $_smarty_tpl) {
+function content_66891910541b70_00540945 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\xampp\\htdocs\\Jampod\\Smarty\\templates';
 ?><!doctype html>
 <html lang="en">
@@ -32,11 +32,11 @@ $_smarty_current_dir = 'C:\\xampp\\htdocs\\Jampod\\Smarty\\templates';
     <title>Jampod</title>
 
     <!-- CSS files -->
-    <link href="/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {
@@ -49,12 +49,12 @@ $_smarty_current_dir = 'C:\\xampp\\htdocs\\Jampod\\Smarty\\templates';
   </head>
   <body>
     <?php echo '<script'; ?>
- src="/Smarty/dist/js/demo-theme.min.js?1692870487"><?php echo '</script'; ?>
+ src="/Jampod/Smarty/dist/js/demo-theme.min.js?1692870487"><?php echo '</script'; ?>
 >
     <div class="page page-center">
       <div class="container container-tight py-4">
         <div class="text-center mb-4">
-          <img src="/Smarty/images/logo.svg" alt="Jampod" style="width: 120px; height: auto; margin-left: 5px;">
+          <img src="/Jampod/Smarty/images/logo.svg" alt="Jampod" style="width: 120px; height: auto; margin-left: 5px;">
           <h1>Jampod</h1>
         </div>
         <?php if ($_smarty_tpl->getValue('error')) {?>
@@ -99,10 +99,10 @@ $_smarty_current_dir = 'C:\\xampp\\htdocs\\Jampod\\Smarty\\templates';
     <!-- Libs JS -->
     <!-- Tabler Core -->
     <?php echo '<script'; ?>
- src="/Smarty/dist/js/tabler.min.js?1692870487" defer><?php echo '</script'; ?>
+ src="/Jampod/Smarty/dist/js/tabler.min.js?1692870487" defer><?php echo '</script'; ?>
 >
     <?php echo '<script'; ?>
- src="/Smarty/dist/js/demo.min.js?1692870487" defer><?php echo '</script'; ?>
+ src="/Jampod/Smarty/dist/js/demo.min.js?1692870487" defer><?php echo '</script'; ?>
 >
     <?php echo '<script'; ?>
 >

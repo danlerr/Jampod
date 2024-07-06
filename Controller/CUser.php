@@ -76,20 +76,35 @@ class CUser{
          * @return void
          */
         public static function registration()
-        {
-            $view = new VUser();
-            //verifica che lo username e l'email non esistano nel db
-            if(FPersistentManager::getInstance()->verifyUserEmail(UHTTPMethods::post('email')) == false && FPersistentManager::getInstance()->verifyUserUsername(UHTTPMethods::post('username')) == false){
-                    $user = new EUser(UHTTPMethods::post('email'),UHTTPMethods::post('password'),UHTTPMethods::post('username')); //nuovo oggetto entity user
-                    $result = FPersistentManager::getInstance()->createObj($user); //salvataggio dell'utente nel db
-                if ($result) {
+{
+    $view = new VUser();
 
-                    $view->showLoginForm(); //mostra il form di login 
-                }
-            }else{
-                    $view->showError('Errore durante la registrazione', false);
-                }
+    // Recupera i dati dal POST
+    $email = UHTTPMethods::post('email');
+    $username = UHTTPMethods::post('username');
+    $password = UHTTPMethods::post('password');
+
+    // Verifica che tutti i campi siano stati riempiti
+    if (empty($email) || empty($username) || empty($password)) {
+        $view->showError('Tutti i campi sono obbligatori', false);
+        return;
+    }
+
+    // Verifica che lo username e l'email non esistano nel db
+    if (!FPersistentManager::getInstance()->verifyUserEmail($email) && !FPersistentManager::getInstance()->verifyUserUsername($username)) {
+        $user = new EUser($email, $password, $username); // Nuovo oggetto entity user
+        $result = FPersistentManager::getInstance()->createObj($user); // Salvataggio dell'utente nel db
+
+        if ($result) {
+            $view->showLoginForm(); // Mostra il form di login 
+        } else {
+            $view->showError('Errore durante la registrazione', false);
         }
+    } else {
+        $view->showError('Email o username già esistenti', false);
+    }
+}
+
 
         public static function registrationForm(){
             $view = new VUser;

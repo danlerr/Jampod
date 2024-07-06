@@ -27,7 +27,7 @@
     <div class="page page-center">
       <div class="container container-tight py-4">
         <div class="text-center mb-4">
-          <img src="/Smarty/images/logo.svg" alt="Jampod" style="width: 120px; height: auto; margin-left: 5px;">
+          <img src="/Jampod/Smarty/images/logo.svg" alt="Jampod" style="width: 120px; height: auto; margin-left: 5px;">
           <h1>Jampod</h1>
         </div>
         <form id="registration" class="card card-md" action="/Jampod/User/registration" method="post" autocomplete="off" >
@@ -35,16 +35,16 @@
             <h2 class="card-title text-center mb-4">Crea nuovo account</h2>
             <div class="mb-3">
               <label class="form-label">Username</label>
-              <input type="text" class="form-control" placeholder="Inserire lo username">
+              <input name = "username" type="text" class="form-control" placeholder="Inserire lo username">
             </div>
             <div class="mb-3">
               <label class="form-label">Email</label>
-              <input type="email" class="form-control" placeholder="Inserire l'email">
+              <input name = "email" type="email" class="form-control" placeholder="Inserire l'email">
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
               <div class="input-group input-group-flat">
-                <input type="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
+                <input name = "password" type="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
                 <span class="input-group-text">
                   <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip" onclick="togglePasswordVisibility()">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
