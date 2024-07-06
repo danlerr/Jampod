@@ -1,5 +1,5 @@
 <?php
-require_once 'C:\xampp\htdocs\Jampod\Utility\USession.php';
+
 class CHome {
     public static function homePage() {
         if(CUser::isLogged()){
