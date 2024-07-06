@@ -11,14 +11,12 @@
     <link href="/Jampod/Smarty/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
     <link href="/Jampod/Smarty/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
     <link href="/Jampod/Smarty/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
-	  <link href="/Jampod/Smarty/dist/css/style1.css" rel="stylesheet"/>
     <link href="/Jampod/Smarty/dist/css/style.css" rel="stylesheet"/>
+	  <link href="/Jampod/Smarty/dist/css/style1.css" rel="stylesheet"/>
     <link href="/Jampod/Smarty/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 	  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-	  <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/comments-forms/comment-form-1/assets/css/comment-form-1.css" />
 	  <link href="/Jampod/Smarty/dist/libs/star-rating.js/dist/star-rating.min.css?1692870487" rel="stylesheet"/>
     
