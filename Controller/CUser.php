@@ -180,7 +180,6 @@ class CUser{
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $username = $user->getUsername();
                 $email = $user->getEmail();
-                $pass = $user->getPassword();
                 $view->settings($username, $email);
             }
         }
@@ -240,7 +239,7 @@ class CUser{
             if (CUser::isLogged()){
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
-                $username = $user->getUserUsername();
+                $username = $user->getUsername();
                 if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
                     $oldEmail = $user->getEmail();
                     $newEmail = UHTTPMethods::post('nuova email');

@@ -119,11 +119,12 @@
 
     //verifica che l'id dell'utente, passato per parametro, sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db
     public static function userValidation($queryResult, $idUser){
-        if(FDataBase::getInstance()->existInDb($queryResult) && $queryResult[0][FUser::getKey()] == $idUser){
-            return true;
-        }else{
-            return false;
+        foreach ($queryResult as $user) {
+            if ($user->getId() == $idUser) {
+                return true;
+            }
         }
+        return false;
     }
     
     public static function getUserByUsername($username)

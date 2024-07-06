@@ -1,9 +1,9 @@
-{include file="Smarty/templates/header.tpl" username=$username}
+{include file="Smarty/templates/header.tpl" username=$username email=$email}
      {if isset($textalert) && $textalert}
         {if $success}
-            {include file="Smarty/templates/successAlert.tpl "  textalert=$textalert}
+            {include file="Jampod/Smarty/templates/successAlert.tpl "  textalert=$textalert}
         {else}
-            {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
+            {include file="Jampod/Smarty/templates/failAlert.tpl"  textalert=$textalert}
         {/if}
     {/if}
 
@@ -30,12 +30,10 @@
               <div>
                 <div class="row g-2">
                   <div class="col-auto">
-                    <input type="text" class="form-control w-auto" value="leonpastorelli@gmail.com">
+                    <input type="text" class="form-control w-auto" value="{$email}">
                   </div>
                   <div class="col-auto">
-                    <a href="#" class="btn">
-                      Change
-                    </a>
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#changeEmailModal">Change</button>
                   </div>
                 </div>
               </div>
@@ -43,12 +41,7 @@
               <div>
                 <div class="row g-2">
                   <div class="col-auto">
-                    <input type="text" class="form-control w-auto" value="leonpastorelli">
-                  </div>
-                  <div class="col-auto">
-                    <a href="#" class="btn">
-                      Change
-                    </a>
+                    <input type="text" class="form-control w-auto" value="{$username}">
                   </div>
                 </div>
               </div>
@@ -89,6 +82,46 @@
   </div>
 </div>
 
+
+<!-- Change Email Modal -->
+              <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailModalLabel" aria-hidden="false">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="changeEmailModalLabel">Cambia Email</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form method="post" action="/Jampod/User/settings">
+                        <div class="mb-3">
+                          <label for="oldemail" class="form-label">Email attuale</label>
+                          <input type="email" class="form-control" id="oldemail" value="{$email}" readonly >
+                        </div>
+                        <div class="mb-3">
+                          <label for="newemail" class="form-label">Nuova Email</label>
+                          <input type="email" class="form-control" id="newemail" name="nuova_email" placeholder="Inserisci la nuova email">
+                        </div>
+                        <div class="text-end">
+                          <button type="submit" class="btn">Conferma</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Change Email Modal -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="alert alert-danger">
+  {$string}
+</div>
 
 
 
