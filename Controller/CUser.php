@@ -214,7 +214,7 @@ class CUser{
                 $email = $user->getEmail();
                 if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
                     $oldUsername = $user->getUsername();
-                    $newUsername = UHTTPMethods::post('nuovo username');
+                    $newUsername = UHTTPMethods::post('nuovo_username');
                     if (FPersistentManager::getInstance()->verifyUserUsername($newUsername) == false){
                         $result = FPersistentManager::getInstance()->updateObj($user, 'username', $newUsername);
                         if ($result){
@@ -242,8 +242,8 @@ class CUser{
                 $username = $user->getUsername();
                 if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
                     $oldEmail = $user->getEmail();
-                    $newEmail = UHTTPMethods::post('nuova email');
-                    if (FPersistentManager::getInstance()->verifyUserUsername($newEmail) == false){
+                    $newEmail = UHTTPMethods::post('email');
+                    if (FPersistentManager::getInstance()->verifyUserEmail($newEmail) == false){
                         $result = FPersistentManager::getInstance()->updateObj($user, 'email', $newEmail);
                         if ($result){
                             $view = new VUser;

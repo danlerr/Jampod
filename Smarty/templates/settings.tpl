@@ -1,9 +1,9 @@
 {include file="Smarty/templates/header.tpl" username=$username email=$email}
      {if isset($textalert) && $textalert}
         {if $success}
-            {include file="Jampod/Smarty/templates/successAlert.tpl "  textalert=$textalert}
+            {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
         {else}
-            {include file="Jampod/Smarty/templates/failAlert.tpl"  textalert=$textalert}
+            {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
         {/if}
     {/if}
 
@@ -44,7 +44,7 @@
                     <input type="text" class="form-control w-auto" value="{$username}" readonly>
                   </div>
                   <div class="col-auto">
-                    <button class="btn" data-bs-toggle="modal" data-bs-target="#changeEmailModal">Change</button>
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#changeUsernameModal">Change</button>
                   </div>
                 </div>
               </div>
@@ -87,7 +87,7 @@
 
 
 <!-- Change Email Modal -->
-              <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailModalLabel" aria-hidden="false">
+              <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -95,14 +95,14 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <form method="post" action="/Jampod/User/settings">
+                      <form method="post" action="/Jampod/User/editEmail">
                         <div class="mb-3">
                           <label for="oldemail" class="form-label">Email attuale</label>
-                          <input type="email" class="form-control" id="oldemail" value="{$email}" readonly >
+                          <input type="email" class="form-control" id="oldemail" value="{$email}" readonly disabled >
                         </div>
                         <div class="mb-3">
                           <label for="newemail" class="form-label">Nuova Email</label>
-                          <input type="email" class="form-control" id="newemail" name="nuova_email" placeholder="Inserisci la nuova email">
+                          <input type="email" class="form-control" id="newemail" name="email" placeholder="Inserisci la nuova email">
                         </div>
                         <div class="text-end">
                           <a href="/Jampod/User/editEmail" type="submit" class="btn">Conferma</a>
@@ -113,6 +113,35 @@
                 </div>
               </div>
               <!-- End Change Email Modal -->
+<!-- Change Username Modal -->
+              <div class="modal fade" id="changeUsernameModal" tabindex="-1" aria-labelledby="changeUsernameModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="changeUsernameModalLabel">Cambia Username</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              <form method="post" action="/Jampod/User/editUsername">
+                                  <div class="mb-3">
+                                      <label for="oldusername" class="form-label">Username attuale</label>
+                                      <input type="text" class="form-control" id="oldusername" value="{$username}" readonly disabled>
+                                  </div>
+                                  <div class="mb-3">
+                                      <label for="newusername" class="form-label">Nuovo Username</label>
+                                      <input type="text" class="form-control" id="newusername" name="nuovo_username" placeholder="Inserisci il nuovo username">
+                                  </div>
+                                  <div class="text-end">
+                                      <button type="submit" class="btn">Conferma</button>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- End Change Username Modal -->
+        
+
 
             </div>
           </div>
