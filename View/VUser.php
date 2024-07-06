@@ -1,4 +1,5 @@
 <?php
+    require_once 'StartSmarty.php';
     class VUser{
         
         private $smarty;

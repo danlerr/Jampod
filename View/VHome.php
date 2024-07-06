@@ -1,5 +1,5 @@
 <?php
-    require_once 'C:\xampp\htdocs\Jampod\StartSmarty.php';
+    require_once 'StartSmarty.php';
     class VHome{
 
         private $smarty;
