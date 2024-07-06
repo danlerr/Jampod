@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Jampod</title>
     <!-- CSS files -->
-    <link href="/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {

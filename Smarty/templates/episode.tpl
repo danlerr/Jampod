@@ -90,7 +90,7 @@
 
 			<div class="col d-flex justify-content-start align-items-center" >
 				<a href="donation.html" class="link-secondary">
-					<img class="currency-icon  mt-2 " src="/Smarty/images/currency-dollar.svg" alt="Currency Dollar Icon">
+					<img class="currency-icon  mt-2 " src="/Jampod/Smarty/images/currency-dollar.svg" alt="Currency Dollar Icon">
 				</a>
 				
 			</div>

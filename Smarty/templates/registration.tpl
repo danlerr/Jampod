@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Jampod</title>
     <!-- CSS files -->
-    <link href="/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {
@@ -23,7 +23,7 @@
     </style>
   </head>
   <body class="d-flex flex-column">
-    <script src="/Smarty/dist/js/demo-theme.min.js?1692870487"></script>
+    <script src="/Jampod/Smarty/dist/js/demo-theme.min.js?1692870487"></script>
     <div class="page page-center">
       <div class="container container-tight py-4">
         <div class="text-center mb-4">
@@ -68,8 +68,8 @@
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
-    <script src="/Smarty/dist/js/tabler.min.js?1692870487" defer></script>
-    <script src="/Smarty/dist/js/demo.min.js?1692870487" defer></script>
+    <script src="/Jampod/Smarty/dist/js/tabler.min.js?1692870487" defer></script>
+    <script src="/Jampod/Smarty/dist/js/demo.min.js?1692870487" defer></script>
     <script>
       function togglePasswordVisibility() {
         const passwordInput = document.getElementById('password');

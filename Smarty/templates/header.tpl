@@ -6,21 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Jampod</title>
     <!-- CSS files -->
-    <link href="/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
-	  <link href="/Smarty/dist/css/style1.css" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/style.css" rel="stylesheet"/>
-    <link href="/Smarty/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/Jampod/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
+	  <link href="/Jampod/Smarty/dist/css/style1.css" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/style.css" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 	  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 	  <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/comments-forms/comment-form-1/assets/css/comment-form-1.css" />
-	  <link href="/Smarty/dist/libs/star-rating.js/dist/star-rating.min.css?1692870487" rel="stylesheet"/>
+	  <link href="/Jampod/Smarty/dist/libs/star-rating.js/dist/star-rating.min.css?1692870487" rel="stylesheet"/>
     
     <style>
       @import url('https://rsms.me/inter/inter.css');
@@ -43,7 +43,7 @@
           </button>
 		      <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
 			      <a href="home.html" style="text-decoration: none; display: flex; align-items: center;">
-			        <img src="/Smarty/images/logo.png" style="width: 80px; height: auto;" alt="Tabler" class="navbar-brand-image">
+			        <img src="/Jampod/Smarty/images/logo.png" style="width: 80px; height: auto;" alt="Tabler" class="navbar-brand-image">
 			        <span class="ms-1 fw-bold " style="font-size: 1.70rem;">Jampod</span>
 			      </a>
 		      </h1>
@@ -57,7 +57,7 @@
 			<!--icona profilo-->
             <div class="nav-item dropdown">
 				      <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                <div><img src="/Smarty/images/user.svg" alt=""></div>
+                <div><img src="/Jampod/Smarty/images/user.svg" alt=""></div>
                 <div class="d-none d-xl-block ps-2">
                   <div>{$username}</div>
                 </div>
