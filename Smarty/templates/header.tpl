@@ -63,7 +63,7 @@
                 </div>
 				      </a>
 				      <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-					      <a href="/Jampod/Podcast/myPodcasts" class="dropdown-item">I miei podcast</a>
+					      <a href="/Jampod/Podcast/myPodcast" class="dropdown-item">I miei podcast</a>
 					      <a href="/Jampod/Balance/viewBalance" class="dropdown-item">Saldo</a>
 					      <div class="dropdown-divider"></div>
 					      <a href="/Jampod/User/settings" class="dropdown-item">Impostazioni</a>

@@ -243,7 +243,7 @@
             if ($myPodcasts){
                 return $myPodcasts;
             }else{
-                return null;
+                return array();
             }
         }
 

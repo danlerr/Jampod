@@ -1,4 +1,5 @@
 <?php
+require_once 'StartSmarty.php';
     class VPodcast{
         
         private $smarty;
@@ -11,12 +12,12 @@
 
         public function showPodcastPage($podcast, $imageInfo, $episodes, $userRole, $textalert = null, $sub = null, $success = null){
 
-            $this->smarty->assign('podcast_name', $podcast->getPodcastName);
-            $this->smarty->assign('podcast_description', $podcast->getPodcastDescription);
-            $this->smarty->assign('podcast_creator', $podcast->getUserId);
-            $this->smarty->assign('podcast_category', $podcast->getPodcastCategory);
+            $this->smarty->assign('podcast_name', $podcast->getPodcastName());
+            $this->smarty->assign('podcast_description', $podcast->getPodcastDescription());
+            $this->smarty->assign('podcast_creator', $podcast->getUserId());
+            $this->smarty->assign('podcast_category', $podcast->getPodcastCategory());
             $this->smarty->assign('mimetype', $imageInfo[0]);
-            $this->smarty->assign('imagedata', $imageInfo[1]);
+            $this->smarty->assign('imagedata', ($imageInfo[1]));
             $this->smarty->assign('episodes', $episodes);
             $this->smarty->assign('textalert', $textalert);
             $this->smarty->assign('userRole', $userRole);
