@@ -74,20 +74,21 @@
 
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
 
-                $userId = USession::getInstance()->getSessionElement('user')->getId();
+                $userId = USession::getInstance()->getSessionElement('user');
+                $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
                 $userRole = ($userId == $podcast->getUserId()) ? 'creator' : 'listener';
                 $sub = (FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id));
 
                 if($podcast!==null){
                     // Recupera la lista degli episodi associati al podcast
-                    $image = [$podcast->getImageMimeType, $podcast->getEncodedImageData()];
+                    $image = [$podcast->getImageMimeType(), $podcast->getEncodedImageData()];
 
                     $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);   
 
-                    if ($userRole == 'creator'){                                                             //
-                        $view->showPodcastPage($podcast, $image, $episodes, $userRole, $sub);               //controllo per vedere se chi visita il podcast 
-                    }else{                                                                                 //è il creatore di quel podcast  
-                        $view->showPodcastPage($podcast, $image, $episodes, $userRole, $sub);             //
+                    if ($userRole == 'creator'){                                                                       //
+                        $view->showPodcastPage($podcast, $creator, $image, $episodes, $userRole);                     //controllo per vedere se chi visita il podcast 
+                    }else{                                                                                           //è il creatore di quel podcast  
+                        $view->showPodcastPage($podcast, $creator, $image, $episodes, $userRole, $sub);             //
                     }
                     
                 }else{

@@ -6,11 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Jampod</title>
     <!-- CSS files -->
-    <link href="/Jampod/Smarty/dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Jampod/Smarty/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Jampod/Smarty/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Jampod/Smarty/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
-    <link href="/Jampod/Smarty/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler.min.css" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/tabler-vendors.min.css" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/demo.min.css" rel="stylesheet"/>
     <link href="/Jampod/Smarty/dist/css/style.css" rel="stylesheet"/>
 	  <link href="/Jampod/Smarty/dist/css/style1.css" rel="stylesheet"/>
     <link href="/Jampod/Smarty/dist/css/bootstrap.min.css" rel="stylesheet">

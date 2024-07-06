@@ -10,11 +10,11 @@ require_once 'StartSmarty.php';
     
         }
 
-        public function showPodcastPage($podcast, $imageInfo, $episodes, $userRole, $textalert = null, $sub = null, $success = null){
+        public function showPodcastPage($podcast, $creator,  $imageInfo, $episodes, $userRole, $textalert = null, $sub = null, $success = null){
 
             $this->smarty->assign('podcast_name', $podcast->getPodcastName());
             $this->smarty->assign('podcast_description', $podcast->getPodcastDescription());
-            $this->smarty->assign('podcast_creator', $podcast->getUserId());
+            $this->smarty->assign('podcast_creator', $creator);
             $this->smarty->assign('podcast_category', $podcast->getPodcastCategory());
             $this->smarty->assign('mimetype', $imageInfo[0]);
             $this->smarty->assign('imagedata', ($imageInfo[1]));

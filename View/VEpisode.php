@@ -1,6 +1,6 @@
 <?php
 
-
+require_once 'StartSmarty.php';
 class VEpisode{
     private $smarty;
 
@@ -10,7 +10,7 @@ class VEpisode{
  
     }
     public function showCreationForm() {
-        $this->smarty->display('creationEpisode.tpl');
+        $this->smarty->display('Smarty/templates/createEpisode.tpl');
     }
 
     public function showEpisodePage($episode, $podcast_title,$usernamecreator, $commentAndReplies, $votevalue=null, $avgVote, $image , $textalert= null, $success =null) {
