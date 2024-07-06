@@ -25,4 +25,10 @@
             $this->smarty->display('Smarty/templates/home.tpl');
             
         }
+
+        public function showCategory($category_name, $category_podcasts){   //da prendere category_name giù 
+            $this->smarty->assign('category_name', $category_name);
+            $this->smarty->assign('category_podcasts', $category_podcasts);
+            $this->smarty->display('Smarty/templates/category.tpl');
+        }
     }

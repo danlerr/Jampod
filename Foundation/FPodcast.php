@@ -93,7 +93,7 @@
             $p->setImageMimetype($result['image_mimetype']);
             $p->setSubcribe_counter($result['subscribe_counter']);
     
-            $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $result['podcast_creation_date']);
+            $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $result['podcast_creationtime']);
             if ($dateTime !== false) {
                 $p->setCreationTime($dateTime);
             }
@@ -156,7 +156,18 @@
                     $AVGPodcastvote = ($count > 0) ? ($sum / $count) : 0;
     
                     if ($AVGPodcastvote > 4) {
-                        $allfeature[] = $podcast; // Aggiungi il podcast all'array
+                        $podcastData = array(
+                            'podcast_id' => $podcast->getId(),
+                            'podcast_name' => $podcast->getPodcastName(),
+                            'podcast_description' => $podcast->getPodcastDescription(),
+                            'user_id' => $podcast->getUserId(),
+                            'category_name' => $podcast->getPodcastCategory(),
+                            'subscribe_counter' => $podcast->getSubscribeCounter(),
+                            'image_data' => $podcast->getImageData(),
+                            'image_mimetype' => $podcast->getImageMimeType(),
+                            'podcast_creation_date' => $podcast->getTimetoStr()
+                        );
+                        $allfeature[] = $podcastData; // Aggiungi il podcast all'array
                     }
                 }
             }
@@ -179,8 +190,8 @@
 
     public static function randomPodcasts(){
         $podcasts = FDataBase::getInstance()->retrieveAll(self::getTable());
-        $arr = array(shuffle($podcasts));
-        $rand5 = array_slice($arr, 5);
+        shuffle($podcasts);
+        $rand5 = array_slice($podcasts, 5);
 
         return $rand5;
     }
@@ -188,6 +199,11 @@
     public static function myPodcasts($user_id){
         $myPodcasts = FDataBase::getInstance()->retrieve(self::getTable(), 'user_id', $user_id);
         return $myPodcasts;
+    }
+
+    public static function retrieveByCategory($category_name){
+        $podCategory = FDataBase::getInstance()->retrieve(self::getTable(), 'category_name', $category_name);
+        return $podCategory;
     }
 
     

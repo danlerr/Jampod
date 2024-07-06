@@ -201,12 +201,6 @@
                 $view = new VPodcast;
                 $myPodcast = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
                 //print_r($myPodcast);
-
-                // Codifica i dati binari dell'immagine in Base64
-                foreach ($myPodcast as &$podcast) {                 //& modifica direttamente $myPodcast
-                $podcast['image_data'] = base64_encode($podcast['image_data']);
-        }
-
                 $view->showMyPodcastPage($myPodcast);
             }
         }

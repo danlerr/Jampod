@@ -67,18 +67,18 @@
                                 <div class="list-group-item">
                                     <div class="row g-2 align-items-center">
                                         <div class="col-auto fs-3">
-                                            {$episode->getEpisode_title()}
+                                            {$episode.episode_title}
                                         </div>
                                         <div class="col-auto">
-                                            <img src="data:{$episode->getImageMimeType()};base64,{$episode->getImageData()}" class="rounded" alt="{$episode.title}" width="40" height="40">
+                                            <img src="data:{$episode.mimetype};base64,{$episode.imagedata}" class="rounded" alt="{$episode.title}" width="40" height="40">
                                         </div>
                                         <div class="col">
-                                            <a href="Jampod/Episode/{$episode->getId()}" style="text-decoration: none; color: inherit;">
-                                                {$episode->getEpisode_title()}
+                                            <a href="Jampod/Episode/{$episode.episode_id}" style="text-decoration: none; color: inherit;">
+                                                {$episode.episode_title}
                                             </a>
                                         </div>
                                         <div class="col-auto text-secondary">
-                                            {$episode->getEpisode_creationtime}
+                                            {$episode.episode_creationtime}
                                         </div>
                                         <div class="col-auto lh-1">
                                             <div class="dropdown">

@@ -169,7 +169,7 @@
         public static function retrieveNewObj($table, $limit)
         {
             try {
-                $query = "SELECT * FROM $table ORDER BY creationTime DESC LIMIT :limit";
+                $query = "SELECT * FROM $table ORDER BY podcast_creationtime DESC LIMIT :limit";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
                 $stmt->execute();

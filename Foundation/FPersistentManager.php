@@ -212,9 +212,13 @@
         }
 
         public static function retrieveNewPodcast(){
-            $new = FPodcast::retrieveNewPods();
-            if ($new){
-                return $new;
+            $news = FPodcast::retrieveNewPods();
+            // Codifica i dati binari dell'immagine in Base64
+            foreach ($news as &$podcast) {                 //& modifica direttamente $myPodcast
+                $podcast['image_data'] = base64_encode($podcast['image_data']);
+            }
+            if ($news){
+                return $news;
             }else{
                 return null;
             }
@@ -222,15 +226,23 @@
 
         public static function retrieveFeature(){
             $feature = FPodcast::retrieveFeaturePodcasts();
+            // Codifica i dati binari dell'immagine in Base64
             if ($feature){
-                return $feature;
+                foreach ($feature as &$podcast) {                 
+                    $podcast['image_data'] = base64_encode($podcast['image_data']);
+                    return $feature;
+                }
             }else{
-                return null;
+                return array();
             }
         }
         
         public static function retrieveRandomPodcasts(){
             $randomPodcasts = FPodcast::randomPodcasts();
+            // Codifica i dati binari dell'immagine in Base64
+            foreach ($randomPodcasts as &$podcast) {                 
+                $podcast['image_data'] = base64_encode($podcast['image_data']);
+            }
             if ($randomPodcasts){
                 return $randomPodcasts;
             }else{
@@ -240,6 +252,10 @@
 
         public static function retrieveMyPodcasts($user_id){
             $myPodcasts = FPodcast::myPodcasts($user_id);
+            // Codifica i dati binari dell'immagine in Base64
+            foreach ($myPodcasts as &$podcast) {                 
+                $podcast['image_data'] = base64_encode($podcast['image_data']);
+            }
             if ($myPodcasts){
                 return $myPodcasts;
             }else{
@@ -255,7 +271,21 @@
             }else{
                 return null;
             }
-        }   
+        }  
+        
+        public static function retrievePodByCategory($category_name){
+            $result = FPodcast::retrieveBycategory($category_name);
+            // Codifica i dati binari dell'immagine in Base64
+            foreach ($result as &$podcast) {                 
+                $podcast['image_data'] = base64_encode($podcast['image_data']);
+            }
+            if($result){
+                return $result;
+            }else{
+                return array();
+            }
+
+        }
 
         //-------------------------------------DONATION-----------------------------------------------------
         public static function retrieveDonationsReceived($userId){ //metodo che a partire dall' userId restituisce 

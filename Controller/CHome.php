@@ -22,10 +22,27 @@ class CHome {
             
             // Recupera i podcast consigliati
             $recommendedPodcasts = FPersistentManager::getInstance()->retrieveRandomPodcasts();
+
+            
+            
             
             $view->showHome($username, $featuredPodcasts, $categories, $newPodcasts, $recommendedPodcasts);
         } else{
             CUser::loginForm();
         }
     }
+
+    public static function visitCategory($category_name){
+        if (CUser::isLogged()){
+            
+            $category_podcasts = FPersistentManager::getInstance()->retrievePodByCategory($category_name);
+            //print_r($category_podcasts);
+            if ($category_podcasts){
+                $view = new VHome;
+                $view->showCategory($category_name, $category_podcasts);
+            }
+        }
+    }
+
+
 }
