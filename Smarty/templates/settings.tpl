@@ -30,7 +30,7 @@
               <div>
                 <div class="row g-2">
                   <div class="col-auto">
-                    <input type="text" class="form-control w-auto" value="{$email}">
+                    <input type="text" class="form-control w-auto" value="{$email}" readonly>
                   </div>
                   <div class="col-auto">
                     <button class="btn" data-bs-toggle="modal" data-bs-target="#changeEmailModal">Change</button>
@@ -41,7 +41,10 @@
               <div>
                 <div class="row g-2">
                   <div class="col-auto">
-                    <input type="text" class="form-control w-auto" value="{$username}">
+                    <input type="text" class="form-control w-auto" value="{$username}" readonly>
+                  </div>
+                  <div class="col-auto">
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#changeEmailModal">Change</button>
                   </div>
                 </div>
               </div>
@@ -102,7 +105,7 @@
                           <input type="email" class="form-control" id="newemail" name="nuova_email" placeholder="Inserisci la nuova email">
                         </div>
                         <div class="text-end">
-                          <button type="submit" class="btn">Conferma</button>
+                          <a href="/Jampod/User/editEmail" type="submit" class="btn">Conferma</a>
                         </div>
                       </form>
                     </div>
