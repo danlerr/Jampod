@@ -1,5 +1,14 @@
 {include file="header.tpl"}
 
+
+<!--alert-->
+    {if isset($textalert) && $textalert}
+        {if $success}
+            {include file="Smarty/templates/successAlert.tpl"}
+        {else}
+            {include file="Smarty/templates/failAlert.tpl"}
+        {/if}
+    {/if}
     <!--saldo-->
     <div class="container mt-5">
         <div class="saldo-section bg-white p-4 rounded shadow-sm mb-4">
@@ -44,10 +53,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form name="amountForm" method="post" action="/Jampod/Balance/rechargeBalance">
                         <div class="mb-3">
                             <label for="ricaricaImporto" class="form-label">Importo</label>
-                            <input type="number" class="form-control" id="ricaricaImporto" placeholder="Inserisci importo">
+                            <input type="number" class="form-control" id="ricaricaImporto" name="amount" placeholder="Inserisci importo" required>
                         </div>
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-outline-success">Conferma</button>
@@ -58,7 +67,7 @@
         </div>
     </div>
 
-    <!-- Modal Preleva Saldo -->
+   <!-- Modal Preleva Saldo -->
     <div class="modal fade" id="prelevaModal" tabindex="-1" aria-labelledby="prelevaModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -67,14 +76,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form name="withdrawForm" method="post" action="/Jampod/Balance/withdrawBalance">
                         <div class="mb-3">
                             <label for="prelevaImporto" class="form-label">Importo</label>
-                            <input type="number" class="form-control" id="prelevaImporto" placeholder="Inserisci importo">
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <button type="submit" class="btn btn-outline-danger">Conferma</button>
-                            </div>
+                            <input type="number" class="form-control" id="prelevaImporto" name="amount" placeholder="Inserisci importo" required>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-outline-danger">Conferma</button>
                         </div>
                     </form>
                 </div>

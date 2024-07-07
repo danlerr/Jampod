@@ -116,7 +116,7 @@
         <div class="mt-3 d-flex flex-column align-items-center">
                     {if $userRole == 'creator'}
                         <a href="/Jampod/Episode/creationEpisodeForm/{$podcast->getId()}" class="btn btn-primary">Crea un nuovo episodio</a>
-                        <a href="/Jampod/Podcast/deletePodcast/" class="btn btn-danger mt-2">Elimina podcast</a>
+                        <a href="/Jampod/Podcast/deletePodcast/{$podcast->getId()}" class="btn btn-danger mt-2">Elimina podcast</a>
                     {else}
                         {if $sub == false}
                             <a href="/Jampod/Podcast/Subscribe/{$podcast->getId()}" class="btn btn-primary">Iscriviti al podcast</a>
