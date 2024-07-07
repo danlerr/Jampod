@@ -44,4 +44,11 @@
             $this->smarty->display('Smarty/templates/creditcard.tpl');
         }
         
+        public function userCards($cards, $textAlert = null, $success = true) {
+            $this->smarty->assign('cards', $cards);
+            $this->smarty->assign('textalert', $textAlert);
+            $this->smarty->assign('success', $success);
+            $this->smarty->assign('card_count', count($cards));
+            $this->smarty->display('Smarty/templates/creditcard.tpl');
+        }
     }

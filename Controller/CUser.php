@@ -191,10 +191,9 @@ class CUser{
                 if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
                     $user_password = $user->getPassword(); //password criptata dal db
                     $password = UHTTPMethods::post('old_password');
-                    $hashedOldPassword=password_hash($password, PASSWORD_DEFAULT);
                     $newPassword = UHTTPMethods::post('new_password');  
                     $hashedNewPassword=password_hash($newPassword, PASSWORD_DEFAULT);
-                    if($user_password==$hashedOldPassword){
+                    if (password_verify($password, $user_password)){
                         $result = FPersistentManager::getInstance()->updateObj($user, 'password', $hashedNewPassword); 
                         if ($result){
                             $view=new VUser;
@@ -283,9 +282,9 @@ class CUser{
     
         $result = FPersistentManager::getInstance()->createObj($creditCard);
         if ($result) {
-            $view->showCreditCardSuccess("carta inserita con successo! :)");
+            self::showUserCreditCards("carta inserita con successo! :)",true);
         } else {
-            $view::showCreditCardErrorView("problemi con l'inserimento della carta :(");
+            self::showUserCreditCards("problemi con l'inserimento della carta :(",false);
         }
     }
 
@@ -295,36 +294,45 @@ class CUser{
      * 
      */
 
-     public static function removeCreditCard($cardId) { 
+     public static function removeCreditCard() { 
         $userId = USession::getInstance()->getSessionElement('user');
-        $creditCard = FPersistentManager::getInstance()->retrieveObj('ECreditCard',$cardId);
+        $cardId = UHTTPMethods::post('card_id'); // Recupera l'ID della carta di credito dalla richiesta POST
+
+        if (!$cardId) {
+            self::showUserCreditCards("ID della carta di credito mancante.", false);
+            return;
+        }
+    
+        $creditCard = FPersistentManager::getInstance()->retrieveObj('ECreditCard', $cardId);
+        if (!$creditCard || $creditCard->getUserId() != $userId) {
+            self::showUserCreditCards("Carta di credito non trovata o non autorizzata.", false);
+            return;
+        }
     
         $result = FPersistentManager::getInstance()->deleteObj($creditCard);
         if ($result) {
-            $view->showCreditCardSuccess("carta rimossa con successo! :)");
+            self::showUserCreditCards("Carta rimossa con successo.", true);
         } else {
-            $view::showCreditCardErrorView("Non è stato possibile rimuovere la carta :(");
+            self::showUserCreditCards("Problemi con la rimozione della carta.", false);
         }
     }
 
 
-    public static function showUserCreditCards() {       //metodo che mostra tutte le carte dell'utente 
+    public static function showUserCreditCards($textAlert=null,$success=true) {       //metodo che mostra tutte le carte dell'utente 
         $userId = USession::getInstance()->getSessionElement('user');
         $creditCards = FPersistentManager::getInstance()->retrieveUserCreditCards($userId);
-        
+
         if ($creditCards) {
-            if ($creditCards) {
                 // Maschera i numeri delle carte di credito
                 foreach ($creditCards as &$creditCard) {
                     $maskedNumber = self::maskCreditCardNumber($creditCard->getCardNumber());
                     $creditCard->setCardNumber($maskedNumber);
                 }
-            VCreditCard::showCreditCards($creditCards);
-        } else {
-            VCreditCard::showCreditCardErrorView("Nessuna carta di credito trovata.");
+            $view=new VUser();
+            $view->userCards($creditCards ?: [],$textAlert,$success);
+            }
         }
-        }
-    }
+    
     
     public static function maskCreditCardNumber($cardNumber) {    //metodo che fa visualizzare solo le ultime 4 cifre di una carta
         return str_repeat('*', strlen($cardNumber) - 4) . substr($cardNumber, -4);  //di credito per motivi di sicurezza
