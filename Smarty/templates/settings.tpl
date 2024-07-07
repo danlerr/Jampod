@@ -1,7 +1,7 @@
 {include file="Smarty/templates/header.tpl" username=$username email=$email}
      {if isset($textalert) && $textalert}
         {if $success}
-            {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
+            {include file="Smarty/templates/successAlert.tpl"  textalert=$textalert}
         {else}
             {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
         {/if}
@@ -60,17 +60,17 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <form>
+                      <form method="post" action="/Jampod/User/editPassword">
                         <div class="mb-3">
                           <label for="vecchiapassword" class="form-label">Vecchia Password</label>
-                          <input type="password" class="form-control" id="vecchiapassword" placeholder="Inserisci la vecchia password">
+                          <input type="password" class="form-control" id="vecchiapassword" name="old_password" placeholder="Inserisci la vecchia password">
                         </div>
                         <div class="mb-3">
                           <label for="nuovapassword" class="form-label">Nuova Password</label>
-                          <input type="password" class="form-control" id="nuovapassword" placeholder="Inserisci la nuova password">
+                          <input type="password" class="form-control" id="nuovapassword" name="new_password" placeholder="Inserisci la nuova password">
                         </div>
                         <div class="text-end">
-                          <button type="button" class="btn" id="confermamodificapassword">Conferma</button>
+                          <button type="submit" class="btn">Conferma</button>
                         </div>
                       </form>
                     </div>
@@ -105,7 +105,7 @@
                           <input type="email" class="form-control" id="newemail" name="email" placeholder="Inserisci la nuova email">
                         </div>
                         <div class="text-end">
-                          <a href="/Jampod/User/editEmail" type="submit" class="btn">Conferma</a>
+                          <button type="submit" class="btn">Conferma</button>
                         </div>
                       </form>
                     </div>
@@ -151,9 +151,6 @@
   </div>
 </div>
 
-<div class="alert alert-danger">
-  {$string}
-</div>
 
 
 

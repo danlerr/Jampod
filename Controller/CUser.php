@@ -189,22 +189,27 @@ class CUser{
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
                 if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
-                    $user_password = $user->getPassword();
-                    $password = UHTTPMethods::post('vecchia password');
-                    $newPassword = UHTTPMethods::post('nuova password');
-                    $result = FPersistentManager::getInstance()->updatePassword($password, $user_password, $newPassword, $user); 
-                    if ($result){
-                        self::settings();
+                    $user_password = $user->getPassword(); //password criptata dal db
+                    $password = UHTTPMethods::post('old_password');
+                    $hashedOldPassword=password_hash($password, PASSWORD_DEFAULT);
+                    $newPassword = UHTTPMethods::post('new_password');  
+                    $hashedNewPassword=password_hash($newPassword, PASSWORD_DEFAULT);
+                    if($user_password==$hashedOldPassword){
+                        $result = FPersistentManager::getInstance()->updateObj($user, 'password', $hashedNewPassword); 
+                        if ($result){
+                            $view=new VUser;
+                            $view->settings($user->getUsername(),$user->getEmail(),'password modificata con successo',true);
+                        }else{
+                            $view = new VUser;
+                            $view->settings($user->getUsername(),$user->getEmail(),'impossibile modificare la password',false);
+                        }
                     }else{
-                        $view = new VUser;
-                        $view->showError('impossibile modificare la password', false);
+                            $view = new VUser;
+                            $view->settings($user->getUsername(),$user->getEmail(),'non è questa la tua vecchia password',false);
                     }
-                }else{
-                    $view = new VUser;
-                    $view->showError('puoi modificare solamente la tua password', false);
-                }
+                   
             }
-        }
+        }}
         
 
         public static function editUsername(){  
