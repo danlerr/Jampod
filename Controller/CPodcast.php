@@ -62,8 +62,8 @@
                         $textalert = "problemi con l'eliminazione del podcast :(";
                         $view->showMyPodcastPage($myPodcasts, $success, $textalert);
                     }
-                }else{
-                    $view->showError('Registrati :/');
+            }else{
+                $view->showError('Registrati :/');
                 }
             }
         }

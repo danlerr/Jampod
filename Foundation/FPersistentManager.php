@@ -309,7 +309,11 @@
         //-------------------------------------CREDIT CARD-----------------------------------------------------
         public static function retrieveUserCreditCards($userId){ //metodo che a partire dall' userId restituisce 
             $creditCards=FCreditCard::retrieveOwnedCreditCards($userId); //tutte le carte di credito di quell'utente
-            return $creditCards;
+            if ($creditCards){
+                return $creditCards;
+            }else{
+                return array();
+            }
         }
 
         //-------------------------------------COMMENT-----------------------------------------------------

@@ -108,16 +108,15 @@
                         </div>
                     </div>
                 </div>
-            
+            </div>
         </div>
 
 
         <!-- Bottone in base al ruolo dell'utente -->
-        <div class="row mt-3">
-            <div class="col-lg-8">
-                <div class="mt-3 d-flex justify-content-center">
+        <div class="mt-3 d-flex flex-column align-items-center">
                     {if $userRole == 'creator'}
-                        <a href="/Jampod/Episode/creationEpisodeForm/" class="btn btn-primary">Crea un nuovo episodio</a>
+                        <a href="/Jampod/Episode/creationEpisodeForm/{$podcast->getId()}" class="btn btn-primary">Crea un nuovo episodio</a>
+                        <a href="/Jampod/Podcast/deletePodcast/" class="btn btn-danger mt-2">Elimina podcast</a>
                     {else}
                         {if $sub == false}
                             <a href="/Jampod/Podcast/Subscribe/{$podcast->getId()}" class="btn btn-primary">Iscriviti al podcast</a>
@@ -125,9 +124,6 @@
                             <a href="/Jampod/Podcast/Unsubscribe/{$podcast->getId()}" class="btn btn-primary">Iscritto</a>
                         {/if}
                     {/if}
-                </div>
-            </div>
-        </div>
     </div>
 
 {/nocache}

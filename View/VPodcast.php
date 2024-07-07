@@ -33,8 +33,6 @@ require_once 'StartSmarty.php';
             $this->smarty->assign('success', $success);
             $this->smarty->assign('textalert', $textalert);
             $this->smarty->display('Smarty/templates/myPodcasts.tpl');
-
-            
         }
 
         public function showError($string){
