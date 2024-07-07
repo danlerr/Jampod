@@ -194,9 +194,9 @@
 
         public static function retrieveEpisodesByPodcast($podcast_id){
             
-            $podcasts = FEpisode::retrieveMoreEpisodes($podcast_id);
-            if($podcasts!== null){
-                return $podcasts;
+            $episodes = FEpisode::retrieveMoreEpisodes($podcast_id);
+            if($episodes){
+                return $episodes;
             }else{
                 return array();
             }

@@ -29,7 +29,10 @@ public static function createEntity($queryResult) {
     $episodes = array();
 
     foreach ($queryResult as $result) {
-        $e = new EEpisode($result['episode_title'], $result['episode_description'], $result['podcast_id']);
+        $e = new EEpisode($result['episode_title'],
+                          $result['episode_description'], 
+                          $result['podcast_id']);
+
         $e->setEpisodeId($result['episode_id']);
         $e->setImageData($result['image_data']);
         $e->setImageMimetype($result['image_mimetype']);
@@ -38,6 +41,7 @@ public static function createEntity($queryResult) {
         $e->setEpisodeStreams($result['episode_streams']);
         $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $result['episode_creationtime']);
         $e->setCreationTime($dateTime);
+        
         $episodes[] = $e;
     }
 
@@ -111,12 +115,11 @@ public static function deleteObject($id){
 
 
 public static function retrieveMoreEpisodes($podcast_id) {
-    $result = FDataBase::getInstance()->retrieve(self::getTable(), FPodcast::getKey(), $podcast_id); 
-    if(count($result) > 0){
-        $episodes = self::createEntity($result);
+    $episodes = FDataBase::getInstance()->retrieve(self::getTable(), FPodcast::getKey(), $podcast_id); 
+    if($episodes){
         return $episodes;
     }else{
-        return null;
+        return array();
     }
 }
 public static function retrieveAudioTrack($episode_id) {

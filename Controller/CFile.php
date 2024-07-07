@@ -20,7 +20,7 @@ class CFile{
         $imagedata = file_get_contents($file['tmp_name']);
         
 
-        echo "File $imagename inserito correttamente!";
+        //echo "File $imagename inserito correttamente!";
         
         // Ritorna le informazioni data e mimetype dell'immagine
         return [

@@ -1,5 +1,7 @@
 {include file="Smarty/templates/header.tpl" username=$username}
 
+{nocache}
+
 <style>
       .podcast-container {
             display: flex;
@@ -32,29 +34,29 @@
 
 <!--alert-->
 {if isset($textalert) && $textalert}
-{if $success}
-    {include file="Smarty/templates/successAlert.tpl "  textalert=$textalert}
-{else}
-    {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
-{/if}
+    {if $success}
+        {include file="Smarty/templates/successAlert.tpl"  textalert=$textalert}
+    {else}
+        {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
+    {/if}
 {/if}
 
 <!--podcast-->
 	  <div class="page-body">
         <div class="container-xl">
             <div class="d-flex justify-content-between align-items-center mb-5">
-                <h1 class="text mb-0">{$podcast_name}</h1>
-                <span class="badge small-badge">{$subscribeCounter} iscritti</span>
+                <h1 class="text mb-0">{$podcast->getPodcastName()}</h1>
+                <span class="badge small-badge">{$podcast->getSubscribeCounter()} iscritti</span>
             </div>
             <h3 class="text mb-1">{$podcast_creator}</h3>
-            <small class="text mb-5">{$podcast_category}</small>
-            <h4 class="text mb-5 mt-5">Descrizione:{$podcast_description}</h4>
+            <small class="text mb-5">{$podcast->getPodcastCategory()}</small>
+            <h4 class="text mb-5 mt-5">Descrizione:{$podcast->getPodcastDescription()}</h4>
             
             <div class="podcast-container">
                 <!-- Copertina del podcast -->
                 <div class="podcast-cover">
                     <a href="#" class="d-block aspect-ratio-1x1">
-                        <img src="data:{$mimetype};base64,{$imagedata}" alt="Copertina podcast">
+                        <img src="data:{$podcast->getImageMimeType()};base64,{$podcast->getEncodedImageData()}" alt="Copertina podcast">
                     </a>
                 </div>
 
@@ -63,6 +65,9 @@
                 <div class="podcast-episodes">
                     <div class="card2">
                         <div class="list-group card-list-group">
+                        {if $episodes|@count == 0}
+                            <p>Nessun episodio disponibile.</p>
+                        {else}
                             {foreach from=$episodes item=episode}
                                 <div class="list-group-item">
                                     <div class="row g-2 align-items-center">
@@ -70,10 +75,10 @@
                                             {$episode.episode_title}
                                         </div>
                                         <div class="col-auto">
-                                            <img src="data:{$episode.mimetype};base64,{$episode.imagedata}" class="rounded" alt="{$episode.title}" width="40" height="40">
+                                            <img src="data:{$episode.imageMimeType};base64,{$episode.imageData}" class="rounded" alt="{$episode.episode_title}" width="40" height="40">
                                         </div>
                                         <div class="col">
-                                            <a href="Jampod/Episode/{$episode.episode_id}" style="text-decoration: none; color: inherit;">
+                                            <a href="Jampod/Episode/visitEpisode/{$episode.episode_id}" style="text-decoration: none; color: inherit;">
                                                 {$episode.episode_title}
                                             </a>
                                         </div>
@@ -99,11 +104,14 @@
                                     </div>
                                 </div>
                             {/foreach}
+                            {/if}
                         </div>
                     </div>
                 </div>
             
         </div>
+
+
         <!-- Bottone in base al ruolo dell'utente -->
         <div class="row mt-3">
             <div class="col-lg-8">
@@ -122,5 +130,5 @@
         </div>
     </div>
 
-
+{/nocache}
 {include file="Smarty/templates/footer.tpl"}

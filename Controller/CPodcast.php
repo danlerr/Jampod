@@ -16,7 +16,7 @@
 
                 $imageInfo = CFile::getImageInfo();
                 if ($imageInfo){
-                    $podcast->setImageData(CFile::getImageInfo()['imagedata']);
+                    $podcast->setImageData((CFile::getImageInfo()['imagedata']));
                     $podcast->setImageMimetype(CFile::getImageInfo()['imagemimetype']);
                 }else{
                     $view->showError("Problemi con il caricamento dell'immagine di copertina :(");
@@ -26,12 +26,12 @@
 
                 $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast->getId()); //forse non serve, quando viene creato un podcast non ha episodi 
 
+                $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+
                 $userRole ='creator';
 
-                $success = 'true';
-
                 if($result){
-                    $view->showPodcastPage($podcast, $imageInfo, $episodes, $userRole, "Podcast creato con successo! :)", $success);
+                    $view->showPodcastPage($podcast, $creator, $episodes, $userRole, "Podcast creato con successo! :)", null, true);
                 }else{
                     $view->showError('Impossibile creare il podcast :('); 
                 }
@@ -84,7 +84,7 @@
                     $image = [$podcast->getImageMimeType(), $podcast->getEncodedImageData()];
 
                     $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);   
-
+                    print_r($episodes);
                     if ($userRole == 'creator'){                                                                       //
                         $view->showPodcastPage($podcast, $creator, $image, $episodes, $userRole);                     //controllo per vedere se chi visita il podcast 
                     }else{                                                                                           //è il creatore di quel podcast  

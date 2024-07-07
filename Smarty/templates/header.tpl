@@ -38,7 +38,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 		      <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-			      <a href="home.html" style="text-decoration: none; display: flex; align-items: center;">
+			      <a href="/Jampod/Home/homePage" style="text-decoration: none; display: flex; align-items: center;">
 			        <img src="/Jampod/Smarty/images/logo.png" style="width: 80px; height: auto;" alt="Tabler" class="navbar-brand-image">
 			        <span class="ms-1 fw-bold " style="font-size: 1.70rem;">Jampod</span>
 			      </a>

@@ -70,7 +70,7 @@
             {foreach from=$recommendedPodcasts item=podcast}
                 <div class="col">
                     <div class="card">
-                        <a href="podcast{$podcast.podcast_id}" class="d-block aspect-ratio-1x1">
+                        <a href="/Jampod/Podcast/visitPodcast/{$podcast.podcast_id}" class="d-block aspect-ratio-1x1">
                             <img src="data:{$podcast.image_mimetype};base64,{$podcast.image_data}" class="card-img-top" alt="{$podcast.podcast_name}">
                         </a>
                         <div class="card-body">
