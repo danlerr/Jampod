@@ -24,8 +24,8 @@ require_once 'StartSmarty.php';
         }
 
         //metodo per mostrare modifiche/errori tramite alert nella pagina del podcast 
-        public function showPodcastError($podcast, $imageInfo,$episodes, $userRole, $textalert = null, $sub = null, $success = null){
-            self::showPodcastPage($podcast, $imageInfo,$episodes, $userRole, $textalert = null, $sub = null, $success = null);
+        public function showPodcastError($podcast, $creator,$episodes, $userRole, $textalert = null, $sub = null, $success = null){
+            self::showPodcastPage($podcast, $creator, $episodes, $userRole, $textalert = null, $sub = null, $success = null);
         } 
 
         public function showMyPodcastPage($myPodcasts, $success = null, $textalert = null){

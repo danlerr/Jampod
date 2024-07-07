@@ -21,13 +21,26 @@ require_once 'autoloader.php';
 
 //print_r($categories);
 
-$pod = new EPodcast('ii', 'de', '66', 'Salute');
+//$pod = new EPodcast('ii', 'de', '66', 'Salute');
 
-$result = FPersistentManager::getInstance()->createObj($pod);
+//$result = FPersistentManager::getInstance()->createObj($pod);
 
 // if ($result){
 //     echo 'pod creato';
 // }else{
 //     echo 'problemi';
 // }
-echo($pod->getPodcastCategory());
+
+
+
+//$idp = $pod->getId();
+
+//$retrieve2 = FPersistentManager::getInstance()->retrieveObj('EPodcast', $idp);
+
+//$update = FPersistentManager::getInstance()->updateObj($pod, 'subscribe_counter', 35);
+
+echo (FPersistentManager::getInstance()->isSubscribed(69, 43));
+// if ($update){
+//     echo 'yes';
+// }
+//echo($pod->getPodcastCategory());

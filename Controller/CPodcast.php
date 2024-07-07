@@ -97,34 +97,6 @@
             }
         }
 
-        // public static function editPodcast($podcast_id){
-
-        //     if (CUser::isLogged()) {
-        //         $view = new VPodcast;
-        //         $userId = USession::getInstance()->getSessionElement('user');
-        //         $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
-        
-        //         if ($podcast && $podcast->getUserId() == $userId) {
-        //             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        //                 $field = UHTTPMethods::post('field'); // Nome del campo da aggiornare (es. 'podcast_name')
-        //                 $value = UHTTPMethods::post('value'); // Nuovo valore del campo
-        
-        //                 $result = FPersistentManager::getInstance()->updateObj($podcast, $field, $value);
-        
-        //                 if ($result) {
-        //                     $view->showEditSuccess("Podcast aggiornato con successo.");
-        //                 } else {
-        //                     $view->showPodcastError("Errore durante l'aggiornamento del podcast.");
-        //                 }
-        //             } else {
-        //                 //$view->showEditForm($podcast);
-        //             }
-        //         } else {
-        //             $view->showPodcastError("Podcast non trovato o non autorizzato.");
-        //         }
-        //     }
-        // }
-
         public static function searchPodcasts() {
 
         }
@@ -132,28 +104,33 @@
         public static function Subscribe($podcast_id) {
             if (CUser::isLogged()) {
                 $view = new VPodcast;
-                $userId = USession::getInstance()->getSessionElement('user')->getId();
+                $userId = USession::getInstance()->getSessionElement('user');
+                $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+
         
                 if ($podcast) {
-                    $image = [$podcast->getImageMimeType(), $podcast->getEncodedImageData()];
                     $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
                     $userRole = 'listener';
         
-                    $isSub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);
-                    if (!$isSub) {
+                    $isSub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);  //vedere se issub funziona 
+
+                    if ($isSub === false) {
                         $subscribe = new ESubscribe($podcast_id, $userId);
                         $result = FPersistentManager::getInstance()->createObj($subscribe);
         
                         if ($result) {
-                            $newSubCount = $podcast->setSubscribeCounter($podcast->getSubscribeCounter() + 1);
-                            FPersistentManager::getInstance()->updateObj($podcast, 'subscribe_counter', $newSubCount); // Assicurati di avere una funzione di aggiornamento per il contatore di iscrizioni
-                            self::visitPodcast($podcast_id);
+                            $oldSubCount = $podcast->getSubscribeCounter();
+                            $newSubCount = $oldSubCount++;
+                            $podcast->setSubcribe_counter($newSubCount);
+                            $update = FPersistentManager::getInstance()->updateObj($podcast, 'subscribe_counter', $newSubCount); 
+                            if ($update){
+                                self::visitPodcast($podcast_id);}
                         } else {
                             $success = false;
-                            $view->showPodcastError($podcast, $image, $episodes, "Errore durante l'iscrizione al podcast :(", $userRole, $success);
+                            $view->showPodcastError($podcast, $episodes, $creator, "Errore durante l'iscrizione al podcast :(", $userRole, $success);
                         }
-                    } else {
+                    }else{
                         self::visitPodcast($podcast_id); // Se l'utente è già iscritto, semplicemente mostra il podcast
                     }
                 } else {

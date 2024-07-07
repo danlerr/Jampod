@@ -125,18 +125,16 @@
             return self::$db;
         }
 
-        public static function loadMoreAttributesObjects ($table, $field1, $id1, $field2, $id2)
+        public static function loadMoreAttributesObjects($table, $field1, $id1, $field2, $id2)
         {
-            try{
-                $query = "SELECT * FROM " . $table . " WHERE " . $field1 . " =:$id1" . " AND " . $field2 . " =:$id2 ";
+            try {
+                $query = "SELECT * FROM " . $table . " WHERE " . $field1 . " = :id1 AND " . $field2 . " = :id2";
                 $stmt = self::$db->prepare($query);
                 $stmt->bindParam(':id1', $id1);
                 $stmt->bindParam(':id2', $id2);
                 $stmt->execute();
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            }catch(PDOException $e){
-                
+            } catch (PDOException $e) {
                 error_log("Load More Attributes Objects Error: " . $e->getMessage());
                 return array();
             }

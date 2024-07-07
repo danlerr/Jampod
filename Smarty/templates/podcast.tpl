@@ -120,9 +120,9 @@
                         <a href="/Jampod/Episode/creationEpisodeForm/" class="btn btn-primary">Crea un nuovo episodio</a>
                     {else}
                         {if $sub == false}
-                            <a href="/Jampod/Podcast/Subscribe" class="btn btn-primary">Iscriviti al podcast</a>
+                            <a href="/Jampod/Podcast/Subscribe/{$podcast->getId()}" class="btn btn-primary">Iscriviti al podcast</a>
                         {else}
-                            <a href="/Jampod/Podcast/Unsubscribe" class="btn btn-primary">Iscritto</a>
+                            <a href="/Jampod/Podcast/Unsubscribe/{$podcast->getId()}" class="btn btn-primary">Iscritto</a>
                         {/if}
                     {/if}
                 </div>
