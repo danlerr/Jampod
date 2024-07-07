@@ -9,12 +9,13 @@ class VEpisode{
         $this->smarty = StartSmarty::configuration();
  
     }
-    public function showCreationForm() {
+    public function showCreationForm($podcast_id) {
+        $this->smarty->assign('podcast_id', $podcast_id);
         $this->smarty->display('Smarty/templates/createEpisode.tpl');
     }
 
-    public function showEpisodePage($episode, $podcast_title,$usernamecreator, $commentAndReplies, $votevalue=null, $avgVote, $image , $textalert= null, $success =null) {
-        $this->smarty -> assign('podcast_title', $podcast_title);
+    public function showEpisodePage($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image) {
+        $this->smarty -> assign('podcast_title', $podcast->getPodcastName());
         $this->smarty -> assign('episode_title' , $episode->getEpisode_title());
         $this->smarty -> assign('episode_streams', $episode->getEpisode_streams());
         $this->smarty -> assign ('usernamecreator' , $usernamecreator);
@@ -24,13 +25,10 @@ class VEpisode{
         $this->smarty -> assign ('commentAndReplies' , $commentAndReplies);
         $this->smarty -> assign('mimetype', $image[0]);
         $this->smarty -> assign('imagedata', $image[1]);
-        $this->smarty -> assign('textalert', $textalert);
-        $this->smarty -> assign('success', $success);
-        $this->smarty -> assign ('episode_id', $episode->getId());
         $this->smarty -> display('episode.tpl');
     }
-    public function showEpisodeError($episode, $podcast_title, $usernamecreator, $comments, $avgVote, $image, $textalert = null, $success = null) {
-        $this->showEpisodePage($episode, $podcast_title, $usernamecreator, $comments, $avgVote, $image, $textalert, false);
+    public function showEpisodeError($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image) {
+        $this->showEpisodePage($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image );
     }
 
     

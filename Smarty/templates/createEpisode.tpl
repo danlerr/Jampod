@@ -7,24 +7,24 @@
 
             <!-- Colonna sinistra: form per titolo e descrizione -->
             <div class="col-md-6">
-                <form method="post" enctype="multipart/form-data" action="/Jampod/Podcast/createEpisode">
+                <form method="post" enctype="multipart/form-data" action="/Jampod/Episode/uploadEpisode/{$podcast_id}">
                     <div class="mb-3">
                         <label for="inputTitle" class="form-label">Titolo dell'episodio</label>
-                        <input type="text" class="form-control" id="inputTitle" placeholder="Inserisci il titolo">
+                        <input name = "title" type="text" class="form-control" id="inputTitle" placeholder="Inserisci il titolo">
                     </div>
                     <div class="mb-3">
                         <label for="inputDescription" class="form-label">Descrizione dell'episodio</label>
-                        <textarea style="resize: none;" class="form-control" id="inputDescription" rows="3" placeholder="Inserisci la descrizione" maxlength="200"></textarea>
+                        <textarea name = "description" style="resize: none;" class="form-control" id="inputDescription" rows="3" placeholder="Inserisci la descrizione" maxlength="200"></textarea>
                     </div>
 
                     <!-- Colonna destra: form per cover e traccia audio -->
                     <div class="mb-3">
                         <label for="inputCover" class="form-label">Foto di copertina dell'episodio</label>
-                        <input type="file" class="form-control" id="inputCover">
+                        <input name = "imagefile" type="file" class="form-control" id="inputCover">
                     </div>
                     <div class="mb-3">
                         <label for="inputAudio" class="form-label">Traccia audio dell'episodio</label>
-                        <input type="file" class="form-control" id="inputAudio">
+                        <input name = "audiofile" type="file" class="form-control" id="inputAudio">
                     </div>
                     
                     <!-- Bottone per salvare l'episodio -->

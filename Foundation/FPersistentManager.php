@@ -73,10 +73,10 @@
 
             
         //verifica che l'utente passato per parametro sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db.
-        //( si suppone che $queryResult sia un array)
+        //( nell'uso di questo metodo con oggetti singoli bisogna fare il casting in array)
            
-        public static function checkUser($queryResult, $idUser){
-            if(FUser::userValidation($queryResult, $idUser)){
+        public static function checkUser($objectUserId, $idUser){
+            if(FUser::userValidation($objectUserId, $idUser)){
                 return true;
             }else{
                 return false;
@@ -128,7 +128,7 @@
 
         public static function validateAudio($file)
         {
-            $audioMaxSize = 200 * 1024 * 1024; // 200 MB ?????
+            $audioMaxSize = 2 * 1024 * 1024; // 2 MB ?????
             $allowedAudioTypes = ['audio/mpeg', 'audio/wav'];
         
             if (!is_uploaded_file($file['tmp_name'])) {

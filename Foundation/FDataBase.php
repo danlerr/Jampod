@@ -142,13 +142,17 @@
         }
 
 
-        public static function existInDb($queryResult){ //return true if there are results, otherwise false 
-            if(is_array($queryResult)||is_object($queryResult)){        //$query result può essere sia un array che un oggetto creato dal create entity dopo un retrieve
-                return count((array)$queryResult) > 0;        //casting
-            }else{
+        public static function existInDb($queryResult)
+        {
+            // Verifica se $queryResult è un array o un oggetto
+            if (is_array($queryResult) || is_object($queryResult)) {
+                // Esegui il casting a array e controlla se contiene elementi
+                return count((array)$queryResult) > 0;
+            } else {
                 return false;
             }
         }
+        
 
         public static function retrieveAll($table)
         {

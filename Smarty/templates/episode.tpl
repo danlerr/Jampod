@@ -6,7 +6,7 @@
 	   <h3 class="fw-bold text-center mt-2" id="albumTitle">{$podcast_title}</h3>
 	   <div class="episode-container ">
 		 <div class="row justify-content-center gx-3 ms-3">  <!-- Centra la parte dell'episodio -->
-			 <!-- Colonna sinistra per l'immagine del podcast e il titolo -->
+			 <!-- Colonna sinistra per l'immagine dell'episodio e il titolo -->
 			 <div class="col-lg-4 col-md-4 align-self-center">
 				 <div class="text-center">
 					 <img src="data:{$mimetype};base64,{$imagedata}" alt="Episode image" class="media-album-icon">
@@ -29,7 +29,7 @@
 						 <div class="buttons">
 						   
 						   <div class="playpause-track" onclick="playpauseTrack()">
-							<div class="playpause-track" data-episode-id= {$episode_id} onclick="playpauseTrack(this)"> <!-- this si riferisce all'elemento html playpause-->
+							<div class="playpause-track" data-episode-id= {$episode->getId()} onclick="playpauseTrack(this)"> <!-- this si riferisce all'elemento html playpause-->
 
 							 <i class="fa fa-play-circle fa-5x text-dark "></i>
 						   </div>
@@ -65,7 +65,7 @@
 			<div class="col  d-flex justify-content-end align-items-center  ">
 				<div class="svg-container text-center mt-2">
 					<!-- Replace 'image.svg' with your SVG image file -->
-					<img src="/Smarty/images/headphones.svg" alt="SVG Image" style="max-width: 50px; vertical-align: bottom;">
+					<img src="/Jampod/Smarty/images/headphones.svg" alt="SVG Image" style="max-width: 50px; vertical-align: bottom;">
 					<!-- Replace 'Your Number' with your chosen number -->
 					<span class="ml-2 h6" style="vertical-align: bottom;">{$episode_streams}</span>
 				</div>
