@@ -82,17 +82,9 @@
 
                     // Recupera la lista degli episodi associati al podcast
                     $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); 
-
-                    //controllo per vedere se chi visita il podcast è il creatore di quel podcast  
-                    if ($userRole == 'creator'){   
-                                                                                            
-                        $view->showPodcastPage($podcast, $creator, $episodes, $userRole);                     
-                    }else{                                                                                           
-                        $view->showPodcastPage($podcast, $creator, $episodes, $userRole, $sub);             
-                    }
-                    
+                    $view->showPodcastPage($podcast, $creator, $episodes, $userRole, $sub);             
                 }else{
-                    $view->showError('impossibile trovare il podcast :(');
+                    $view->showError('impossibile trovare il podcast :('); 
                 }
             }
         }
@@ -112,23 +104,31 @@
                 if ($podcast) {
                     $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
                     $userRole = 'listener';
-        
+
                     $isSub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);  //vedere se issub funziona 
 
                     if ($isSub === false) {
+
                         $subscribe = new ESubscribe($podcast_id, $userId);
                         $result = FPersistentManager::getInstance()->createObj($subscribe);
         
                         if ($result) {
+
                             $oldSubCount = $podcast->getSubscribeCounter();
-                            $newSubCount = $oldSubCount++;
+                            $newSubCount = $oldSubCount + 1;
                             $podcast->setSubcribe_counter($newSubCount);
                             $update = FPersistentManager::getInstance()->updateObj($podcast, 'subscribe_counter', $newSubCount); 
+                            
                             if ($update){
-                                self::visitPodcast($podcast_id);}
+                                $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+
+                                self::visitPodcast($podcast_id);
+                            }else{
+                                error_log("Errore nell'aggiornamento del contatore di iscritti.");
+                                $view->showPodcastError($podcast, $episodes, $creator, "Errore durante l'iscrizione al podcast :(", $userRole, false);
+                            }
                         } else {
-                            $success = false;
-                            $view->showPodcastError($podcast, $episodes, $creator, "Errore durante l'iscrizione al podcast :(", $userRole, $success);
+                            $view->showPodcastError($podcast, $episodes, $creator, "Errore durante l'iscrizione al podcast :(", $userRole, false);
                         }
                     }else{
                         self::visitPodcast($podcast_id); // Se l'utente è già iscritto, semplicemente mostra il podcast
@@ -139,35 +139,37 @@
             }
         }
 
-        public static function Unsubscribe($subscribe_id, $podcast_id) {
+        public static function Unsubscribe($podcast_id) {
             if (CUser::isLogged()) {
                 $view = new VPodcast;
-                $userId = USession::getInstance()->getSessionElement('user')->getId();
+                $userId = USession::getInstance()->getSessionElement('user');
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
         
                 if ($podcast) {
-                    $image = [$podcast->getImageMimeType(), $podcast->getEncodedImageData()];
-                    $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
-                    $userRole = 'listener';
-        
                     $isSub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);
-                    if ($isSub) {
-                        $subscribe = FPersistentManager::getInstance()->retrieveObj('ESubscribe', $subscribe_id);
-                        $result = FPersistentManager::getInstance()->deleteObj($subscribe);
         
-                        if ($result) {
-                            $newSubCount = $podcast->setSubscribeCounter($podcast->getSubscribeCounter() - 1);
-                            FPersistentManager::getInstance()->updateObj($podcast, 'subscribe_counter', $newSubCount); // Assicurati di avere una funzione di aggiornamento per il contatore di iscrizioni
-                            self::visitPodcast($podcast_id);
+                    if ($isSub) {
+                        $sub = FPersistentManager::getInstance()->retrieveSubscribe($userId, $podcast_id);
+                        $unsubscribe = FPersistentManager::getInstance()->deleteObj($sub);
+        
+                        if ($unsubscribe) {
+                            $oldSubCount = $podcast->getSubscribeCounter();
+                            $newSubCount = $oldSubCount - 1;
+                            $update = FPersistentManager::getInstance()->updateObj($podcast, 'subscribe_counter', $newSubCount);
+        
+                            if ($update) {
+                                self::visitPodcast($podcast_id);
+                            } else {
+                                $view->showError("Errore durante l'aggiornamento del contatore delle iscrizioni");
+                            }
                         } else {
-                            $success = false;
-                            $view->showPodcastError($podcast, $image, $episodes, "Errore durante la cancellazione dell'iscrizione al podcast", $userRole, $success);
+                            $view->showError("Errore durante la rimozione dell'iscrizione");
                         }
                     } else {
-                        self::visitPodcast($podcast_id); // Se l'utente non è iscritto, semplicemente mostra il podcast
+                        self::visitPodcast($podcast_id); // Se l'utente non è iscritto, mostra comunque il podcast
                     }
                 } else {
-                    $view->showError("impossibile eliminare l'iscrizione al podcast");
+                    $view->showError("Impossibile trovare il podcast");
                 }
             }
         }

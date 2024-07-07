@@ -81,14 +81,19 @@ public static function deleteObject($id){
 
   public static function isSub($userId, $podcastId) {
 
-    $sub = FDataBase::getInstance()->loadMoreAttributesObjects(self::getTable(), 'Subscribe_id', $userId, FPodcast::getKey(), $podcastId);
-    
-    if ($sub){
-        return true;
+    $sub = FDataBase::getInstance()->loadMoreAttributesObjects(self::getTable(), 'subscriber_id', $userId, FPodcast::getKey(), $podcastId);
+
+    return !empty($sub);
+}
+
+public static function retrieveSub($userId, $podcastId){
+    $sub = FDataBase::getInstance()->loadMoreAttributesObjects(self::getTable(), 'subscriber_id', $userId, FPodcast::getKey(), $podcastId);
+    $Esub = FSubscribe::createEntity($sub);
+    if ($Esub){
+        return $Esub;
     }else{
-        return false;
+        return null;
     }
-    
 }
 
 

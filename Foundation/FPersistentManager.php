@@ -205,10 +205,16 @@
 
         public static function isSubscribed($userId, $podcast_id){
             $result = FSubscribe::isSub($userId, $podcast_id);
-            if($result){
-                return true;
+
+            return $result ? true : false;
+        }
+
+        public static function retrieveSubscribe($userId, $podcastId){
+            $sub = FSubscribe::retrieveSub($userId, $podcastId);
+            if ($sub){
+                return $sub;
             }else{
-                return false;
+                return null;
             }
         }
 

@@ -10,7 +10,7 @@ require_once 'StartSmarty.php';
     
         }
 
-        public function showPodcastPage($podcast, $creator, $episodes, $userRole, $textalert = null, $sub = null, $success = null){
+        public function showPodcastPage($podcast, $creator, $episodes, $userRole, $sub = null, $textalert = null, $success = null){
 
             $this->smarty->assign('podcast', $podcast);
             $this->smarty->assign('podcast_creator', $creator);

@@ -133,7 +133,8 @@
                 $stmt->bindParam(':id1', $id1);
                 $stmt->bindParam(':id2', $id2);
                 $stmt->execute();
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $result;
             } catch (PDOException $e) {
                 error_log("Load More Attributes Objects Error: " . $e->getMessage());
                 return array();
