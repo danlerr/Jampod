@@ -93,7 +93,7 @@
         public static function updatePassword($password, $oldHash, $newPassword, $user){
             $passwordHashed = password_hash($password, PASSWORD_DEFAULT);   //check password 
             if ($passwordHashed == $oldHash){
-                $result = FPersistentManager::getInstance()->updateObj($user, 'password', $newPassword);
+                $result = FPersistentManager::getInstance()->updateObj($user,'password', $newPassword);
                 if ($result){
                     return true;
                 }else{
@@ -104,6 +104,7 @@
             }
         }
 
+        
        //-------------------------------------FILE VALIDATION-----------------------------------------------------
         public static function validateImage($file)
         {
