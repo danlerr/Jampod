@@ -206,5 +206,14 @@
         return $podCategory;
     }
 
+    public static function search ($query){
+        $result = FDataBase::getInstance()->searchPodcastsByName($query);
+        if ($result){
+            return $result;
+        }else{
+            return array();
+        }
+    }
+
     
 }

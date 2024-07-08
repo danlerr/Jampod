@@ -90,8 +90,18 @@
             }
         }
 
-        public static function searchPodcasts() {
-
+        public static function searchPodcasts() {            //letsgo
+            $query = UHTTPMethods::post('query');
+            $podcasts = FPersistentManager::getInstance()->searchPodcasts($query);
+            $view = new VPodcast;
+            if ($podcasts){
+                $view->showSearchResults($podcasts, $query);
+                echo $podcasts;
+            } else {
+                // Gestisci il caso in cui non c'è nessuna query di ricerca
+                $view = new VPodcast;
+                $view->showError('nessun risultato! :(');
+            }
         }
 
         public static function Subscribe($podcast_id) {            //letsgo

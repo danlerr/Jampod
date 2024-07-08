@@ -182,4 +182,13 @@
                 return array();
             }
         }
+
+        public function searchPodcastsByName($query) {
+            $query = "%" . $query . "%";
+            $sql = "SELECT * FROM podcast WHERE podcast_name LIKE :query";
+            $stmt = self::$db->prepare($sql);
+            $stmt->bindParam(':query', $query, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }       

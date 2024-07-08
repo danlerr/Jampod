@@ -270,6 +270,14 @@
             }
         }
 
+        public static function searchPodcasts($query){
+            $result = FPodcast::search($query);
+            foreach ($result as &$podcast) {                 
+                $podcast['image_data'] = base64_encode($podcast['image_data']);
+            }
+            if ($result){return $result;}else{return array();}
+        }
+
         //-------------------------------------CATEGORIE-----------------------------------------------------
         public static function retrieveCategories(){ 
             $categories = FPodcast::allCategories();
