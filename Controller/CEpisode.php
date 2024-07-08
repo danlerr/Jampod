@@ -26,6 +26,7 @@ public static function uploadEpisode($podcast_id)
                 $podcast_id
             );
             $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
+            
             $userRole ='creator';
             $creatorId = $podcast->getUserId();
             $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $creatorId) -> getUsername();
@@ -52,11 +53,19 @@ public static function uploadEpisode($podcast_id)
 
             // Create in db
             $result = FPersistentManager::getInstance()->createObj($episode);
+
             
             if ($result) {         
                 $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast 
+                if (!is_array($episodesupdated)) {
+                    $episodesupdated = [$episodesupdated];
+                }
+                //header('Location: /Jampod/Podcast/visitPodcast/'.$podcast_id);
                 $view->showPodcastPage($podcast, $creator , $episodesupdated, $userRole, $sub, "Episodio aggiunto con successo", true); // Rimanda alla pagina del podcast con l'alert di conferma e l'episodio aggiunto
-            } else {      
+            } else {     
+                if (!is_array($episodesbefore)) {
+                    $episodesbefore = [$episodesbefore];
+                } 
                 $view->showPodcastError($podcast, $creator , $episodesbefore,  $userRole,$sub,"Impossibile effettuare il caricamento dell'episodio", false); // Rimanda alla pagina del podcast con l'alert di errore aggiunta
             }
         }

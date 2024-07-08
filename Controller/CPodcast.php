@@ -45,7 +45,7 @@
                 $userId = USession::getInstance()->getSessionElement('user');
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast',$podcast_id);
 
-                //if(FPersistentManager::getInstance()->checkUser($podcast, $userId)){
+                if(FPersistentManager::getInstance()->checkUser($podcast->getUserId(), $userId)){
 
                     $result = FPersistentManager::getInstance()->deleteObj($podcast);
 
@@ -62,7 +62,7 @@
                         $textalert = "problemi con l'eliminazione del podcast :(";
                         $view->showMyPodcastPage($myPodcasts, $success, $textalert);
                     }    
-                //}
+                }
             }else{
                 $view = new VPodcast;
                 $view->showError('Registrati :/');
@@ -83,6 +83,9 @@
 
                     // Recupera la lista degli episodi associati al podcast
                     $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); 
+                    if (!is_array($episodes)) {
+                        $episodes = [$episodes];
+                    }
                     $view->showPodcastPage($podcast, $creator, $episodes, $userRole, $sub);             
                 }else{
                     $view->showError('impossibile trovare il podcast :('); 

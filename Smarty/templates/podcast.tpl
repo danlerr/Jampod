@@ -1,6 +1,6 @@
 {include file="Smarty/templates/header.tpl" username=$username}
 
-{nocache}
+
 
 <style>
       .podcast-container {
@@ -129,5 +129,5 @@
                     {/if}
     </div>
 
-{/nocache}
+
 {include file="Smarty/templates/footer.tpl"}
