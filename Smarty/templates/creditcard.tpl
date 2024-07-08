@@ -8,6 +8,11 @@
     {/if}
 {/if}
 
+</head>
+<body>
+<script src="/Smarty/dist/js/demo-theme.min.js?1692870487"></script>
+<div class="page">
+
 <div class="page-wrapper">
     <!-- Page header -->
     <div class="page-header d-print-none">
@@ -37,8 +42,15 @@
                     <div class="col-12 col-md-9 d-flex flex-column">
                         <div class="card-body">
                             <h2 class="mb-4">Carte di credito</h2>
-
-                            {if $card_count > 0}
+                            
+                            <div class="payment-card mt-5 d-flex justify-content-between align-items-center mb-5">
+                                <div class="card-details d-flex flex-row align-items-center">
+                                <img src="/Smarty/images/creditcard.png" class="card-image " width="50">
+                                <div class="card-info d-flex flex-column">
+                                    <span class="card-type">Proprietario carta</span>
+                                    <span class="card-number">1234 XXXX XXXX 2570</span>
+                                </div>
+                                </div>
                                 {foreach from $cards item=card}
                                     <div class="payment-card mt-5 d-flex justify-content-between align-items-center mb-5">
                                         <div class="card-details d-flex flex-row align-items-center">
@@ -56,10 +68,8 @@
                                         </div>
                                     </div>
                                 {/foreach}
-                            {else}
-                                <p>Nessuna carta di credito trovata.</p>
-                            {/if}
-
+                            
+                
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#aggiungiModal">Aggiungi carta</button>
 
                             <div class="modal fade" id="aggiungiModal" tabindex="-1" aria-labelledby="aggiungiModalLabel" aria-hidden="true">
@@ -102,5 +112,6 @@
         </div>
     </div>
 </div>
+
 
 {include file="Smarty/templates/footer.tpl"}

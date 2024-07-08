@@ -135,8 +135,8 @@
                             
                             if ($update){
                                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+                                $view->showPodcastPage($podcast, $creator, $episodes, $userRole, true, 'Iscrizione avvenuta con successo! :)', true);
 
-                                self::visitPodcast($podcast_id);
                             }else{
                                 error_log("Errore nell'aggiornamento del contatore di iscritti.");
                                 $view->showPodcastError($podcast, $episodes, $creator, "Errore durante l'iscrizione al podcast :(", $userRole, false);
@@ -157,9 +157,13 @@
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
+                $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
         
                 if ($podcast) {
+                    $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
+                    $userRole = 'listener';
+
                     $isSub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);
         
                     if ($isSub) {
@@ -172,7 +176,8 @@
                             $update = FPersistentManager::getInstance()->updateObj($podcast, 'subscribe_counter', $newSubCount);
         
                             if ($update) {
-                                self::visitPodcast($podcast_id);
+
+                                $view->showPodcastPage($podcast, $creator, $episodes, $userRole, false, 'Non sei più iscritto! :(', false);
                             } else {
                                 $view->showError("Errore durante l'aggiornamento del contatore delle iscrizioni");
                             }

@@ -278,14 +278,23 @@ class CUser{
 
      public static function addCreditCard() { 
         $userId = USession::getInstance()->getSessionElement('user');
-        $creditCard = new ECreditCard(UHTTPMethods::post('card_holder'),UHTTPMethods::post('card_number'),UHTTPMethods::post('security_code'),UHTTPMethods::post('expiration_date'),$userId);
-        $result = FPersistentManager::getInstance()->createObj($creditCard);
-        if ($result) {
-            self::userCards("carta inserita con successo! :)",true);
-        } else {
-            self::userCards("problemi con l'inserimento della carta :(",false);
+        $cardNumber = UHTTPMethods::post('card_number');
+        $cardHolder = UHTTPMethods::post('card_holder');
+        $securityCode = UHTTPMethods::post('security_code');
+        $expirationDate = UHTTPMethods::post('expiration_date');
+        
+        
+        // Convert MM/AA to Y/m
+        $creditCard = new ECreditCard($cardHolder, $cardNumber, $securityCode, $expirationDate, $userId);
+        $result = FPersistentManager::getInstance()->createObj($creditCard);  // Convert MM/AA to Y/m in createObject di FCreditCard             
+
+        $creditCard = new ECreditCard($cardHolder, $cardNumber, $securityCode, $expirationDate, $userId);
+            if ($result) {
+                self::userCards("carta inserita con successo! :)",true);
+            } else {
+                self::userCards("problemi con l'inserimento della carta :(",false);
+            }
         }
-    }
 
      /**
      * Remove a credit card 
@@ -316,28 +325,25 @@ class CUser{
     }
 
 
-    public static function userCards($textAlert=null,$success=true) {       //metodo che mostra tutte le carte dell'utente 
+    public static function userCards($textAlert=null,$success=true) {       //metodo che mostra tutte le carte dell'utente  
         $userId = USession::getInstance()->getSessionElement('user');
         $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
-
-        if ($creditCards) {
-                $cards=array_map([FCreditCard::class,'createEntity'], $creditCards);
-                // Maschera i numeri delle carte di credito
-                foreach ($cards as &$card) {
-                    $maskedNumber = self::maskCreditCardNumber($card->getCreditCardNumber());
-                    $card->setCreditCardNumber($maskedNumber);
-                }
-            $view=new VUser();
-            $view->showUserCards($cards,$textAlert,$success);
-        }else{
-            $view=new VUser();
-            $view->showUserCards([],$textAlert,$success);
-            
+    
+        if(!empty($creditCards)){
+            // Maschera i numeri delle carte di credito
+            foreach ($creditCards as &$card) {
+                $maskedNumber = self::maskCreditCardNumber($card->getCreditCardNumber());
+                $card->setCreditCardNumber($maskedNumber);
+            }
         }
-        }
+        $view=new VUser();
+        $view->showUserCards($creditCards,$textAlert,$success);
+    
+    }
     
     
-    public static function maskCreditCardNumber($cardNumber) {    //metodo che fa visualizzare solo le ultime 4 cifre di una carta
+    
+    public static function maskCreditCardNumber ($cardNumber) {    //metodo che fa visualizzare solo le ultime 4 cifre di una carta
         return str_repeat('*', strlen($cardNumber) - 4) . substr($cardNumber, -4);  //di credito per motivi di sicurezza
     }
 
@@ -347,5 +353,4 @@ class CUser{
             $view->showCardCreationForm();
         }
     }
-
 }
