@@ -2,12 +2,13 @@
     
     class CBalance{
         
-        public static function viewBalance() {
+        public static function viewBalance() {            //letsgo
             // Verifica se l'utente è loggato
             if (CUser::isLogged()) {
                 $view = new VBalance;
                 // Recupera l'ID dell'utente dalla sessione
-                $user = USession::getInstance()->getSessionElement('user');    
+                $userId = USession::getInstance()->getSessionElement('user');  
+                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);  
                 // Ottiene il saldo dell'utente
                 $balance = $user->getBalance();
                 // Mostra il saldo all'utente
@@ -15,82 +16,78 @@
             }
         }
 
-        public static function rechargeBalance() {
+        public static function rechargeBalance() {            //letsgo
             // Verifica se l'utente è loggato
             if (CUser::isLogged()) {
                 $view = new VBalance();
                 
                 // Recupera l'ID dell'utente dalla sessione
-                $userId = USession::getInstance()->getSessionElement('user')->getId();
+                $userId = USession::getInstance()->getSessionElement('user');
                 
                 // Recupera l'oggetto utente utilizzando l'ID utente
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
+                $oldBalance = $user->getBalance();
                 
                 // Verifica che l'utente esista
                 if (!$user) {
-                    $view->showBalanceError("Errore: utente non trovato.");
+                    $view->showError("Errore: utente non trovato.");
                     return;
                 }
                 // Recupera l'importo dall'input dell'utente e ?valida?(da validare)
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $amount = UHTTPMethods::post('amount');
+                $amount = UHTTPMethods::post('amount');
         
                     // Calcola il nuovo saldo se l'importo è valido
-                    if ($amount > 0) {
-                        $newBalance = $user->getBalance() + $amount;
+                if ($amount > 0) {
+                    $newBalance = $user->getBalance() + $amount;
                     
-                        // Aggiorna il saldo dell'utente
-                        $result = FPersistentManager::getInstance()->updateObj($user, 'balance', $newBalance);
-                        if ($result) {
-                            $user->setBalance($newBalance);
-                            $view->showBalanceSuccess("Hai ricaricato €{$amount}. Il tuo nuovo saldo è €{$newBalance}."); //alert
+                    // Aggiorna il saldo dell'utente
+                    $result = FPersistentManager::getInstance()->updateObj($user, 'balance', $newBalance);
+                    if ($result) {
+                        $user->setBalance($newBalance);
+                        $view->showBalance($newBalance, "Hai ricaricato €{$amount}. Il tuo nuovo saldo è €{$newBalance}.", true); //alert
                         } else {
-                            $view->showBalanceError("Errore durante la ricarica del saldo.");
+                            $view->showBalance($oldBalance, "Errore durante la ricarica del saldo.");
                         }
                     } else {
-                        $view->showBalanceError("Errore: importo non valido.");
-                    }
-                } else {
-                    $view->showBalanceForm();
-                }    
+                        $view->showBalance($oldBalance, "Errore: importo non valido.");
+                    
+                }     
             } else {
                 $view = new VBalance;
-                $view->showBalanceError("Errore: utente non loggato.");      //log control??
+                $view->showError("Errore: utente non loggato.");      //log control??
             }
         }
 
-        public static function withdrawFromBalance() {         //da commentare 
+        public static function withdrawBalance() {         //da commentare      //letsgo
             if (CUser::isLogged()) {
                 $view = new VBalance();
-                $userId = USession::getInstance()->getSessionElement('user')->getId();
+                $userId = USession::getInstance()->getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 
                 if (!$user) {
-                    $view->showBalanceError("Errore: utente non trovato.");
+                    $view->showError("Errore: utente non trovato.");
                     return;
                 }
         
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $amount = UHTTPMethods::post('amount');
-                    $balance = $user->getBalance();
+                $amount = UHTTPMethods::post('amount');
+                $balance = $user->getBalance();
                     
-                    if ($amount !== null && $amount > 0 && $balance >= $amount) {
-                        $newBalance = $balance - $amount;
-                        $result = FPersistentManager::getInstance()->updateObj($user, 'balance', $newBalance);
-                        if ($result) {
-                            $user->setBalance($newBalance);
-                            $view->showBalanceSuccess("Hai prelevato €{$amount}. Il tuo nuovo saldo è €{$newBalance}.");
+                if ($amount !== null && $amount > 0 && $balance >= $amount) {
+                    $newBalance = $balance - $amount;
+                    $result = FPersistentManager::getInstance()->updateObj($user, 'balance', $newBalance);
+                    if ($result) {
+                        $user->setBalance($newBalance);
+                        $view->showBalance($newBalance, "Hai prelevato €{$amount}. Il tuo nuovo saldo è €{$newBalance}.");
                         } else {
-                            $view->showBalanceError("Errore durante il prelievo del saldo.");
+                            $view->showBalance($balance, "Errore durante il prelievo del saldo.");
                         }
                     } else {
-                        $view->showBalanceError("Errore: importo non valido o saldo insufficiente.");
-                    }
-                } else {
-                    $view->showBalanceForm();
+                        $view->showBalance($balance, "Errore: importo non valido o saldo insufficiente.");
+                    
                 }
-            } else {
-                $view->showBalanceError("Errore: utente non loggato.");  //log control??
+            }else{
+                $view = new VBalance();
+                $view->showError("Errore: utente non loggato.");  //log control??
             }
         }
     }

@@ -71,19 +71,21 @@
                             {foreach from=$episodes item=episode}
                                 <div class="list-group-item">
                                     <div class="row g-2 align-items-center">
+                                    <a href="/Jampod/Episode/visitEpisode/{$episode->getId()}" style="text-decoration: none; color: inherit;">
                                         <div class="col-auto fs-3">
-                                            {$episode.episode_title}
+                                            {$episode->getEpisode_title()}
                                         </div>
+                                   
                                         <div class="col-auto">
-                                            <img src="data:{$episode.imageMimeType};base64,{$episode.imageData}" class="rounded" alt="{$episode.episode_title}" width="40" height="40">
+                                            <img src="data:{$episode->getImageMimeType()};base64,{$episode->getEncodedImageData()}" class="rounded" alt="{$episode->getEpisode_title}" width="40" height="40">
                                         </div>
                                         <div class="col">
-                                            <a href="Jampod/Episode/visitEpisode/{$episode.episode_id}" style="text-decoration: none; color: inherit;">
-                                                {$episode.episode_title}
-                                            </a>
+                                            
+                                                {$episode->getEpisode_title()}
+                                            
                                         </div>
                                         <div class="col-auto text-secondary">
-                                            {$episode.episode_creationtime}
+                                            {$episode->getTimeToStr()}
                                         </div>
                                         <div class="col-auto lh-1">
                                             <div class="dropdown">
@@ -96,11 +98,12 @@
                                                     </svg>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">Elimina</a>
+                                                    <a class="dropdown-item" href="/Jampod/Episode/delete/{$episode->getId()}">Elimina</a>
                                                     <a class="dropdown-item" href="#">Another action</a>
                                                 </div>
                                             </div>
                                         </div>
+                                     </a>
                                     </div>
                                 </div>
                             {/foreach}
@@ -116,7 +119,7 @@
         <div class="mt-3 d-flex flex-column align-items-center">
                     {if $userRole == 'creator'}
                         <a href="/Jampod/Episode/creationEpisodeForm/{$podcast->getId()}" class="btn btn-primary">Crea un nuovo episodio</a>
-                        <a href="/Jampod/Podcast/deletePodcast/" class="btn btn-danger mt-2">Elimina podcast</a>
+                        <a href="/Jampod/Podcast/deletePodcast/{$podcast->getId()}" class="btn btn-danger mt-2">Elimina podcast</a>
                     {else}
                         {if $sub == false}
                             <a href="/Jampod/Podcast/Subscribe/{$podcast->getId()}" class="btn btn-primary">Iscriviti al podcast</a>

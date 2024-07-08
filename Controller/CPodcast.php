@@ -3,7 +3,7 @@
     class CPodcast{
 
 
-        public static function createPodcast(){
+        public static function createPodcast(){       //letsgo
 
             if (CUser::isLogged()){
                 $view = new VPodcast;
@@ -38,14 +38,14 @@
             }
         }
 
-        public static function deletePodcast($podcast_id){
+        public static function deletePodcast($podcast_id){            //letsgo
 
             if(CUser::isLogged()){
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast',$podcast_id);
 
-                if(FPersistentManager::getInstance()->checkUser($podcast, $userId)){
+                //if(FPersistentManager::getInstance()->checkUser($podcast, $userId)){
 
                     $result = FPersistentManager::getInstance()->deleteObj($podcast);
 
@@ -61,14 +61,15 @@
                         $success = false;
                         $textalert = "problemi con l'eliminazione del podcast :(";
                         $view->showMyPodcastPage($myPodcasts, $success, $textalert);
-                    }
+                    }    
+                //}
             }else{
+                $view = new VPodcast;
                 $view->showError('Registrati :/');
-                }
             }
         }
 
-        public static function visitPodcast($podcast_id){
+        public static function visitPodcast($podcast_id){            //letsgo
             if (CUser::isLogged()){
                 $view = new VPodcast;
 
@@ -89,11 +90,21 @@
             }
         }
 
-        public static function searchPodcasts() {
-
+        public static function searchPodcasts() {            //letsgo
+            $query = UHTTPMethods::post('query');
+            $podcasts = FPersistentManager::getInstance()->searchPodcasts($query);
+            $view = new VPodcast;
+            if ($podcasts){
+                $view->showSearchResults($podcasts, $query);
+                echo $podcasts;
+            } else {
+                // Gestisci il caso in cui non c'è nessuna query di ricerca
+                $view = new VPodcast;
+                $view->showError('nessun risultato! :(');
+            }
         }
 
-        public static function Subscribe($podcast_id) {
+        public static function Subscribe($podcast_id) {            //letsgo
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
@@ -139,7 +150,7 @@
             }
         }
 
-        public static function Unsubscribe($podcast_id) {
+        public static function Unsubscribe($podcast_id) {            //letsgo
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
@@ -174,7 +185,7 @@
             }
         }
 
-        public static function myPodcast(){
+        public static function myPodcast(){            //letsgo
             if (CUser::isLogged()){
                 $userId = USession::getInstance()->getSessionElement('user');
                 $view = new VPodcast;
@@ -184,7 +195,7 @@
             }
         }
 
-        public static function creationForm(){
+        public static function creationForm(){            //letsgo
             if (Cuser::isLogged()){
                 $view = new VPodcast;
                 $categories = FPersistentManager::getInstance()->retrieveCategories(); //prendo le categorie per passarle al form 

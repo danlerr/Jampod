@@ -49,4 +49,10 @@ require_once 'StartSmarty.php';
             $this->smarty->assign('categories', $categories);
             $this->smarty->display('Smarty/templates/createPodcast.tpl');
         }
+
+        public function showSearchResults($podcasts, $query){
+            $this->smarty->assign('podcasts', $podcasts);
+            $this->smarty->assign('query', $query);
+            $this->smarty->display('Smarty/templates/search.tpl');
+        }
     }

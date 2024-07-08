@@ -1,7 +1,7 @@
 <?php
 
 class CHome {
-    public static function homePage() {
+    public static function homePage() {            //letsgo
         if(CUser::isLogged()){
 
             $view = new VHome();
@@ -32,7 +32,7 @@ class CHome {
         }
     }
 
-    public static function visitCategory($category_name){
+    public static function visitCategory($category_name){            //letsgo
         if (CUser::isLogged()){
             
             $category_podcasts = FPersistentManager::getInstance()->retrievePodByCategory($category_name);
