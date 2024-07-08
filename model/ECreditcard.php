@@ -60,7 +60,7 @@ class ECreditCard{
         $this->card_holder = $card_holder;
         $this->card_number = $card_number;
         $this->security_code=$security_code;
-        $this->expirationDate = DateTime::createFromFormat('Y-m', $expirationDate);
+        $this->expirationDate = $expirationDate;
         $this->user_id= $user_id;
        
 
