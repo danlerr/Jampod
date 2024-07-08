@@ -122,14 +122,13 @@ public static function visitEpisode($episode_id) {  //{$episode->getId()} in dat
 }
 
 public static function listenEpisode($episode_id) {
-    $view = new VHome;
     $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id); 
-    $episode->setEpisodeStreams($episode->getEpisode_streams() + 1); //incrementa gli ascolti dell'episodio
 
     //recupero della traccia e passaggio al broswer
     $audioTrack = FPersistentManager::getAudioTrack($episode_id); //ritorna un array con ['audiodata', 'audiomimetype']
 
     if (!$audioTrack) { //se $audiotrack non restituisce dati
+        $view = new VHome;
         $view->show404();
         return;
     }
@@ -139,6 +138,15 @@ public static function listenEpisode($episode_id) {
     header('Content-Length: ' . strlen($audioTrack['audiodata'])); // Imposta la lunghezza del contenuto
     // Restituisci i dati dell'audio al broswer direttamente come blob
     echo $audioTrack['audiodata'];
+}
+public static function incrementEpisodeStreams($episode_id) {
+    $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id); 
+    if ($episode) {
+        $streams = $episode->getEpisode_streams() + 1;
+        FPersistentManager::getInstance()->updateObj($episode, 'episode_streams', $streams); // Aggiorna l'oggetto episodio nel database
+        return true;
+    }
+    return false;
 }
 
 

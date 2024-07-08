@@ -1,7 +1,13 @@
 
 {include file="Smarty/templates/header.tpl" username=$username}
 	   <!-- episode -->
-	
+	   
+		<style>
+		.hidden {
+  		display: none;
+		
+		<}
+		</style>
 
 	   <h3 class="fw-bold text-center mt-2" id="albumTitle">{$podcast_title}</h3>
 	   <div class="episode-container ">
@@ -28,20 +34,19 @@
 						 <!-- Define the section for displaying track buttons -->
 						 <div class="buttons">
 						   
-						   <div class="playpause-track" onclick="playpauseTrack()">
-							<div class="playpause-track" data-episode-id="{$episode_id}" onclick="playpauseTrack(this)"> <!-- this si riferisce all'elemento html playpause --> 
-
-							 <i class="fa fa-play-circle fa-5x text-dark "></i>
-						   </div>
 						   
-						 </div>
+							<div class="playpause-track" data-episode-id="{$episode_id}" onclick="playpauseTrack(this)">
+  									<i class="fa fa-play-circle fa-5x text-dark "></i>
+							</div>
+						   
+						   
 					  
 						 <!-- Define the section for displaying the seek slider-->
-						 <div class="slider_container">
-						   <div class="current-time">00:00</div>
+						 <div class="slider_container ">
+						   <div class="current-time hidden">00:00</div>
 						   <input type="range" min="1" max="100"
 							 value="0" class="seek_slider" onchange="seekTo()">
-						   <div class="total-duration">00:00</div>
+						   <div class="total-duration hidden">00:00</div>
 						 </div>
 					  
 						 <!-- Define the section for displaying the volume slider-->
@@ -51,7 +56,7 @@
 							 value="99" class="volume_slider" onchange="setVolume()">
 						   <i class="fa fa-volume-up" ></i>
 						 </div>
-					   </div>
+					</div>
 					  
 				 </header>			 
 			 </div>		 
@@ -89,7 +94,7 @@
 			<input type="hidden" id="user-rating" value="{$votevalue|default:0}">
 
 			<div class="col d-flex justify-content-start align-items-center" >
-				<a href="donation.html" class="link-secondary">
+				<a href="/Jampod/Donation/donationForm/{$episode_id}" class="link-secondary">
 					<img class="currency-icon  mt-2 " src="/Jampod/Smarty/images/currency-dollar.svg" alt="Currency Dollar Icon">
 				</a>
 				
@@ -124,13 +129,13 @@
 		<div class="container">
 			<div class="row justify-content-md-center">
 				<div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-					<h2 class="mb-3 mt-3 display-5 text-center">Fai un commento!</h2> <!-- Modificato mb-4 in mb-3 -->
+					<h2 class="mb-3 mt-3 display-5 text-center">Fai un commento!</h2> 
 
 					
 					
 					<!-- Post comment -->
-					<form id="postcomment" action="/Jampod/Comment/createComment{$episode_id}" method="post">
-						<div class="row gy-3 gy-xl-4 p-3 p-xl-4"> <!-- Modificato gy-4 in gy-3 e p-4 in p-3 -->
+					<form id="postcomment" action="/Jampod/Comment/createComment/{$episode_id}" method="post">
+						<div class="row gy-3 gy-xl-4 p-3 p-xl-4"> 
 							<div class="col-12">
 								<label for="comment" class="form-label">Commento</label>
 								<!-- Form per pubblicare un commento -->

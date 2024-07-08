@@ -10,6 +10,7 @@ let volume_slider = document.querySelector(".volume_slider"); // riferimento all
 let curr_time = document.querySelector(".current-time"); // riferimento al minutaggio attuale
 let total_duration = document.querySelector(".total-duration"); // riferimento alla durata effettiva
 
+
 // Specifica valori globali
 let isPlaying = false;
 let updateTimer;
@@ -19,7 +20,7 @@ let curr_track = document.createElement('audio');
 
 // Funzione per caricare e riprodurre la traccia audio dal backend
 function loadAudioTrack(episode_id) {
-  fetch('/Jampod/Episode/listenEpisode' + episode_id) // richiesta http
+  fetch('/Jampod/Episode/listenEpisode/' + episode_id) 
       .then(response => { // gestione della risposta
           if (!response.ok) {
               throw new Error('Errore nel caricamento della traccia audio');
@@ -27,6 +28,9 @@ function loadAudioTrack(episode_id) {
           return response.blob();
       })
       .then(blobData => { // ricezione dei dati blob
+          if (blobData.size === 0) {
+              throw new Error('Nessun dato audio ricevuto');
+          }
           // Carica la traccia audio nel player
           loadTrackFromBlob(blobData);
       })
@@ -35,17 +39,16 @@ function loadAudioTrack(episode_id) {
       });
 }
 
+
 // Funzione per caricare una traccia audio dalla forma blob
 function loadTrackFromBlob(blobData) {
-  // Creazione di un URL temporaneo che rappresenta il contenuto del blob. 
   let blobUrl = URL.createObjectURL(blobData);
 
-  // L' URL è utilizzato come src per l'elemento <audio> (curr_track), il che consente di caricare la traccia audio nel player.
   curr_track.src = blobUrl;
   curr_track.load();
   
-  // Aggiorna la durata totale della traccia quando viene caricata
   curr_track.addEventListener('loadedmetadata', () => {
+    playTrack(); 
     let durationMinutes = Math.floor(curr_track.duration / 60);
     let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
     if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
@@ -54,46 +57,46 @@ function loadTrackFromBlob(blobData) {
   });
 }
 
-// Reset ai valori di default 
-function resetValues() {
-  curr_time.textContent = "00:00";
-  total_duration.textContent = "00:00";
-  seek_slider.value = 0;
-}
 
-// Play/pause track
 function playpauseTrack(element) {
   let episodeId = element.getAttribute('data-episode-id');
-  
+
   if (!isPlaying) {
-      loadAudioTrack(episodeId); // Carica e riproduce la traccia audio
-      playTrack();
+    if (!curr_track.src) {
+      loadAudioTrack(episodeId);
+      incrementEpisodeStreams(episodeId)
+    }
+    playTrack();
+
+    // Mostra il minutaggio quando si clicca su play
+    curr_time.classList.remove('hidden');
+    total_duration.classList.remove('hidden');
+
+    // Cambia l'icona del bottone a pausa
+    element.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
   } else {
-      pauseTrack();
+    pauseTrack();
+
+    // Cambia l'icona del bottone a play
+    element.innerHTML = '<i class="fa fa-play-circle fa-5x text-dark"></i>';
   }
 }
 
 function playTrack() {
-  // Play the loaded track
-  curr_track.play();
-  isPlaying = true;
- 
-  // Sostituisce l'icona con l'icona pause
-  playpause_btn.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';
-
-  
+  curr_track.play()
+    .then(() => {
+      isPlaying = true;
+      updateTimer = setInterval(seekUpdate, 1000); // Avvia l'aggiornamento del seek slider e del tempo trascorso
+    })
+    .catch(error => {
+      console.error('Errore durante la riproduzione:', error);
+    });
 }
 
 function pauseTrack() {
-  // Pause the loaded track
   curr_track.pause();
   isPlaying = false;
- 
-  // Replace icon with the play icon
-  playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
-
-  // Interrompe l'aggiornamento della posizione del seek slider e del tempo trascorso
-  clearInterval(updateTimer);
+  clearInterval(updateTimer); // Interrompe l'aggiornamento del seek slider e del tempo trascorso
 }
 
 function seekTo() {
@@ -136,6 +139,27 @@ function seekUpdate() {
 // Aggiorna continuamente il seek slider e il tempo trascorso durante la riproduzione
 curr_track.addEventListener('timeupdate', seekUpdate);
 
+// Funzione per incrementare gli ascolti dell'episodio
+// Funzione per incrementare gli ascolti dell'episodio utilizzando fetch
+function incrementEpisodeStreams(episodeId) {
+  let url = '/Jampod/Episode/incrementEpisodeStreams/' + episodeId;
+
+  fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Errore durante l\'incremento degli ascolti');
+    }
+    console.log('Ascolti incrementati con successo per l\'episodio:', episodeId);
+  })
+  .catch(error => {
+    console.error('Errore durante l\'incremento degli ascolti:', error);
+  });
+}
 
 
 

@@ -1,4 +1,5 @@
 <?php
+require_once 'StartSmarty.php';
     class VDonation{
         
         private $smarty;
@@ -11,7 +12,7 @@
 
         public function showDonationForm($recipient_id){
             $this->smarty->assign('recipient_id',$recipient_id);
-            $this->smarty->display('/Smarty/templates/donation.tpl');
+            $this->smarty->display('Smarty/templates/donation.tpl');
         }
         
         /**
