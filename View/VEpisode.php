@@ -18,6 +18,7 @@ class VEpisode{
         $this->smarty -> assign('podcast_title', $podcast->getPodcastName());
         $this->smarty -> assign('episode_title' , $episode->getEpisode_title());
         $this->smarty -> assign('episode_streams', $episode->getEpisode_streams());
+        $this->smarty->assign('episode_id', $episode->getId());
         $this->smarty -> assign ('usernamecreator' , $usernamecreator);
         $this->smarty -> assign ('votevalue', $votevalue);
         $this->smarty -> assign ('avgVote', $avgVote);
@@ -25,7 +26,7 @@ class VEpisode{
         $this->smarty -> assign ('commentAndReplies' , $commentAndReplies);
         $this->smarty -> assign('mimetype', $image[0]);
         $this->smarty -> assign('imagedata', $image[1]);
-        $this->smarty -> display('episode.tpl');
+        $this->smarty -> display('Smarty/templates/episode.tpl');
     }
     public function showEpisodeError($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image) {
         $this->showEpisodePage($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image );
@@ -34,7 +35,7 @@ class VEpisode{
     
     public function showError($string){
         $this->smarty->assign('string', $string);
-        $this->smarty->display('error.tpl');
+        $this->smarty->display('Smarty/templates/error.tpl');
     }
 
     

@@ -96,7 +96,7 @@ public static function deleteEpisode($episode_id)
 }
 
 
-public static function visitEpisode($episode_id) {
+public static function visitEpisode($episode_id) {  //{$episode->getId()} in data-episode-id="" in episode.tpl
     if (CUser::isLogged()) {
         $view = new VEpisode();
         $userId = USession::getInstance()->getSessionElement('user');

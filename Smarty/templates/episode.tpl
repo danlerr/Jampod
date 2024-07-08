@@ -29,7 +29,7 @@
 						 <div class="buttons">
 						   
 						   <div class="playpause-track" onclick="playpauseTrack()">
-							<div class="playpause-track" data-episode-id= {$episode->getId()} onclick="playpauseTrack(this)"> <!-- this si riferisce all'elemento html playpause-->
+							<div class="playpause-track" data-episode-id="{$episode_id}" onclick="playpauseTrack(this)"> <!-- this si riferisce all'elemento html playpause --> 
 
 							 <i class="fa fa-play-circle fa-5x text-dark "></i>
 						   </div>
@@ -72,7 +72,7 @@
 			</div>
 			<div class="col">
 				<div class="d-flex justify-content-center align-items-center mt-2">
-					<form action="/Jampod/Episode/voteEpisode/{$episode->getId()}" method="post" class="comment-form">
+					<form action="/Jampod/Episode/voteEpisode/{$episode_id}" method="post" class="comment-form">
 						<select id="rating-default" class="form-select" name="rating" style="display:none;">
 							<option value="">Select a rating</option>
 							<option value="5">Excellent</option>
@@ -129,7 +129,7 @@
 					
 					
 					<!-- Post comment -->
-					<form id="postcomment" action="/Jampod/Comment/createComment{$episode->getId()}" method="post">
+					<form id="postcomment" action="/Jampod/Comment/createComment{$episode_id}" method="post">
 						<div class="row gy-3 gy-xl-4 p-3 p-xl-4"> <!-- Modificato gy-4 in gy-3 e p-4 in p-3 -->
 							<div class="col-12">
 								<label for="comment" class="form-label">Commento</label>

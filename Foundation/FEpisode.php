@@ -115,8 +115,9 @@ public static function deleteObject($id){
 
 
 public static function retrieveMoreEpisodes($podcast_id) {
-    $episodes = FDataBase::getInstance()->retrieve(self::getTable(), FPodcast::getKey(), $podcast_id); 
-    if($episodes){
+    $result = FDataBase::getInstance()->retrieve(self::getTable(), FPodcast::getKey(), $podcast_id); 
+    if (count($result) > 0) {
+        $episodes = self::createEntity($result);
         return $episodes;
     }else{
         return array();

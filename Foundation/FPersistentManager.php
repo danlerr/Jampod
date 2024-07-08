@@ -128,7 +128,7 @@
 
         public static function validateAudio($file)
         {
-            $audioMaxSize = 2 * 1024 * 1024; // 2 MB ?????
+            $audioMaxSize = 6 * 1024 * 1024; // 2 MB ?????
             $allowedAudioTypes = ['audio/mpeg', 'audio/wav'];
         
             if (!is_uploaded_file($file['tmp_name'])) {
