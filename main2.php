@@ -19,7 +19,7 @@
     } else {
         die("Database connection failed.\n");
     }
-$user = new EUser("sonoio@gmail.com", "ciaociao", "sonooo");
+/*$user = new EUser("sonoio@gmail.com", "ciaociao", "sonooo");
 FPersistentManager::getInstance()->createObj($user);
 $podcast = new EPodcast("uccisione","bellissima", $user->getId(), 1);
 $podcast->setImageData(file_get_contents("Smarty/images/logo.png"));
@@ -51,7 +51,7 @@ FPersistentManager::getInstance()->deleteObj($comment);
 //echo $card->getCreditCardHolder();
 //FPersistentManager::getInstance()->deleteObj($card);
 
-
+/*
 
 $user1=new EUser('dpg@sferaebbasta','stefano','daniele');
 FPersistentManager::getInstance()->createObj($user1);
@@ -61,3 +61,28 @@ $donation= new EDonation(65,'BASTA',$user->getId(),$user1->getId());
 FPersistentManager::getInstance()->createObj($donation);
 //$donation1= FPersistentManager::getInstance()->retrieveObj('EDonation',$donation->getId());
 echo $donation->getDonationText();
+*/
+// Creazione di un utente
+$user = new EUser("utente@test.com", "password", "Nome Utente");
+FPersistentManager::getInstance()->createObj($user);
+
+// Creazione di alcune carte di credito per l'utente
+$card1 = new ECreditCard("Titolare Carta 1", "1111222233334444", "12", "2025-12", $user->getId());
+FPersistentManager::getInstance()->createObj($card1);
+
+$card2 = new ECreditCard("Titolare Carta 2", "5555666677778888", "12", "2025-12", $user->getId());
+FPersistentManager::getInstance()->createObj($card2);
+
+// Recupero delle carte di credito dell'utente
+$userId = $user->getId();
+$creditCards = FPersistentManager::getInstance()->retrieveUserCreditCards($userId);
+
+// Verifica se sono state recuperate delle carte di credito
+if (!empty($creditCards)) {
+    echo "Carte di credito dell'utente con ID $userId:\n";
+    foreach ($creditCards as $card) {
+        echo " Titolare: " . $card->getCreditCardHolder() . ", Numero Carta: " . $card->getCreditCardNumber() . "\n";
+    }
+} else {
+    echo "Nessuna carta di credito trovata per l'utente con ID $userId.\n";
+}

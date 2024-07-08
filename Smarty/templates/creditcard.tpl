@@ -1,4 +1,4 @@
-{include file="Smarty/templates/header.tpl" username=$username}
+{include file="Smarty/templates/header.tpl" }
 
 {if isset($textalert) && $textalert}
     {if $success}
@@ -30,7 +30,7 @@
                         <div class="card-body">
                             <div class="list-group list-group-transparent">
                                 <a href="/Jampod/User/settings" class="list-group-item list-group-item-action d-flex align-items-center">Il mio account</a>
-                                <a href="/Jampod/User/showUserCreditCards" class="list-group-item list-group-item-action d-flex align-items-center active">Carte di credito</a>
+                                <a href="/Jampod/User/userCards" class="list-group-item list-group-item-action d-flex align-items-center active">Carte di credito</a>
                             </div>
                         </div>
                     </div>

@@ -147,12 +147,12 @@ class ECreditCard{
 
     
     /**
-     * Set the value of card_number
+     * Set the value of card_numbers
      * 
      * @return $card_number
      */
-    private function setCreditCardNumber($card_number) {
-        $this->card_number= $card_number;
+    public function setCreditCardNumber($card_number) {
+        $this->card_number=$card_number;
     }
 
      /**

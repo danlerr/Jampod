@@ -3,7 +3,7 @@
 class FCreditCard{
     
     private static $table="credit_card";
-    private static $value="(NULL,:card_number,:card_holder,:security_code,:expiration_date,:user_id)";
+    private static $value="(:card_id,:card_number,:card_holder,:security_code,:expiration_date,:user_id)";
     private static $key="card_id";
 
     
@@ -38,7 +38,7 @@ class FCreditCard{
         $stmt->bindValue(":card_number", $creditCard->getCreditCardNumber(), PDO::PARAM_STR);         
         $stmt->bindValue(":card_holder", $creditCard->getCreditCardHolder(), PDO::PARAM_STR);
         $stmt->bindValue(":security_code", $creditCard->getCreditCardSecurityCode(),PDO::PARAM_STR); 
-        $stmt->bindValue(":expiration_date", $creditCard->getCreditCardExpirationDate()->format('Y-m'), PDO::PARAM_STR);
+        $stmt->bindValue(":expiration_date", $creditCard->getCreditCardExpirationDate()->format('Y/m'), PDO::PARAM_STR);
         $stmt->bindValue(":user_id", $creditCard->getCreditCardUserId(), PDO::PARAM_INT); 
 
     }
@@ -78,27 +78,33 @@ class FCreditCard{
             return false;
         }
     }
-
-    public static function createEntity($queryResult){          //metodo che crea un nuovo oggetto della classe ECreditCard
-       
-        $creditCard = new ECreditcard($queryResult[0]['card_holder'], $queryResult[0]['card_number'], $queryResult[0]['security_code'], $queryResult[0]['expiration_date'],$queryResult[0]['user_id']);
-        $creditCard->setCreditCardId($queryResult[0]['card_id']);
-        return $creditCard;
-    
-    }
-
-    public static function retrieveOwnedCreditCards($userId){
-        $result=FDataBase::getInstance()->retrieve(self::getTable(),'user_id',$userId);
-        if(count($result) > 0){
-            $creditCards = self::createEntity($result);
-            return $creditCards;
-        }else{
+    public static function createEntity($queryResult) {
+        if (!empty($queryResult) && isset($queryResult[0])) {
+            $creditCard = new ECreditcard(
+                $queryResult[0]['card_holder'],
+                $queryResult[0]['card_number'],
+                $queryResult[0]['security_code'],
+                $queryResult[0]['expiration_date'],
+                $queryResult[0]['user_id']
+            );
+            $creditCard->setCreditCardId($queryResult[0]['card_id']);
+            return $creditCard;
+        } else {
             return null;
+        }
+    }
+    
+
+    
+    public static function retrieveOwnedCreditCards($userId){
+        $creditCards=FDataBase::getInstance()->retrieve(self::getTable(),'user_id',$userId);
+            return $creditCards;
         }
 
     }
 
-}
+
+
 
 
 

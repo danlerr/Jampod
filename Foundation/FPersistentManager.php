@@ -300,19 +300,35 @@
             return is_array($donations) ? $donations : []; //per assicurarmi che ritorni un array
             
         }
-
-        public static function retrieveDonationsMade($userId){ //metodo che a partire dall' userId restituisce 
-            $donations=FDonation::retrieveDonationsMade($userId);     // tutte le donazioni fatte da quell'utente
-            return is_array($donations) ? $donations : [];   //per assicurarmi che ritorni un array
+        
+        public static function retrieveDonationsMade($userId) {
+            try {
+                $donations = FDonation::retrieveDonationsMade($userId);
+                if (is_array($donations)) {
+                    return $donations;
+                } else {
+                    return [];
+                }
+            } catch (Exception $e) {
+                error_log("Error retrieving donations made by user with ID $userId: " . $e->getMessage());
+                return []; // Ritorno di un array vuoto in caso di errore
+            }
         }
+    
 
         //-------------------------------------CREDIT CARD-----------------------------------------------------
-        public static function retrieveUserCreditCards($userId){ //metodo che a partire dall' userId restituisce 
-            $creditCards=FCreditCard::retrieveOwnedCreditCards($userId); //tutte le carte di credito di quell'utente
-            if ($creditCards){
-                return $creditCards;
-            }else{
-                return array();
+        public static function retrieveUserCreditCards($userId) {               ///forse da cancellare
+            try {
+                $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
+        
+                if ($creditCards !== null) {
+                    return $creditCards;
+                } else {
+                    return []; // Ritorna un array vuoto se non ci sono carte di credito trovate
+                }
+            } catch (PDOException $e) {
+                error_log("PDOException in retrieveUserCreditCards: " . $e->getMessage());
+                return []; // In caso di errore, ritorna un array vuoto
             }
         }
 

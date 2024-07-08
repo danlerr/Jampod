@@ -279,12 +279,11 @@ class CUser{
      public static function addCreditCard() { 
         $userId = USession::getInstance()->getSessionElement('user');
         $creditCard = new ECreditCard(UHTTPMethods::post('card_holder'),UHTTPMethods::post('card_number'),UHTTPMethods::post('security_code'),UHTTPMethods::post('expiration_date'),$userId);
-    
         $result = FPersistentManager::getInstance()->createObj($creditCard);
         if ($result) {
-            self::showUserCreditCards("carta inserita con successo! :)",true);
+            self::userCards("carta inserita con successo! :)",true);
         } else {
-            self::showUserCreditCards("problemi con l'inserimento della carta :(",false);
+            self::userCards("problemi con l'inserimento della carta :(",false);
         }
     }
 
@@ -297,40 +296,44 @@ class CUser{
      public static function removeCreditCard() { 
         $userId = USession::getInstance()->getSessionElement('user');
         $cardId = UHTTPMethods::post('card_id'); // Recupera l'ID della carta di credito dalla richiesta POST
-
         if (!$cardId) {
-            self::showUserCreditCards("ID della carta di credito mancante.", false);
+            self::userCards("ID della carta di credito mancante.", false);
             return;
         }
     
         $creditCard = FPersistentManager::getInstance()->retrieveObj('ECreditCard', $cardId);
         if (!$creditCard || $creditCard->getUserId() != $userId) {
-            self::showUserCreditCards("Carta di credito non trovata o non autorizzata.", false);
+            self::userCards("Carta di credito non trovata o non autorizzata.", false);
             return;
         }
     
         $result = FPersistentManager::getInstance()->deleteObj($creditCard);
         if ($result) {
-            self::showUserCreditCards("Carta rimossa con successo.", true);
+            self::UserCards("Carta rimossa con successo.", true);
         } else {
-            self::showUserCreditCards("Problemi con la rimozione della carta.", false);
+            self::userCards("Problemi con la rimozione della carta.", false);
         }
     }
 
 
-    public static function showUserCreditCards($textAlert=null,$success=true) {       //metodo che mostra tutte le carte dell'utente 
+    public static function userCards($textAlert=null,$success=true) {       //metodo che mostra tutte le carte dell'utente 
         $userId = USession::getInstance()->getSessionElement('user');
-        $creditCards = FPersistentManager::getInstance()->retrieveUserCreditCards($userId);
+        $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
 
         if ($creditCards) {
+                $cards=array_map([FCreditCard::class,'createEntity'], $creditCards);
                 // Maschera i numeri delle carte di credito
-                foreach ($creditCards as &$creditCard) {
-                    $maskedNumber = self::maskCreditCardNumber($creditCard->getCardNumber());
-                    $creditCard->setCardNumber($maskedNumber);
+                foreach ($cards as &$card) {
+                    $maskedNumber = self::maskCreditCardNumber($card->getCreditCardNumber());
+                    $card->setCreditCardNumber($maskedNumber);
                 }
             $view=new VUser();
-            $view->userCards($creditCards ?: [],$textAlert,$success);
-            }
+            $view->showUserCards($cards,$textAlert,$success);
+        }else{
+            $view=new VUser();
+            $view->showUserCards([],$textAlert,$success);
+            
+        }
         }
     
     
