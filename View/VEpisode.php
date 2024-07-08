@@ -14,7 +14,7 @@ class VEpisode{
         $this->smarty->display('Smarty/templates/createEpisode.tpl');
     }
 
-    public function showEpisodePage($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image) {
+    public function showEpisodePage($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image,  $textalert = null, $success = null) {
         $this->smarty -> assign('podcast_title', $podcast->getPodcastName());
         $this->smarty -> assign('episode_title' , $episode->getEpisode_title());
         $this->smarty -> assign('episode_streams', $episode->getEpisode_streams());
@@ -26,6 +26,8 @@ class VEpisode{
         $this->smarty -> assign ('commentAndReplies' , $commentAndReplies);
         $this->smarty -> assign('mimetype', $image[0]);
         $this->smarty -> assign('imagedata', $image[1]);
+        $this->smarty->assign('success', $success);
+        $this->smarty->assign('textalert', $textalert);
         $this->smarty -> display('Smarty/templates/episode.tpl');
     }
     public function showEpisodeError($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image) {

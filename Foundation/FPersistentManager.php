@@ -189,6 +189,14 @@
             return $result;
 
         }
+        public static function checkVoteValue($value) {
+            if ($value>0 and $value<=5) {
+                return true;
+        } else {
+            return false;
+        }
+    }
+        
     
 
     //-------------------------------------PODCAST-----------------------------------------------------

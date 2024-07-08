@@ -1,5 +1,14 @@
 
 {include file="Smarty/templates/header.tpl" username=$username}
+<!--alert-->
+{if isset($textalert) && $textalert}
+    {if $success}
+        {include file="Smarty/templates/successAlert.tpl"  textalert=$textalert}
+    {else}
+        {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
+    {/if}
+{/if}
+
 	   <!-- episode -->
 	   
 		<style>
@@ -28,7 +37,7 @@
 					<h3 class="h4 mb-2">{$episode_title}</h3> <!-- max 38 caratteri -->
         
 					<!-- Autore -->
-					<small class="text-muted">{$usernamecreator}</small>
+					<small class="text-muted">created by {$usernamecreator}</small>
 					 <div class="player">
 		  
 						 <!-- Define the section for displaying track buttons -->
@@ -64,47 +73,50 @@
 
 	 </div>
 
-	 <!-- Donation, vote and save -->
-	 <div class="container">
-		<div class="row text-center">
-			<div class="col  d-flex justify-content-end align-items-center  ">
-				<div class="svg-container text-center mt-2">
-					<!-- Replace 'image.svg' with your SVG image file -->
-					<img src="/Jampod/Smarty/images/headphones.svg" alt="SVG Image" style="max-width: 50px; vertical-align: bottom;">
-					<!-- Replace 'Your Number' with your chosen number -->
-					<span class="ml-2 h6" style="vertical-align: bottom;">{$episode_streams}</span>
-				</div>
-			</div>
-			<div class="col">
-				<div class="d-flex justify-content-center align-items-center mt-2">
-					<form action="/Jampod/Episode/voteEpisode/{$episode_id}" method="post" class="comment-form">
-						<select id="rating-default" class="form-select" name="rating" style="display:none;">
-							<option value="">Select a rating</option>
-							<option value="5">Excellent</option>
-							<option value="4">Very Good</option>
-							<option value="3">Average</option>
-							<option value="2">Poor</option>
-							<option value="1">Terrible</option>
-						</select>
-						<button type="submit" style="display:none;">Submit</button>
-					</form>
-					<h3 class="h6 mb-0" style="margin-top: 0px;">{$avgVote}</h3>
-				</div>
-			</div>
-			<input type="hidden" id="user-rating" value="{$votevalue|default:0}">
+	<!-- Donation, vote and save -->
+<div class="container">
+    <div class="row text-center">
+        <div class="col d-flex justify-content-end align-items-center">
+            <div class="svg-container text-center mt-2">
+                
+                <img src="/Jampod/Smarty/images/headphones.svg" alt="SVG Image" style="max-width: 50px; vertical-align: bottom;">
+                
+                <span class="ml-2 h5" style="vertical-align: bottom;">{$episode_streams}</span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-flex justify-content-center align-items-center mt-2">
+                <form action="/Jampod/Episode/voteEpisode/{$episode_id}" method="post" class="comment-form">
+                    <select id="rating-default" class="form-select" name="rating" style="display:none;">
+                        <option value="">Select a rating</option>
+                        <option value="5">Excellent</option>
+                        <option value="4">Very Good</option>
+                        <option value="3">Average</option>
+                        <option value="2">Poor</option>
+                        <option value="1">Terrible</option>
+                    </select>
+                    <button class="btn btn-success mt-2" type="submit" id="rating-submit" >Vota</button>
 
-			<div class="col d-flex justify-content-start align-items-center" >
-				<a href="/Jampod/Donation/donationForm/{$episode_id}" class="link-secondary">
-					<img class="currency-icon  mt-2 " src="/Jampod/Smarty/images/currency-dollar.svg" alt="Currency Dollar Icon">
-				</a>
-				
-			</div>
-		</div>
-	</div>
-	
-	
+                </form>
+            </div>
+            <input type="hidden" id="user-rating" value="{$votevalue|default:0}">
+        </div>
+        <div class="col d-flex justify-content-start align-items-center">
+            <a href="/Jampod/Donation/donationForm/{$episode_id}" class="link-secondary">
+                <img class="currency-icon mt-2" src="/Jampod/Smarty/images/currency-dollar.svg" alt="Currency Dollar Icon">
+            </a>
+        </div>
+    </div>
+</div>
+<div class="col d-flex justify-content-center align-items-center mt-2 ">
+    <div class="rating-container d-flex align-items-center" style="margin-left: 35px; width: 150px;">
 
-
+<h3 class="h6 mb-0" style="margin-top: 0px;">voto medio {$avgVote}</h3>
+				<select id="avgrating" class="form-select " style="display:none;">
+                        <option value="1">Terrible</option>
+                </select>
+</div>
+</div>
 
 
 
@@ -139,7 +151,7 @@
 							<div class="col-12">
 								<label for="comment" class="form-label">Commento</label>
 								<!-- Form per pubblicare un commento -->
-								<textarea class="form-control"   style = "resize: none;"  id="comment" rows="3" required></textarea>
+								<textarea name = "body" class="form-control"   style = "resize: none;"  id="comment" rows="3" required></textarea>
 								<!-- fine form per pubblicare un commento -->
 							</div>
 							<div class="col-12">
@@ -182,44 +194,46 @@
 
 
  <!-- Script JS per lo star rating.  StarRating è inizializzato sul selettore #rating-default, che è il <select> HTML nel form. -->
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-			const userRating = document.getElementById('user-rating').value;
-			const ratingSelect = document.getElementById('rating-default');
-	
-			// Imposta il valore del selettore in base al valore del voto dell'utente
-			if (userRating) {
-				ratingSelect.value = userRating;
-			}
-	
-			// Inizializza il sistema di stelle
-			const rating = new StarRating('#rating-default', {
-				tooltip: false, 
-				clearable: false,
-				stars: function (el, item, index) {
-					el.innerHTML = `<!-- Download SVG icon from http://tabler-icons.io/i/star-filled --><svg xmlns="http://www.w3.org/2000/svg" class="icon gl-star-full icon-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" stroke-width="0" fill="currentColor" /></svg>`;
-				},
-			});
-	
-			// Colora le stelle in base al valore del selettore
-			if (userRating > 0) {
-				rating.setRating(userRating);
-			} else {
-				rating.setRating(0); // Assicura che le stelle siano vuote se il voto è 0
-			}
-	
-			// Aggiungi il listener per il click sulle stelle
-			const stars = document.querySelectorAll('.gl-star-full');
-			stars.forEach((star, index) => {
-				star.addEventListener('click', function (event) {
-					event.preventDefault();  // Previene il comportamento predefinito del click
-					const value = stars.length - index;
-					ratingSelect.value = value;
-					// Simulazione di submit del form quando l'utente clicca sulla stella
-					ratingSelect.form.submit();
-				});
-			});
-		});
-	</script>
-	
-	  
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const userRating = document.getElementById('user-rating').value;
+        const ratingSelect = document.getElementById('rating-default');
+        const submitButton = document.getElementById('rating-submit');
+
+        // Imposta il valore del selettore in base al valore del voto dell'utente
+        if (userRating) {
+            ratingSelect.value = userRating;
+        }
+
+        // Inizializza il sistema di stelle per lo star rating
+        const rating = new StarRating('#rating-default', {
+            tooltip: false,
+            clearable: false,
+            stars: function (el) {
+                el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="icon gl-star-full icon-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" stroke-width="0" fill="currentColor" /></svg>`;
+            },
+        });
+		// Inizializza stella statica per l'avg
+        const avg = new StarRating('#avgrating', {
+            tooltip: false,
+            clearable: false,
+            stars: function (el) {
+                el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="icon gl-star-full icon-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" stroke-width="0" fill="currentColor" /></svg>`;
+            },
+        });
+
+        // Colora le stelle in base al valore del selettore
+        if (userRating > 0) {
+            rating.setRating(userRating);
+        } else {
+            rating.setRating(0); // Assicura che le stelle siano vuote se il voto è 0
+        }
+
+
+		
+		
+
+	 
+       
+ });
+</script>

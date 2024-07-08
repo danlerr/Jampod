@@ -63,13 +63,10 @@ class EVote {
      * @return $value
      */
     public function setValue( $value){
-            if ($value >= 1 && $value <= 5) {
                 $this->value = $value;
-            } else {
-                throw new Exception("Vote value must be between 1 and 5.");
+            
     
         }    
     }
    
 
-}

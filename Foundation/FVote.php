@@ -90,6 +90,12 @@ public static function retrieveVotesOnEpisode($episode_id) {
     $result = FDataBase::getInstance()->retrieve(self::getTable(), FEpisode::getKey(), $episode_id); 
     if(count($result) > 0){
         $votes = self::createEntity($result);
+        // Verifica se $votes è un oggetto EVote
+        if ($votes instanceof EVote) {
+            // Converte l'oggetto EVote in un array contenente un solo elemento
+            $votes = [$votes];
+        }
+        
         return $votes;
     }else{
         return null;
@@ -100,9 +106,9 @@ public static function retrieveVotesOnEpisode($episode_id) {
 //Metodo che verifica se esiste un voto da parte di un utente su un determinato episodio. Ritorna true se esiste, insieme all'oggetto voto, false altrimenti
 public static function voteValidation($idUser, $episode_id){
     $result = FDatabase::getInstance()->loadMoreAttributesObjects(self::$table, FUser::getKey(), $idUser, FEpisode::getKey(), $episode_id);
-
-    if(FDataBase::getInstance()->existInDb($result) ){
-        return [true, $result[0]];
+    $vote = self::createEntity($result);
+    if($vote){
+        return [true, $vote];
     }else{
         return [false,null];
     }

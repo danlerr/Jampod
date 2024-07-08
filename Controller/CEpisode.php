@@ -161,10 +161,15 @@ public static function incrementEpisodeStreams($episode_id) {
 
 //permette all'utente di votare o di aggiornare il proprio voto 
 public static function voteEpisode($episode_id) {
-    if (CUser::isLogged()) {
+    if (CUser::isLogged()) { 
         $view = new VEpisode();
-        $value = UHTTPMethods::post('rating');
         $userId = USession::getInstance()->getSessionElement('user');
+        $value = UHTTPMethods::post('rating');
+        $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
+        $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $episode->getPodcastId());
+        $usernamecreator= FPersistentManager::getInstance()->retrieveObj('EUser',$podcast->getUserId())->getUsername();
+        $episodeimage = [$episode->getImageMimeType(), $episode->getEncodedImageData()];
+        $commentAndReplies = FPersistentManager::getInstance()->commentAndReplies($episode_id); // Array di commenti e risposte
         $checkvotearray = FPersistentManager::getInstance()->checkVote($episode_id, $userId); //ritorna un array [true,oggetto vote] se l'utente ha già votato, altrimenti [false ,null]
         if ($checkvotearray[0]) {
             // L'utente ha già votato: aggiornare il voto esistente
@@ -172,26 +177,32 @@ public static function voteEpisode($episode_id) {
             $update = FPersistentManager::getInstance()->updateObj($vote, 'value', $value);
             
             if ($update) {  
-                self::visitEpisode($episode_id);  //mostra la pagina dell'episodio (con il voto aggiornato)       
+                $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
+                $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Voto aggiornato", true);      
             } else {
                 $view->showError("Impossibile modificare la votazione");
                 
             }
         } else {
+            $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
             // L'utente non ha votato: creare un nuovo voto
+            if (FPersistentManager::getInstance()->checkVoteValue($value)) {
             $vote = new EVote($value, $userId, $episode_id);
             $result = FPersistentManager::getInstance()->createObj($vote);
             
             if ($result) {
-                self::visitEpisode($episode_id); //mostra la pagina dell'episodio(con il voto impostato)
+                $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $value, $episodeimage, "Grazie per aver votato :D", true);     
                
             } else {
                 $view->showError("Impossibile caricare la votazione");
             }
+        } else {
+            $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Inserire un voto valido", false); 
         }
+
     } 
 }
-
+}
 
 
 
