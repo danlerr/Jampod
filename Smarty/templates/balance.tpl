@@ -12,13 +12,17 @@
     <!--saldo-->
     <div class="container mt-5">
         <div class="saldo-section bg-white p-4 rounded shadow-sm mb-4">
-            <h2>Saldo Disponibile</h2>
+            <h2>Il tuo saldo</h2>
+            <small>1€ = 1<img src="/Jampod/Smarty/images/quartz.png" alt="Moneta Virtuale" class="img-fluid" style="width: 20px; height: 20px; margin-bottom:5px"></small>
             <div class="saldo mb-4">
-                <span class="fw-bold">€ {$balance}</span>
+                <span class="fw-bold display-5">
+                <img src="/Jampod/Smarty/images/quartz.png" alt="Moneta Virtuale" class="img-fluid" style="width: 60px; height: 60px; margin-bottom: 15px;"> 
+                {$balance}
+                </span>
             </div>
             <div class="button-container d-flex justify-content-between">
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ricaricaModal">Ricarica Saldo</button>
-                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#prelevaModal">Preleva Saldo</button>
+                <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#ricaricaModal">Ricarica Saldo</button>
+                <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#prelevaModal">Preleva Saldo</button>
             </div>
         </div>
         <div class="movimenti-section bg-white p-4 rounded shadow-sm">

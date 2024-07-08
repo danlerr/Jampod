@@ -94,7 +94,7 @@
 			<input type="hidden" id="user-rating" value="{$votevalue|default:0}">
 
 			<div class="col d-flex justify-content-start align-items-center" >
-				<a href="/Jampod/Donation/donationForm/{$episode_id}" class="link-secondary">
+				<a href="/Jampod/Donation/donationForm/{$podcast_id}" class="link-secondary">
 					<img class="currency-icon  mt-2 " src="/Jampod/Smarty/images/currency-dollar.svg" alt="Currency Dollar Icon">
 				</a>
 				

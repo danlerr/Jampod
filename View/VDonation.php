@@ -10,37 +10,25 @@ require_once 'StartSmarty.php';
     
         }
 
-        public function showDonationForm($recipient_id){
-            $this->smarty->assign('recipient_id',$recipient_id);
+        public function showDonation($recipient_id, $podcast_creator, $textalert = null, $success = false){
+            $this->smarty->assign('recipient_id', $recipient_id);
+            $this->smarty->assign('creator', $podcast_creator);
+            $this->smarty->assign('success', $success);
+            $this->smarty->assign('textalert', $textalert);
             $this->smarty->display('Smarty/templates/donation.tpl');
         }
         
-        /**
-         * Mostra una conferma di successo dopo aver effettuato una donazione.
-         *
-         * @param string $message Il messaggio di successo da visualizzare.
-         */
-        public function showDonationSuccess($message) {
-            $this->smarty->assign('success_message', $message);
-            $this->smarty->display('/Smarty/templates/donation.tpl');
-        }
-            
-        /**
-         * Mostra una conferma di successo dopo aver effettuato una donazione.
-         *
-         * @param string $message Il messaggio di successo da visualizzare.
-         */
-        public function showDonationErrorView($message) {
-            $this->smarty->assign('error_message', $message);
-            $this->smarty->display('/Smarty/templates/donation.tpl');
+        public function showError($string) {
+            $this->smarty->assign('error_message', $string);
+            $this->smarty->display('Smarty/templates/error.tpl');
         }
 
-        public function showAllDonations($balance,$allDonations){
-            $this->smarty->assign('balance',$balance);
-            $this->smarty->assign('donations',$allDonations);
-            $this->smarty->display('/Smarty/templates/balance.tpl');
+        // public function showAllDonations($balance,$allDonations){
+        //     $this->smarty->assign('balance',$balance);            //da mettere in saldo 
+        //     $this->smarty->assign('donations',$allDonations);
+        //     $this->smarty->display('Smarty/templates/balance.tpl');
 
-        }
+        // }
             
         
 

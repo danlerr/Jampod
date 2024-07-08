@@ -16,13 +16,14 @@ class VEpisode{
 
     public function showEpisodePage($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image) {
         $this->smarty -> assign('podcast_title', $podcast->getPodcastName());
+        $this->smarty->assign('podcast_id', $podcast->getId());
         $this->smarty -> assign('episode_title' , $episode->getEpisode_title());
         $this->smarty -> assign('episode_streams', $episode->getEpisode_streams());
         $this->smarty->assign('episode_id', $episode->getId());
         $this->smarty -> assign ('usernamecreator' , $usernamecreator);
         $this->smarty -> assign ('votevalue', $votevalue);
         $this->smarty -> assign ('avgVote', $avgVote);
-        $this->smarty -> assign( 'episode_description ', $episode->getEpisode_description());
+        $this->smarty -> assign( 'episode_description', $episode->getEpisode_description());
         $this->smarty -> assign ('commentAndReplies' , $commentAndReplies);
         $this->smarty -> assign('mimetype', $image[0]);
         $this->smarty -> assign('imagedata', $image[1]);
