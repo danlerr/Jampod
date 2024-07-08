@@ -316,22 +316,6 @@
         }
     
 
-        //-------------------------------------CREDIT CARD-----------------------------------------------------
-        public static function retrieveUserCreditCards($userId) {               ///forse da cancellare
-            try {
-                $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
-        
-                if ($creditCards !== null) {
-                    return $creditCards;
-                } else {
-                    return []; // Ritorna un array vuoto se non ci sono carte di credito trovate
-                }
-            } catch (PDOException $e) {
-                error_log("PDOException in retrieveUserCreditCards: " . $e->getMessage());
-                return []; // In caso di errore, ritorna un array vuoto
-            }
-        }
-
         //-------------------------------------COMMENT-----------------------------------------------------
         public static function retrieveComments($episode_id){   //metodo che ritorna tutti i commenti di un episodio
             $comments=FComment::retrieveMoreComments($episode_id);
