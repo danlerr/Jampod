@@ -347,6 +347,16 @@
             $comments=FComment::retrieveMoreComments($episode_id);
             return $comments;
         }
-}
+
 
             
+        //-------------------------------------SUBSCRIBE-----------------------------------------------------
+        public static function getSubscribers($podcast_id){
+            $subs = FSubscribe::getAllSubscribed($podcast_id);
+            if ($subs){
+                return $subs;
+            }else{
+                return array();
+            }
+        }
+    }

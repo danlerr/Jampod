@@ -96,8 +96,19 @@ public static function retrieveSub($userId, $podcastId){
     }
 }
 
-
-
+public static function getAllSubscribed($podcast_id){
+    $subscribers = FDataBase::getInstance()->retrieve(self::getTable(), 'podcast_id', $podcast_id);
+    $subscribers = self::createEntity($subscribers);
+    if (!is_array($subscribers)){
+        $subscribers = [$subscribers];
+    }
+    if ($subscribers){
+        return $subscribers;
+    }else{
+        return array();
+    }
+    
+}
 }
 
 

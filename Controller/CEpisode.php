@@ -56,6 +56,23 @@ public static function uploadEpisode($podcast_id)
                 $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast 
                 //header('Location: /Jampod/Podcast/visitPodcast/'.$podcast_id);
                 $view->showPodcastPage($podcast, $creator , $episodesupdated,"creator", $sub, "Episodio aggiunto con successo", true); // Rimanda alla pagina del podcast con l'alert di conferma e l'episodio aggiunto
+                
+                // Recupera gli utenti iscritti al podcast
+                $subscribes = FPersistentManager::getInstance()->getSubscribers($podcast_id);
+                print_r($subscribes);
+                
+                // Invia una email di notifica a ciascun iscritto
+                foreach ($subscribes as $subscribe) {
+                    $subscriber = FPersistentManager::getInstance()->retrieveObj('EUser', $subscribe->getSubscriberid());
+                    $subject = "Nuovo episodio del podcast: " . $podcast->getPodcastName();
+                    $message = "<p>Un nuovo episodio è stato aggiunto al podcast " . $podcast->getPodcastName() . ".</p>
+                                <p>Titolo episodio: " . $episode->getEpisode_title() . "</p>
+                                <p>Descrizione: " . $episode->getEpisode_description() . "</p>";
+                                //<p> link:  /Jampod/Episode/visitEpisode/" . $episode->getId(). "</p>" ;
+                    $mailer = CMail::getInstance();
+                    echo $subscriber->getEmail();
+                    $mailer->sendMail($subscriber->getEmail(), $subject, $message);
+                }
             } else {     
                 
                 $view->showPodcastError($podcast, $creator , $episodesbefore, "creator",$sub,"Impossibile effettuare il caricamento dell'episodio", false); // Rimanda alla pagina del podcast con l'alert di errore aggiunta

@@ -4,6 +4,7 @@ require_once 'StartSmarty.php';
 require_once 'Foundation/FDataBase.php';
 require_once 'Foundation/FPodcast.php';
 require_once 'autoloader.php';
+require_once 'Controller/CMail.php';
 
 //$smarty = StartSmarty::configuration();
 // Carica il template
@@ -39,8 +40,15 @@ require_once 'autoloader.php';
 
 //$update = FPersistentManager::getInstance()->updateObj($pod, 'subscribe_counter', 35);
 
-echo (FPersistentManager::getInstance()->isSubscribed(69, 43));
+//echo (FPersistentManager::getInstance()->isSubscribed(69, 43));
 // if ($update){
 //     echo 'yes';
 // }
 //echo($pod->getPodcastCategory());
+
+
+$mailer = CMail::getInstance();
+        
+$mailer->sendMail('jampodPodcast@gmail.com', 'abc', 'messaggio');
+        
+echo "Email inviata a:    ";
