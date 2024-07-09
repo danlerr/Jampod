@@ -24,7 +24,7 @@
             $this->smarty->display('Smarty/templates/error.tpl');
         }
 
-        public function profile($username, $podcasts){
+        public function profile($podcasts, $username){
             $this->smarty->assign('podcasts', $podcasts);
             $this->smarty->assign('username', $username);
             $this->smarty->display('Smarty/templates/profile.tpl');

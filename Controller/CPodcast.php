@@ -75,7 +75,8 @@
 
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
                 $userId = USession::getInstance()->getSessionElement('user');
-                $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $creator_id = $podcast->getUserId();
+                $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $creator_id);
                 $userRole = ($userId == $podcast->getUserId()) ? 'creator' : 'listener';
                 $sub = (FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id));
 
@@ -111,7 +112,7 @@
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
-                $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
 
         
@@ -157,7 +158,7 @@
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
-                $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
         
                 if ($podcast) {

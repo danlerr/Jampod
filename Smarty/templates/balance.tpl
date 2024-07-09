@@ -26,21 +26,47 @@
             </div>
         </div>
         <div class="movimenti-section bg-white p-4 rounded shadow-sm">
-            <h2>Storico delle donazioni</h2>
+            <h2>Donazioni in entrata</h2>
             <table class="table table-striped mt-3">
                 <thead>
                     <tr>
                         <th>Data</th>
                         <th>Descrizione</th>
                         <th>Importo</th>
+                        <th>Ricevuta da</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    {foreach from=$donations item=donation}
+                    {foreach from=$donationsReceived item=donation}
                     <tr>
-                        <td>{$donation->getDonationTime()}</td>
-                        <td>{$donation->getDonationText()}</td>
-                        <td>{$donation->getDonationAmount()}</td>
+                        <td>{$donation.donation_date}</td>
+                        <td>{$donation.donation_description}</td>
+                        <td>{$donation.amount}</td>
+                        <td>{$donation.senderUsername}</td>
+                    </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+        </div>
+        <div class="movimenti-section bg-white p-4 rounded shadow-sm">
+            <h2>Donazioni in uscita</h2>
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrizione</th>
+                        <th>Importo</th>
+                        <th>Inviata a</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {foreach from=$donationsMade item=donation}
+                    <tr>
+                        <td>{$donation.donation_date}</td>
+                        <td>{$donation.donation_description}</td>
+                        <td>{$donation.amount}</td>
+                        <td>{$donation.recipientUsername}</td>
                     </tr>
                     {/foreach}
                 </tbody>
