@@ -311,26 +311,33 @@
         }
 
         //-------------------------------------DONATION-----------------------------------------------------
-        public static function retrieveDonationsReceived($userId){ //metodo che a partire dall' userId restituisce 
-            $donations=FDonation::retrieveDonationsReceived($userId);     //tutte le donazioni fatte a quell'utente
-            return is_array($donations) ? $donations : []; //per assicurarmi che ritorni un array
-            
-        }
         
-        public static function retrieveDonationsMade($userId) {
-            try {
-                $donations = FDonation::retrieveDonationsMade($userId);
-                if (is_array($donations)) {
-                    return $donations;
-                } else {
-                    return [];
+        public static function donationsMade($userId) {
+            $donations = FDonation::retrieveDonationsMade($userId);
+            
+            foreach ($donations as &$donation) {
+                $recipientUser = FPersistentManager::getInstance()->retrieveObj('EUser', $donation['recipient_id']);
+                if ($recipientUser) {
+                    $donation['recipientUsername'] = $recipientUser->getUsername(); // Aggiungiamo il nome utente del destinatario come chiave nell'array donazione
                 }
-            } catch (Exception $e) {
-                error_log("Error retrieving donations made by user with ID $userId: " . $e->getMessage());
-                return []; // Ritorno di un array vuoto in caso di errore
             }
+            
+            return $donations;
         }
-    
+
+        public static function donationsReceived($userId){
+            $donations = FDonation::retrieveDonationsReceived($userId);
+            foreach ($donations as &$donation) {
+                $recipientUser = FPersistentManager::getInstance()->retrieveObj('EUser', $donation['recipient_id']);
+                if ($recipientUser) {
+                    $donation['recipientUsername'] = $recipientUser->getUsername(); // Aggiungiamo il nome utente del destinatario come chiave nell'array donazione
+                }
+            }
+            
+            return $donations;
+        }
+
+        
 
         //-------------------------------------COMMENT-----------------------------------------------------
         public static function retrieveComments($episode_id){   //metodo che ritorna tutti i commenti di un episodio

@@ -13,7 +13,7 @@ require_once 'StartSmarty.php';
         public function showPodcastPage($podcast, $creator, $episodes, $userRole, $sub = null, $textalert = null, $success = null){
 
             $this->smarty->assign('podcast', $podcast);
-            $this->smarty->assign('podcast_creator', $creator);
+            $this->smarty->assign('creator', $creator);
             $this->smarty->assign('episodes', $episodes);
             $this->smarty->assign('textalert', $textalert);
             $this->smarty->assign('userRole', $userRole);
@@ -24,7 +24,7 @@ require_once 'StartSmarty.php';
         }
 
         //metodo per mostrare modifiche/errori tramite alert nella pagina del podcast 
-        public function showPodcastError($podcast, $creator,$episodes, $userRole, $textalert = null, $sub = null, $success = null){
+        public function showPodcastError($podcast, $creator, $episodes, $userRole, $textalert = null, $sub = null, $success = null){
             self::showPodcastPage($podcast, $creator, $episodes, $userRole, $textalert = null, $sub = null, $success = null);
         } 
 

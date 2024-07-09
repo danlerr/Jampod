@@ -48,7 +48,7 @@
                 <h1 class="text mb-0">{$podcast->getPodcastName()}</h1>
                 <span class="badge small-badge">{$podcast->getSubscribeCounter()} iscritti</span>
             </div>
-            <h3 class="text mb-1">{$podcast_creator}</h3>
+            <h3 class="text mb-1"><a href="/Jampod/User/profile/{$creator->getId()}" style="text-decoration: none;">{$creator->getUsername()}</a></h3>
             <small class="text mb-5">{$podcast->getPodcastCategory()}</small>
             <h4 class="text mb-5 mt-5">Descrizione:{$podcast->getPodcastDescription()}</h4>
             

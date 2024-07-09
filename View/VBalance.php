@@ -10,8 +10,10 @@ require_once 'StartSmarty.php';
     
         }
 
-        public function showBalance($balance, $textalert = null, $success = false){
+        public function showBalance($balance, $donationsReceived, $donationsMade, $textalert = null, $success = false){
             $this->smarty->assign('balance', $balance);
+            $this->smarty->assign('donationsReceived', $donationsReceived);
+            $this->smarty->assign('donationsMade', $donationsMade);
             $this->smarty->assign('textalert', $textalert);
             $this->smarty->assign('success', $success);
             $this->smarty->display('Smarty/templates/balance.tpl');
