@@ -286,13 +286,14 @@ class CUser{
         
         // Convert MM/AA to Y/m
         $creditCard = new ECreditCard($cardHolder, $cardNumber, $securityCode, $expirationDate, $userId);
-        $result = FPersistentManager::getInstance()->createObj($creditCard);  // Convert MM/AA to Y/m in createObject di FCreditCard             
-
-        $creditCard = new ECreditCard($cardHolder, $cardNumber, $securityCode, $expirationDate, $userId);
+        $result = FPersistentManager::getInstance()->createObj($creditCard);  // Convert MM/AA to Y/m in createObject di FCreditCard
+        $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
+            $view=new VUser();
+       
             if ($result) {
-                self::userCards("carta inserita con successo! :)",true);
+                $view->showUserCards($creditCards,"carta inserita con successo! :)",true);
             } else {
-                self::userCards("problemi con l'inserimento della carta :(",false);
+                $view->showUserCards($creditCards,"problemi con l'inserimento della carta :(",false);
             }
         }
 
@@ -302,42 +303,54 @@ class CUser{
      * 
      */
 
-     public static function removeCreditCard() { 
+     public static function removeCreditCard($cardId) { 
         $userId = USession::getInstance()->getSessionElement('user');
-        $cardId = UHTTPMethods::post('card_id'); // Recupera l'ID della carta di credito dalla richiesta POST
         if (!$cardId) {
-            self::userCards("ID della carta di credito mancante.", false);
+            $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
+            $view=new VUser();
+            $view->showUserCards($creditCards,"ID della carta di credito mancante.", false);
             return;
         }
-    
         $creditCard = FPersistentManager::getInstance()->retrieveObj('ECreditCard', $cardId);
-        if (!$creditCard || $creditCard->getUserId() != $userId) {
-            self::userCards("Carta di credito non trovata o non autorizzata.", false);
+        $creditCard=FCreditCard::createEntity($creditCard);
+        if (!$creditCard) {
+            $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
+            $view=new VUser();
+            $view->showUserCards($creditCards,"Carta di credito non trovata o non autorizzata.", false);
             return;
         }
     
         $result = FPersistentManager::getInstance()->deleteObj($creditCard);
+        $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
+        foreach ($creditCards as $card) {
+            $maskedNumber = self::maskCreditCardNumber($card->getCreditCardNumber());
+            $card->setCreditCardNumber($maskedNumber);
+        }
         if ($result) {
-            self::UserCards("Carta rimossa con successo.", true);
+            $view=new VUser();
+            $view->showUserCards($creditCards,"Carta rimossa con successo.", true);
         } else {
-            self::userCards("Problemi con la rimozione della carta.", false);
+            $view=new VUser();
+            $view->showUserCards($creditCards,"Problemi con la rimozione della carta.", false);
         }
     }
 
 
-    public static function userCards($textAlert=null,$success=true) {       //metodo che mostra tutte le carte dell'utente  
+
+    public static function userCards() {       //metodo che mostra tutte le carte dell'utente  
         $userId = USession::getInstance()->getSessionElement('user');
         $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
+        var_dump($creditCards);
     
-        if(!empty($creditCards)){
+       // if(!empty($creditCards)){
             // Maschera i numeri delle carte di credito
-            foreach ($creditCards as &$card) {
-                $maskedNumber = self::maskCreditCardNumber($card->getCreditCardNumber());
-                $card->setCreditCardNumber($maskedNumber);
-            }
-        }
+            //foreach ($creditCards as $card) {
+                //$maskedNumber = self::maskCreditCardNumber($card->getCreditCardNumber());
+                //$card->setCreditCardNumber($maskedNumber);
+            //}
+       // }
         $view=new VUser();
-        $view->showUserCards($creditCards,$textAlert,$success);
+        $view->showUserCards($creditCards,$textAlert=null,$success=null);
     
     }
     
