@@ -51,12 +51,13 @@
                                     <span class="card-number">1234 XXXX XXXX 2570</span>
                                 </div>
                                 </div>
+                                {if $card_count>0}
                                 {foreach from $cards item=card}
                                     <div class="payment-card mt-5 d-flex justify-content-between align-items-center mb-5">
                                         <div class="card-details d-flex flex-row align-items-center">
                                             <img src="/Smarty/images/creditcard.png" class="card-image" width="50">
                                             <div class="card-info d-flex flex-column">
-                                                <span class="card-type">{$card->getId()}</span>
+                                                <span class="card-type">{$card->getCreditCardHolder()}</span>
                                                 <span class="card-number">{$card->getCreditCardNumber()}</span>
                                             </div>
                                         </div>
@@ -68,7 +69,7 @@
                                         </div>
                                     </div>
                                 {/foreach}
-                            
+                                {/if}
                 
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#aggiungiModal">Aggiungi carta</button>
 

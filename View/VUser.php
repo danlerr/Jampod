@@ -44,10 +44,10 @@
             $this->smarty->display('Smarty/templates/creditcard.tpl');
         }
         
-        public function showUserCards($cards, $textAlert = null, $success = true) {
-            if (!is_array($cards)) {
-                $cards = [$cards]; // Ensure $cards is an array
-            }
+        public function showUserCards($cards, $textAlert, $success) {
+            //if (!is_array($cards)) {
+              //  $cards = [$cards]; // Ensure $cards is an array
+           // }
         
             $this->smarty->assign('cards', $cards);
             $this->smarty->assign('textalert', $textAlert);

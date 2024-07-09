@@ -80,31 +80,39 @@ class FCreditCard{
         }
     }
     public static function createEntity($queryResult) {
-        if (!empty($queryResult) && isset($queryResult[0])) {
+       $creditCards= array();
+       foreach($queryResult as $result){
             $creditCard = new ECreditcard(
-                $queryResult[0]['card_holder'],
-                $queryResult[0]['card_number'],
-                $queryResult[0]['security_code'],
-                $queryResult[0]['expiration_date'],
-                $queryResult[0]['user_id']
+                $result['card_holder'],
+                $result['card_number'],
+                $result['security_code'],
+                $result['expiration_date'],
+                $result['user_id']
             );
-            $creditCard->setCreditCardId($queryResult[0]['card_id']);
-            return $creditCard;
-        } else {
-            return null;
+            $creditCard->setCreditCardId($result['card_id']);
+            $creditCards[]=$creditCard;
         }
-    }
+        if (count($creditCards)===1){
+            return $creditCards[0];
+        }
+        return $creditCards;
+
+
+        }
     
 
     
     public static function retrieveOwnedCreditCards($userId){
-        $creditCards=FDataBase::getInstance()->retrieve(self::getTable(),'user_id',$userId);
-        $cards=array_map([FCreditCard::class,'createEntity'], $creditCards);
-        // Rimuovi elementi nulli e non validi dall'array $cards
-        //$cards = array_filter($cards, function($card) {
+        $queryResult=FDataBase::getInstance()->retrieve(self::getTable(),'user_id',$userId);
+        $cards=self::createEntity($queryResult);
+        if (!is_array($cards)) {
+            $cards = [$cards];
+        }
+       
+        //R//$cards = array_filter($cards, function($card) {
             //return $card instanceof ECreditCard; // Assicurati che $card sia un'istanza valida della classe ECreditCard
         //});
-        print_r($cards);
+        //print_r($cards);
         return $cards;
     }
 
