@@ -26,10 +26,7 @@ public static function uploadEpisode($podcast_id)
                 $podcast_id
             );
             $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
-            
-            $userRole ='creator';
-            $creatorId = $podcast->getUserId();
-            $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $creatorId) -> getUsername();
+            $creator = FPersistentManager::getInstance()->retrieveObj('EUser',  $podcast->getUserId());
             
             // Get audio info
             $audioInfo = CFile::getAudioInfo();
@@ -57,16 +54,11 @@ public static function uploadEpisode($podcast_id)
             
             if ($result) {         
                 $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast 
-                if (!is_array($episodesupdated)) {
-                    $episodesupdated = [$episodesupdated];
-                }
                 //header('Location: /Jampod/Podcast/visitPodcast/'.$podcast_id);
-                $view->showPodcastPage($podcast, $creator , $episodesupdated, $userRole, $sub, "Episodio aggiunto con successo", true); // Rimanda alla pagina del podcast con l'alert di conferma e l'episodio aggiunto
+                $view->showPodcastPage($podcast, $creator , $episodesupdated,"creator", $sub, "Episodio aggiunto con successo", true); // Rimanda alla pagina del podcast con l'alert di conferma e l'episodio aggiunto
             } else {     
-                if (!is_array($episodesbefore)) {
-                    $episodesbefore = [$episodesbefore];
-                } 
-                $view->showPodcastError($podcast, $creator , $episodesbefore,  $userRole,$sub,"Impossibile effettuare il caricamento dell'episodio", false); // Rimanda alla pagina del podcast con l'alert di errore aggiunta
+                
+                $view->showPodcastError($podcast, $creator , $episodesbefore, "creator",$sub,"Impossibile effettuare il caricamento dell'episodio", false); // Rimanda alla pagina del podcast con l'alert di errore aggiunta
             }
         }
     }
@@ -80,32 +72,32 @@ public static function deleteEpisode($episode_id)
         $view = new VPodcast();
         $userId = USession::getInstance()->getSessionElement('user');
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
-        $check = FPersistentManager::getInstance()->checkUser((array)$episode, $userId); // Controllo che il creatore dell'episodio sia lo stesso che lo sta eliminando
+        $podcast_id = $episode->getPodcastId();
+        $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+        $check = FPersistentManager::getInstance()->checkUser($podcast->getUserId(), $userId); // Controllo che il creatore dell'episodio sia lo stesso che lo sta eliminando
         
 
         if ($check) {
-            $userRole ='creator';
-            $podcast_id = $episode->getPodcastId();
-            $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+            
             $creatorId = $podcast->getUserId();
-            $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $creatorId) -> getUsername();
+            $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $creatorId);
             $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
             $sub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);
             
             $result = FPersistentManager::getInstance()->deleteObj($episode); 
             
             if ($result) {
-                $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast       
-                $view->showPodcastPage($podcast, $creator , $episodesupdated, $userRole, $sub, "Episodio eliminato con successo", true); 
+                $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast 
+                $view->showPodcastPage($podcast, $creator , $episodesupdated, "creator", $sub, "Episodio eliminato con successo", true); 
             } else {
-                $view->showPodcastError($podcast, $creator , $episodesbefore,  $userRole,$sub,"Impossibile eliminare l'episodio", false);
+                $view->showPodcastError($podcast, $creator , $episodesbefore, "creator ",$sub,"Impossibile eliminare l'episodio", false);
             }
         } 
     } 
 }
 
 
-public static function visitEpisode($episode_id) {  //{$episode->getId()} in data-episode-id="" in episode.tpl
+public static function visitEpisode($episode_id) {  
     if (CUser::isLogged()) {
         $view = new VEpisode();
         $userId = USession::getInstance()->getSessionElement('user');
@@ -180,7 +172,8 @@ public static function voteEpisode($episode_id) {
                 $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
                 $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Voto aggiornato", true);      
             } else {
-                $view->showError("Impossibile modificare la votazione");
+                $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
+                $view->showEpisodeError($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Impossibile modificare la votazione", false);
                 
             }
         } else {
@@ -194,10 +187,10 @@ public static function voteEpisode($episode_id) {
                 $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $value, $episodeimage, "Grazie per aver votato :D", true);     
                
             } else {
-                $view->showError("Impossibile caricare la votazione");
+                $view->showEpisodeError($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Impossibile inserire la votazione", false);
             }
         } else {
-            $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Inserire un voto valido", false); 
+            $view->showEpisodeError($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Inserire un voto valido", false); 
         }
 
     } 

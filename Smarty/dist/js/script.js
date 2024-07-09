@@ -166,52 +166,54 @@ function incrementEpisodeStreams(episodeId) {
 
 
 // COMMENTS
-let commentContainer = document.getElementById("comment-container");
+document.addEventListener("DOMContentLoaded", function() {
+  let commentContainer = document.getElementById("comment-container"); //riferimento al comment container
 
-function createInputBox(commentUsername, commentText) {
-    // Rimuove eventuali form di risposta già esistenti 
-    let existingForm = document.querySelector(".comment-details"); 
-    if (existingForm) {
-        existingForm.remove();
-    }
+  commentContainer.addEventListener("click", function(e) {
+      e.preventDefault();
+      if (e.target.classList.contains("reply")) {
+          let closestCard = e.target.closest(".card");  // Gestisce il click solo se l'elemento cliccato ha la classe "reply"
+          if (closestCard) {
+              let replyFormContainer = closestCard.querySelector(".replyFormContainer"); //riferimento al reply container della card più vicina trovata. 
+              // Nascondi tutti i form di risposta attivi
+              let allReplyForms = document.querySelectorAll(".replyFormContainer"); //seleziona tutti gli elementi che hanno la classe "replyFormContainer" (nodelist)
+              allReplyForms.forEach(formContainer => {
+                  formContainer.style.display = "none";
+              });
 
-    let div = document.createElement("div");
-    div.setAttribute("class", "comment-details mt-3"); // Imposta la classe della div
 
-    let prefix = `In risposta a @${commentUsername}: ${commentText}\n`;
+              // Mostra solo il form di risposta del commento corrente
+              replyFormContainer.style.display = "block";
+              replyFormContainer.style.marginTop = "10px";
 
-    div.innerHTML += `
-        <form action="DA SELEZIONARE" method="post" class="comment-form">
-            <div class="form-group">
-                <div class="form-control-plaintext" style="white-space: pre-wrap;">${prefix}</div>
-                <textarea class="form-control" style="resize: none;" name="replyComment" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-outline-success submit mt-2">Post Reply</button>
-        </form>`;
+              let replyForm = replyFormContainer.querySelector("form"); //riferimento al form che si trova nel reply container
+              let parentCommentId = closestCard.getAttribute("data-comment-id"); //id del commento a cui si risponde
+              let episodeId = commentContainer.getAttribute("data-episode-id"); //id dell'episodio
+              replyForm.querySelector("textarea").focus(); //sposta il cursore dell'utente nella form
 
-    return div;
-}
+              //  gestore di eventi al pulsante "Post Reply"
+              let postReplyButton = replyForm.querySelector('.btn[type="button"]');
+              postReplyButton.addEventListener("click", function(event) {
+                  event.preventDefault(); // Previeni il submit predefinito
 
-commentContainer.addEventListener("click", function (e) {
-    e.preventDefault();  // Previene il comportamento predefinito
+                  //  submit del form manualmente
+                  let formData = new FormData(replyForm);
+                  fetch(`/Jampod/Comment/createComment/${episodeId}/${parentCommentId}`, {
+                      method: 'POST',
+                      body: formData
+                  })
+                  .then(response => {
+                      if (!response.ok) {
+                          throw new Error('Network response was not ok');
+                      }
+                      // Esegui il redirect dopo il successo della richiesta
+                      window.location.href = `/Jampod/Episode/visitEpisode/${episodeId}`;
+                  })
+                  
+              });
 
-    let replyClicked = e.target.classList.contains("reply"); //verifica che abbia la classe reply, cioè che sia il bottone reply
-    let closestCard = e.target.closest(".card"); //trova la card più vicina
-
-    if (replyClicked) {
-        let commentUsername = closestCard.querySelector('.text-primary').innerText;
-        let commentText = closestCard.querySelector('.comment-text').innerText;
-
-        let inputBox = createInputBox(commentUsername, commentText);
-        closestCard.appendChild(inputBox);
-
-        // Combina il prefisso e il commento dell'utente prima del submit
-        let commentForm = inputBox.querySelector(".comment-form"); //seleziona il form di risposta appena creato
-        commentForm.addEventListener("submit", function () {
-            let userComment = commentForm.querySelector('textarea[name="replyComment"]').value;
-            commentForm.querySelector('textarea[name="replyComment"]').value = `In risposta a @${commentUsername}: ${commentText}\n` + userComment;
-            //Nel server accedo alla reply con  $_POST['replyComment'].
-        });
-    }
+              
+          }
+      }
+  });
 });
-

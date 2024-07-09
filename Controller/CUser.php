@@ -189,7 +189,7 @@ class CUser{
             if (CUser::isLogged()){
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
-                if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
+                if (FPersistentManager::getInstance()->checkUser($user->getId(),$userId)){
                     $user_password = $user->getPassword(); //password criptata dal db
                     $password = UHTTPMethods::post('old_password');
                     $newPassword = UHTTPMethods::post('new_password');  
@@ -217,7 +217,7 @@ class CUser{
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
                 $email = $user->getEmail();
-                if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
+                if (FPersistentManager::getInstance()->checkUser($user->getId(),$userId)){
                     $oldUsername = $user->getUsername();
                     $newUsername = UHTTPMethods::post('nuovo_username');
                     if (FPersistentManager::getInstance()->verifyUserUsername($newUsername) == false){
@@ -245,7 +245,7 @@ class CUser{
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
                 $username = $user->getUsername();
-                if (FPersistentManager::getInstance()->checkUser(array($user),$userId)){
+                if (FPersistentManager::getInstance()->checkUser($user->getId(),$userId)){
                     $oldEmail = $user->getEmail();
                     $newEmail = UHTTPMethods::post('email');
                     if (FPersistentManager::getInstance()->verifyUserEmail($newEmail) == false){

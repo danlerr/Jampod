@@ -204,6 +204,9 @@
         public static function retrieveEpisodesByPodcast($podcast_id){
             
             $episodes = FEpisode::retrieveMoreEpisodes($podcast_id);
+            if (!is_array($episodes)) {
+                $episodes = [$episodes];
+            } 
             if($episodes){
                 return $episodes;
             }else{
@@ -328,9 +331,9 @@
         public static function donationsReceived($userId){
             $donations = FDonation::retrieveDonationsReceived($userId);
             foreach ($donations as &$donation) {
-                $recipientUser = FPersistentManager::getInstance()->retrieveObj('EUser', $donation['recipient_id']);
-                if ($recipientUser) {
-                    $donation['recipientUsername'] = $recipientUser->getUsername(); // Aggiungiamo il nome utente del destinatario come chiave nell'array donazione
+                $senderUser = FPersistentManager::getInstance()->retrieveObj('EUser', $donation['sender_id']);
+                if ($senderUser) {
+                    $donation['senderUsername'] = $senderUser->getUsername(); 
                 }
             }
             

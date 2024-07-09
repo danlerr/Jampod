@@ -43,7 +43,7 @@ class EComment{
      */
     private $episode_id;
 
-    private $is_ban=null;
+    private $is_ban=false;
 
 
     /**
@@ -116,11 +116,7 @@ class EComment{
     }
     
     public function isBan(){
-        if($is_ban=True){
-            return True;
-        }else{
-            return False;
-        }
+        return $this->is_ban;
     }
 
     // SET METHODS
@@ -169,14 +165,18 @@ class EComment{
     }
 
     
-    public function setcommentUsername($commentUsername) {
+    public function setCommentUsername($commentUsername) {
         $this->commentUsername = $commentUsername;
     }
-    public function getcommentUsername() {
+    public function getCommentUsername() {
         return $this->commentUsername;
     }
 
     public function setBan(){
         $this->is_ban=true;
+    }
+    public function getTimetoStr()
+    {
+        return $this->comment_time->format('Y-m-d H:i:s');
     }
 }

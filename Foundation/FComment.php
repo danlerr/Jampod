@@ -30,7 +30,7 @@ class FComment{
         $stmt->bindValue(":user_id", $comment->getUserId(), PDO::PARAM_INT); 
         $stmt->bindValue(":parent_comment_id", $comment->getParentCommentId(), PDO::PARAM_INT);
         $stmt->bindValue(":commentUsername", FUser::getUserUsername($comment->getUserId()), PDO::PARAM_STR); 
-        $stmt->bindValue(":is_ban", $comment->isBanned(), PDO::PARAM_BOOL);
+        $stmt->bindValue(":is_ban", $comment->isBan(), PDO::PARAM_BOOL);
     }
 
 
@@ -84,7 +84,7 @@ class FComment{
         foreach ($queryResult as $result) {
             $comment = new EComment($result['comment_text'], $result['user_id'], $result['episode_id']);
             $comment->setCommentId($result['comment_id']);
-            $comment->setcommentUsername($result['commentUsername']);
+            $comment->setCommentUsername($result['commentUsername']);
             
             $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $result['comment_creation_date']);
             $comment->setCommentCreationTime($dateTime);
@@ -92,10 +92,10 @@ class FComment{
             if (!is_null($result['parent_comment_id'])) {
                 $comment->setParentCommentId($result['parent_comment_id']);
             }
-
-            if (!is_null($result['is_ban'])) {
+            if ($result['is_ban']) {
                 $comment->setBan();
             }
+            
             
         
     
@@ -115,12 +115,15 @@ class FComment{
 
         // Metodo che permette di prendere dal db tutti i commenti dato un episodio. Ritorna un array di commenti che non sono stati bannati
         public static function retrieveMoreComments($episode_id) {
-            $result = FDataBase::getInstance()->loadMoreAttributesObjects(self::getTable(), FEpisode::getKey(), $episode_id,'is_ban',null); 
+            $result = FDataBase::getInstance()->loadMoreAttributesObjects(self::getTable(), FEpisode::getKey(), $episode_id,'is_ban',"false"); 
             if (count($result) > 0) {
                 $comments = self::createEntity($result);
+                if (!is_array($comments)) {
+                    $comments = [$comments];
+                }
                 return $comments;
             } else {
-                return null;
+                return [];
             }
         } 
     
@@ -129,6 +132,9 @@ class FComment{
         $rep = FDataBase::getInstance()->retrieve(self::getTable(), 'parent_comment_id', $parent_comment_id);
         if (count($rep) > 0) {
             $replies = self::createEntity($rep);
+            if (!is_array($replies)) {
+                $replies = [$replies];
+            }
             return $replies;
         } else {
             return [];

@@ -1,11 +1,13 @@
+
 {include file="Smarty/templates/header.tpl" username=$username email=$email}
-     {if isset($textalert) && $textalert}
-        {if $success}
-            {include file="Smarty/templates/successAlert.tpl"  textalert=$textalert}
-        {else}
-            {include file="Smarty/templates/failAlert.tpl"  textalert=$textalert}
-        {/if}
+
+{if isset($textalert) && $textalert}
+    {if $success}
+        {include file="Smarty/templates/successAlert.tpl" textalert=$textalert}
+    {else}
+        {include file="Smarty/templates/failAlert.tpl" textalert=$textalert}
     {/if}
+{/if}
 
 <div class="page-wrapper">
   
@@ -17,15 +19,15 @@
           <div class="col-12 col-md-3 border-end">
             <div class="card-body">
               <div class="list-group list-group-transparent">
-                <a href="/Jampod/User/settings" class="list-group-item list-group-item-action d-flex align-items-center active">Il mio Account</a>
-                <a href="/Jampod/User/userCards" class="list-group-item list-group-item-action d-flex align-items-center">Carte di Credito</a>
+                <a href="/Jampod/User/settings" class="list-group-item list-group-item-action d-flex align-items-center active">My Account</a>
+                <a href="/Jampod/User/userCards" class="list-group-item list-group-item-action d-flex align-items-center">My Credit Cards</a>
               </div>
             </div>
           </div>
           <div class="col-12 col-md-9 d-flex flex-column">
             <div class="card-body">
-              <h2 class="mb-4">Il mio Account</h2>
-              <h3 class="card-title">Dettagli Profilo</h3>
+              <h2 class="mb-4">My Account</h2>
+              <h3 class="card-title">Profile Details</h3>
               <h3 class="card-title mt-4">Email</h3>
               <div>
                 <div class="row g-2">
@@ -33,7 +35,7 @@
                     <input type="text" class="form-control w-auto" value="{$email}" readonly>
                   </div>
                   <div class="col-auto">
-                    <button class="btn" data-bs-toggle="modal" data-bs-target="#changeEmailModal">Cambia Email</button>
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#changeEmailModal">Change</button>
                   </div>
                 </div>
               </div>
@@ -44,13 +46,13 @@
                     <input type="text" class="form-control w-auto" value="{$username}" readonly>
                   </div>
                   <div class="col-auto">
-                    <button class="btn" data-bs-toggle="modal" data-bs-target="#changeUsernameModal">Cambia Username</button>
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#changeUsernameModal">Change</button>
                   </div>
                 </div>
               </div>
               <h3 class="card-title mt-4">Password</h3>
               <div>
-                <button class="btn" data-bs-toggle="modal" data-bs-target="#setpasswordModal">Cambia Password</button>
+                <button class="btn" data-bs-toggle="modal" data-bs-target="#setpasswordModal">Cambia password</button>
               </div>
               <div class="modal fade" id="setpasswordModal" tabindex="-1" aria-labelledby="ricaricaModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -151,7 +153,6 @@
   </div>
 </div>
 
-
-
-
 {include file="Smarty/templates/footer.tpl"}
+
+<!-- Bootstrap JS -->

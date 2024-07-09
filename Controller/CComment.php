@@ -15,8 +15,10 @@ class CComment{
      */
 
     public static function createComment($episodeId, $parentCommentId = null) {
+        
         $userId = USession::getInstance()->getSessionElement('user');
         $comment = new EComment(UHTTPMethods::post('body'), $userId, $episodeId);
+        
 
         if ($parentCommentId !== null) {
             $comment->setParentCommentId($parentCommentId);
@@ -24,19 +26,18 @@ class CComment{
 
         $result = FPersistentManager::getInstance()->createObj($comment);
         if ($result) {
-            VComment::commentCreatedView();
+            header('Location: /Jampod/Episode/visitEpisode/' . $episodeId);
+            
         } else {
-            VComment::commentErrorView();
+            $view = new VEpisode();
+            $view-> showError("Impossibile creare il commento");
+            
         }
     }
 
     public static function deleteComment($comment_id){
         $userId=USession::getInstance()->getSessionElement('user');
         $comment=FPersistentManager::getInstance()->retrieveObj('EComment',$comment_id);
-        if ($comment === null) {
-            VComment::commentErrorView("Comment not found.");
-            return;
-        }
     
         // Controlla se l'utente ha il permesso di eliminare il commento : deve essere un admin o l'utente che ha scritto il commento
         if ($comment->getUserId() !== $userId && !(FPersistentManager::getInstance()->retrieveObj('EUser',$userId)->isAdmin())) {
@@ -53,9 +54,4 @@ class CComment{
 
     }
 
-    public static function getAllComments($episode_id){        //metodo che ritorna tutti i commenti che non sono stati bannati
-        $comments = FPersistentManager::getInstance()->retrieveComments($episode_id);     //di un determinato episodio
-
-
-    }
 }
