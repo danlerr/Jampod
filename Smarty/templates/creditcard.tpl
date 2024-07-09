@@ -43,35 +43,30 @@
                         <div class="card-body">
                             <h2 class="mb-4">Carte di credito</h2>
                             
-                            <div class="payment-card mt-5 d-flex justify-content-between align-items-center mb-5">
-                                <div class="card-details d-flex flex-row align-items-center">
-                                <img src="/Smarty/images/creditcard.png" class="card-image " width="50">
-                                <div class="card-info d-flex flex-column">
-                                    <span class="card-type">Proprietario carta</span>
-                                    <span class="card-number">1234 XXXX XXXX 2570</span>
-                                </div>
-                                </div>
+                           
                                 {if $card_count>0}
-                                {foreach from $cards item=card}
-                                    <div class="payment-card mt-5 d-flex justify-content-between align-items-center mb-5">
-                                        <div class="card-details d-flex flex-row align-items-center">
-                                            <img src="/Smarty/images/creditcard.png" class="card-image" width="50">
-                                            <div class="card-info d-flex flex-column">
-                                                <span class="card-type">{$card->getCreditCardHolder()}</span>
-                                                <span class="card-number">{$card->getCreditCardNumber()}</span>
-                                            </div>
-                                        </div>
+                                    {foreach from=$cards item=card}
+                                        {if $card instanceof ECreditCard}
+                                            <div class="payment-card mt-5 d-flex justify-content-between align-items-center mb-5">
+                                                <div class="card-details d-flex flex-row align-items-center">
+                                                    <img src="/Jampod/Smarty/images/creditcard.png" class="card-image" width="50">
+                                                    <div class="card-info d-flex flex-column">
+                                                        <span class="card-type">{$card->getCreditCardHolder()}</span>
+                                                        <span class="card-number">{$card->getCreditCardNumber()}</span>
+                                                    </div>
+                                                </div>
                                         <div class="card-actions">
-                                            <form action="/Jampod/User/removeCreditCard" method="post">
+                                            <form action="/Jampod/User/removeCreditCard/{$card->getId()}" method="post">
                                                 <input type="hidden" name="card_id" value="{$card->getId()}">
                                                 <button type="submit" class="btn btn-danger">Rimuovi carta</button>
                                             </form>
                                         </div>
                                     </div>
-                                {/foreach}
                                 {/if}
+                            {/foreach}
+                        {/if}
                 
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#aggiungiModal">Aggiungi carta</button>
+                            <a href="/Jampod/User/addCreditCard" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#aggiungiModal">Aggiungi carta</a>
 
                             <div class="modal fade" id="aggiungiModal" tabindex="-1" aria-labelledby="aggiungiModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
