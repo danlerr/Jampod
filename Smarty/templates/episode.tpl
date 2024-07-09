@@ -171,9 +171,12 @@
         <div class="col-md-8">
             <!-- Card commento -->
             <div class="container">
-                <div id="comment-container" class="comment-container"> <!-- Id del comment container passato a js -->
+                <div id="comment-container" data-episode-id="{$episode_id}" class="comment-container">
+                {if count($commentAndReplies) == 0}
+                    <h4 class=" mt-3  text-center">Nessun commento. Commenta per primo!</h4>
+                {/if}
                     {foreach from=$commentAndReplies item=commentWithReplies}
-                        {include file='comment.tpl' comment=$commentWithReplies.0 replies=$commentWithReplies.1}
+                        {include file='Smarty/templates/comment.tpl' comment=$commentWithReplies.comment replies=$commentWithReplies.replies}
                     {/foreach}
                 </div>
             </div>
@@ -222,18 +225,7 @@
             },
         });
 
-        // Colora le stelle in base al valore del selettore
-        if (userRating > 0) {
-            rating.setRating(userRating);
-        } else {
-            rating.setRating(0); // Assicura che le stelle siano vuote se il voto è 0
-        }
-
-
-		
-		
-
-	 
+        
        
  });
 </script>

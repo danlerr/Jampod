@@ -26,7 +26,6 @@ public static function uploadEpisode($podcast_id)
                 $podcast_id
             );
             $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
-            
             $userRole ='creator';
             $creatorId = $podcast->getUserId();
             $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $creatorId) -> getUsername();
