@@ -22,11 +22,11 @@ class FCreditCard{
     }
     
 
-    public static function createObject($obj) :bool{            //metodo per "salvare" un oggetto CreditCard nel DB
-        $expirationDate=$obj->getCreditCardExpirationDate();
-        $expirationDate=$obj->setCreditCardExpirationDate($expirationDate);
-        $ObjectCreditCardId = FDataBase::getInstance()->create(self::class, $obj);
+    public static function createObject($obj) :bool{   
+        $ObjectCreditCardId = FDataBase::getInstance()->create(self::class, $obj);                                                                     //metodo per "salvare" un oggetto CreditCard nel DB
         if($ObjectCreditCardId !== null){
+            $expirationDate=$obj->getCreditCardExpirationDate();
+            $expirationDate=$obj->setCreditCardExpirationDate($expirationDate);
             $obj->setCreditCardId($ObjectCreditCardId);
             return true;
         }else{
@@ -45,7 +45,7 @@ class FCreditCard{
     }
 
 
-    public static function retrieveObject($card_id) :?ECreditcard{      //metodo per recuperare un oggetto creditCard dal DB
+    public static function retrieveObject($card_id) {      //metodo per recuperare un oggetto creditCard dal DB
         $result = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $card_id);
         if(count($result) > 0){
             $obj = self::createEntity($result);
@@ -68,15 +68,11 @@ class FCreditCard{
 
 
     public static function deleteObject($card_id){                      //metodo per eliminare un oggetto creditCard dal DB
-        $queryResult = FDataBase::getInstance()->retrieve(self::getTable(), self::getKey(), $card_id);
-        $card=self::retrieveObject($card_id);
-
-        if($card !== null && FUser::userValidation($queryResult, $card->getCreditCardUserId())){ 
-        
-            FDataBase::getInstance()->delete(self::getTable(), self::getKey(), $card_id);
+        $result = FDatabase::getInstance()->delete(self::getTable(), self::getKey(), $card_id);
+        if($result){
             return true;
         }else{
-            return false;
+         return false;
         }
     }
     public static function createEntity($queryResult) {
@@ -129,7 +125,6 @@ class FCreditCard{
         return  $year . '/' . $month;
 
     }
-
 
 }
 

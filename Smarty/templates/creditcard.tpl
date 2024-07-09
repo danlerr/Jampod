@@ -14,18 +14,7 @@
 <div class="page">
 
 <div class="page-wrapper">
-    <!-- Page header -->
-    <div class="page-header d-print-none">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-                <div class="col">
-                    <h2 class="page-title">
-                        Impostazioni account
-                    </h2>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- Page body -->
     <div class="page-body">
         <div class="container-xl">
@@ -34,8 +23,8 @@
                     <div class="col-12 col-md-3 border-end">
                         <div class="card-body">
                             <div class="list-group list-group-transparent">
-                                <a href="/Jampod/User/settings" class="list-group-item list-group-item-action d-flex align-items-center">Il mio account</a>
-                                <a href="/Jampod/User/userCards" class="list-group-item list-group-item-action d-flex align-items-center active">Carte di credito</a>
+                                <a href="/Jampod/User/settings" class="list-group-item list-group-item-action d-flex align-items-center">Il mio Account</a>
+                                <a href="/Jampod/User/userCards" class="list-group-item list-group-item-action d-flex align-items-center active">Carte di Credito</a>
                             </div>
                         </div>
                     </div>
@@ -58,7 +47,7 @@
                                         <div class="card-actions">
                                             <form action="/Jampod/User/removeCreditCard/{$card->getId()}" method="post">
                                                 <input type="hidden" name="card_id" value="{$card->getId()}">
-                                                <button type="submit" class="btn btn-danger">Rimuovi carta</button>
+                                                <a href="/Jampod/User/removeCreditCard/{$card->getId()}" class="btn btn-danger btn-move-left" data-bs-toggle="modal" data-bs-target="#rimuoviModal">Rimuovi carta</a>
                                             </form>
                                         </div>
                                     </div>
@@ -101,13 +90,36 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="modal fade" id="rimuoviModal" tabindex="-1" aria-labelledby="rimuoviModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered custom-modal-size">
+                                   <div class="modal-content custom-modal-content">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="rimuoviModalLabel">Sei sicuro di voler eliminare la carta?</h5>
+                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/Jampod/User/removeCreditCard/{$card->getId()}" method="post">
+                                            
+                                            <div class="text-end">
+                                                <button type="submit" class="btn btn-outline-danger" id="confermaRimuoviCarta">Conferma</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+                    <style>
+                        .custom-modal-size {
+                            max-width: 400px; /* Dimensione personalizzata della finestra modale */
+                        }
+                        .custom-modal-content {
+                            max-height: 150px; /* Altezza massima del contenuto del modale */
+                        }
+                        .btn-move-left {
+                            margin-right: 20px; /* Piccolo margine a destra per spostare il pulsante a sinistra */
+                        }
+                        </style>
 
 {include file="Smarty/templates/footer.tpl"}

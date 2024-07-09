@@ -306,27 +306,17 @@ class CUser{
 
      public static function removeCreditCard($cardId) { 
         $userId = USession::getInstance()->getSessionElement('user');
-        if (!$cardId) {
-            $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
-            $view=new VUser();
-            $view->showUserCards($creditCards,"ID della carta di credito mancante.", false);
-            return;
-        }
-        $creditCard = FPersistentManager::getInstance()->retrieveObj('ECreditCard', $cardId);
-        $creditCard=FCreditCard::createEntity($creditCard);
-        if (!$creditCard) {
+       
+        $card= FPersistentManager::getInstance()->retrieveObj('ECreditCard', $cardId);
+        if (!$card) {
             $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
             $view=new VUser();
             $view->showUserCards($creditCards,"Carta di credito non trovata o non autorizzata.", false);
             return;
         }
     
-        $result = FPersistentManager::getInstance()->deleteObj($creditCard);
+        $result = FPersistentManager::getInstance()->deleteObj($card);
         $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
-        foreach ($creditCards as $card) {
-            $maskedNumber = self::maskCreditCardNumber($card->getCreditCardNumber());
-            $card->setCreditCardNumber($maskedNumber);
-        }
         if ($result) {
             $view=new VUser();
             $view->showUserCards($creditCards,"Carta rimossa con successo.", true);
@@ -341,15 +331,14 @@ class CUser{
     public static function userCards() {       //metodo che mostra tutte le carte dell'utente  
         $userId = USession::getInstance()->getSessionElement('user');
         $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
-        var_dump($creditCards);
     
-       // if(!empty($creditCards)){
+       if(!empty($creditCards)){
             // Maschera i numeri delle carte di credito
-            //foreach ($creditCards as $card) {
-                //$maskedNumber = self::maskCreditCardNumber($card->getCreditCardNumber());
-                //$card->setCreditCardNumber($maskedNumber);
-            //}
-       // }
+            foreach ($creditCards as $card) {
+                $maskedNumber = self::maskCreditCardNumber($card->getCreditCardNumber());
+                $card->setCreditCardNumber($maskedNumber);
+            }
+       }
         $view=new VUser();
         $view->showUserCards($creditCards,$textAlert=null,$success=null);
     
