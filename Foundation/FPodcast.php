@@ -133,15 +133,20 @@
 
     public static function retrieveFeaturePodcasts() {
         $podcasts = FDataBase::retrieveAll(self::getTable());
+
+        
         
         if ($podcasts) {
             $allfeature = array();
-    
-            foreach ($podcasts as $Fpodcast) {
-                $podcast = FPodcast::createEntity($Fpodcast);
+            
+            $podcasts = self::createEntity($podcasts);
+            if (!is_array($podcasts)){
+                $podcasts = [$podcasts];
+            }
+            foreach ($podcasts as $podcast) {
                 $podcast_id = $podcast->getId();
                 $episodes = FEpisode::retrieveMoreEpisodes($podcast_id);
-    
+
                 if ($episodes) {
                     $sum = 0;
                     $count = 0;
@@ -149,10 +154,10 @@
                     foreach ($episodes as $episode) {
                         $episode_id = $episode->getId();
                         $AVGvote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-                        $sum += $AVGvote;
-                        $count++;
+                        $sum = $sum + $AVGvote;
+                        $count = $count + 1;                        
                     }
-    
+                    
                     $AVGPodcastvote = ($count > 0) ? ($sum / $count) : 0;
     
                     if ($AVGPodcastvote > 4) {
@@ -168,6 +173,7 @@
                             'podcast_creation_date' => $podcast->getTimetoStr()
                         );
                         $allfeature[] = $podcastData; // Aggiungi il podcast all'array
+
                     }
                 }
             }

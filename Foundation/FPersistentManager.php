@@ -209,9 +209,7 @@
         public static function retrieveEpisodesByPodcast($podcast_id){
             
             $episodes = FEpisode::retrieveMoreEpisodes($podcast_id);
-            if (!is_array($episodes)) {
-                $episodes = [$episodes];
-            } 
+            
             if($episodes){
                 return $episodes;
             }else{

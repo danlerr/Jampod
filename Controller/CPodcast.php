@@ -76,6 +76,9 @@
                 $view = new VPodcast;
 
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+                if (!$podcast){
+                    $view->showError('impossibile trovare il podcast :('); 
+                }
                 $userId = USession::getInstance()->getSessionElement('user');
                 $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
                 $creator_id = $podcast->getUserId();
