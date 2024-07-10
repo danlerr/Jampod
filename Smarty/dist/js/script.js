@@ -166,37 +166,39 @@ function incrementEpisodeStreams(episodeId) {
 
 
 // COMMENTS
+// COMMENTS
 document.addEventListener("DOMContentLoaded", function() {
-  let commentContainer = document.getElementById("comment-container"); //riferimento al comment container
+  let commentContainer = document.getElementById("comment-container"); // riferimento al comment container
 
   commentContainer.addEventListener("click", function(e) {
       e.preventDefault();
+      
+      // Gestisci il click sul pulsante "Reply"
       if (e.target.classList.contains("reply")) {
           let closestCard = e.target.closest(".card");  // Gestisce il click solo se l'elemento cliccato ha la classe "reply"
           if (closestCard) {
-              let replyFormContainer = closestCard.querySelector(".replyFormContainer"); //riferimento al reply container della card più vicina trovata. 
+              let replyFormContainer = closestCard.querySelector(".replyFormContainer"); // riferimento al reply container della card più vicina trovata. 
               // Nascondi tutti i form di risposta attivi
-              let allReplyForms = document.querySelectorAll(".replyFormContainer"); //seleziona tutti gli elementi che hanno la classe "replyFormContainer" (nodelist)
+              let allReplyForms = document.querySelectorAll(".replyFormContainer"); // seleziona tutti gli elementi che hanno la classe "replyFormContainer" (nodelist)
               allReplyForms.forEach(formContainer => {
                   formContainer.style.display = "none";
               });
-
 
               // Mostra solo il form di risposta del commento corrente
               replyFormContainer.style.display = "block";
               replyFormContainer.style.marginTop = "10px";
 
-              let replyForm = replyFormContainer.querySelector("form"); //riferimento al form che si trova nel reply container
-              let parentCommentId = closestCard.getAttribute("data-comment-id"); //id del commento a cui si risponde
-              let episodeId = commentContainer.getAttribute("data-episode-id"); //id dell'episodio
-              replyForm.querySelector("textarea").focus(); //sposta il cursore dell'utente nella form
+              let replyForm = replyFormContainer.querySelector("form"); // riferimento al form che si trova nel reply container
+              let parentCommentId = closestCard.getAttribute("data-comment-id"); // id del commento a cui si risponde
+              let episodeId = commentContainer.getAttribute("data-episode-id"); // id dell'episodio
+              replyForm.querySelector("textarea").focus(); // sposta il cursore dell'utente nella form
 
-              //  gestore di eventi al pulsante "Post Reply"
+              // Gestore di eventi al pulsante "Post Reply"
               let postReplyButton = replyForm.querySelector('.btn[type="button"]');
               postReplyButton.addEventListener("click", function(event) {
                   event.preventDefault(); // Previeni il submit predefinito
 
-                  //  submit del form manualmente
+                  // Submit del form manualmente
                   let formData = new FormData(replyForm);
                   fetch(`/Jampod/Comment/createComment/${episodeId}/${parentCommentId}`, {
                       method: 'POST',
@@ -209,10 +211,38 @@ document.addEventListener("DOMContentLoaded", function() {
                       // Esegui il redirect dopo il successo della richiesta
                       window.location.href = `/Jampod/Episode/visitEpisode/${episodeId}`;
                   })
-                  
+                  .catch(error => {
+                      console.error('Error:', error);
+                      // Gestisci l'errore in qualche modo, ad esempio mostrando un messaggio all'utente
+                  });
               });
+          }
+      }
 
-              
+      // Gestisci il click sull'immagine SVG per eliminare il commento
+      if (e.target.closest('.svg-trigger')) {
+          // Impedisci l'azione di default
+          e.preventDefault();
+
+          let closestCard = e.target.closest(".card");
+          if (closestCard) {
+              let commentId = closestCard.getAttribute("data-comment-id");
+
+              // Esegui qui la chiamata al backend per eliminare il commento
+              fetch(`/Jampod/Comment/deleteComment/${commentId}`, {
+                  method: 'GET' // Puoi usare 'GET' o 'DELETE' a seconda di come il backend gestisce la richiesta
+              })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  // Esegui il redirect o aggiorna l'interfaccia utente come necessario
+                  window.location.href = `/Jampod/Episode/visitEpisode/${commentContainer.getAttribute("data-episode-id")}`;
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  // Gestisci l'errore in qualche modo, ad esempio mostrando un messaggio all'utente
+              });
           }
       }
   });
