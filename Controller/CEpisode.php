@@ -56,7 +56,7 @@ public static function uploadEpisode($podcast_id)
             if ($result) {         
                 $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast 
                 //header('Location: /Jampod/Podcast/visitPodcast/'.$podcast_id);
-                $view->showPodcastPage($podcast, $creator , $episodesupdated,"creator", $sub, "Episodio aggiunto con successo", true); // Rimanda alla pagina del podcast con l'alert di conferma e l'episodio aggiunto
+                $view->showPodcastPage($usersession->getUsername(), $podcast, $creator , $episodesupdated,"creator", $sub, "Episodio aggiunto con successo", true); // Rimanda alla pagina del podcast con l'alert di conferma e l'episodio aggiunto
                 
                 // Recupera gli utenti iscritti al podcast
                 $subscribes = FPersistentManager::getInstance()->getSubscribers($podcast_id);
@@ -75,7 +75,7 @@ public static function uploadEpisode($podcast_id)
                 }
             } else {     
                 
-                $view->showPodcastError($podcast, $creator , $episodesbefore, "creator",$sub,"Impossibile effettuare il caricamento dell'episodio", false); // Rimanda alla pagina del podcast con l'alert di errore aggiunta
+                $view->showPodcastPage($usersession->getUsername(), $podcast, $creator , $episodesbefore, "creator",$sub,"Impossibile effettuare il caricamento dell'episodio", false); // Rimanda alla pagina del podcast con l'alert di errore aggiunta
             }
         }
     }
@@ -88,6 +88,7 @@ public static function deleteEpisode($episode_id)
     if (CUser::isLogged()) {
         $view = new VPodcast();
         $userId = USession::getInstance()->getSessionElement('user');
+        $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
         $podcast_id = $episode->getPodcastId();
         $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
@@ -105,9 +106,9 @@ public static function deleteEpisode($episode_id)
             
             if ($result) {
                 $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast 
-                $view->showPodcastPage($podcast, $creator , $episodesupdated, "creator", $sub, "Episodio eliminato con successo", true); 
+                $view->showPodcastPage($usersession->getUsername(), $podcast, $creator , $episodesupdated, "creator", $sub, "Episodio eliminato con successo", true); 
             } else {
-                $view->showPodcastError($podcast, $creator , $episodesbefore, "creator ",$sub,"Impossibile eliminare l'episodio", false);
+                $view->showPodcastPage($usersession->getUsername(), $podcast, $creator , $episodesbefore, "creator ",$sub,"Impossibile eliminare l'episodio", false);
             }
         } 
     } 

@@ -10,8 +10,8 @@ require_once 'StartSmarty.php';
     
         }
 
-        public function showPodcastPage($podcast, $creator, $episodes, $userRole, $sub = null, $textalert = null, $success = null){
-
+        public function showPodcastPage($username, $podcast, $creator, $episodes, $userRole, $sub = null, $textalert = null, $success = null){
+            $this->smarty->assign('username', $username);
             $this->smarty->assign('podcast', $podcast);
             $this->smarty->assign('creator', $creator);
             $this->smarty->assign('episodes', $episodes);
@@ -22,13 +22,10 @@ require_once 'StartSmarty.php';
             $this->smarty->display('Smarty/templates/podcast.tpl');
 
         }
+         
 
-        //metodo per mostrare modifiche/errori tramite alert nella pagina del podcast 
-        public function showPodcastError($podcast, $creator, $episodes, $userRole, $textalert = null, $sub = null, $success = null){
-            self::showPodcastPage($podcast, $creator, $episodes, $userRole, $textalert = null, $sub = null, $success = null);
-        } 
-
-        public function showMyPodcastPage($myPodcasts, $success = null, $textalert = null){
+        public function showMyPodcastPage($username, $myPodcasts, $success = null, $textalert = null){
+            $this->smarty->assign('username', $username);
             $this->smarty->assign('userPodcasts',$myPodcasts);
             $this->smarty->assign('success', $success);
             $this->smarty->assign('textalert', $textalert);
@@ -44,13 +41,14 @@ require_once 'StartSmarty.php';
 
         // }
 
-        public function showForm($categories){
-
+        public function showForm($username, $categories){
+            $this->smarty->assign('username', $username);
             $this->smarty->assign('categories', $categories);
             $this->smarty->display('Smarty/templates/createPodcast.tpl');
         }
 
-        public function showSearchResults($podcasts, $query){
+        public function showSearchResults($username, $podcasts, $query){
+            $this->smarty->assign('username', $username);
             $this->smarty->assign('podcasts', $podcasts);
             $this->smarty->assign('query', $query);
             $this->smarty->display('Smarty/templates/search.tpl');

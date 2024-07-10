@@ -20,6 +20,9 @@
     <div class="page-body">
         <div class="container-xl">
             <h2 class="text mb-5">I miei podcast</h2>
+            {if count($userPodcasts) == 0}
+                    <h4 class=" mt-8 mb-8  text-center">Nessun podcast. Creane uno!</h4>
+                {/if}
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 g-4">
                 {foreach $userPodcasts item=podcast}
                     <div class="col">

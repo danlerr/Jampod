@@ -26,7 +26,8 @@
             
         }
 
-        public function showCategory($category_name, $category_podcasts){   //da prendere category_name giù 
+        public function showCategory($username, $category_name, $category_podcasts){   //da prendere category_name giù 
+            $this->smarty->assign('username', $username);
             $this->smarty->assign('category_name', $category_name);
             $this->smarty->assign('category_podcasts', $category_podcasts);
             $this->smarty->display('Smarty/templates/category.tpl');

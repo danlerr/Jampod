@@ -35,11 +35,13 @@ class CHome {
     public static function visitCategory($category_name){            //letsgo
         if (CUser::isLogged()){
             
+            $userId = USession::getInstance()->getSessionElement('user');
+            $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
             $category_podcasts = FPersistentManager::getInstance()->retrievePodByCategory($category_name);
             //print_r($category_podcasts);
             if ($category_podcasts){
                 $view = new VHome;
-                $view->showCategory($category_name, $category_podcasts);
+                $view->showCategory($username, $category_name, $category_podcasts);
             }
         }
     }
