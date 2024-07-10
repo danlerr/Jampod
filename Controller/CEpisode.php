@@ -55,7 +55,7 @@ public static function uploadEpisode($podcast_id)
             
             if ($result) {         
                 $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast 
-                //header('Location: /Jampod/Podcast/visitPodcast/'.$podcast_id);
+                
                 $view->showPodcastPage($usersession->getUsername(), $podcast, $creator , $episodesupdated,"creator", $sub, "Episodio aggiunto con successo", true); // Rimanda alla pagina del podcast con l'alert di conferma e l'episodio aggiunto
                 
                 // Recupera gli utenti iscritti al podcast
@@ -121,6 +121,9 @@ public static function visitEpisode($episode_id) {
         $userId = USession::getInstance()->getSessionElement('user');
         $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
+        if (!$episode) {
+            $view->showError("Impossibile trovare l'episodio :(");
+        }
         $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $episode->getPodcastId());
         $creator= FPersistentManager::getInstance()->retrieveObj('EUser',$podcast->getUserId());
         $checkvotearray = FPersistentManager::getInstance()->checkVote($episode_id, $userId); //ritorna un array [true,oggetto vote] se l'utente ha già votato, altrimenti [false ,null]
@@ -134,9 +137,7 @@ public static function visitEpisode($episode_id) {
             $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
             $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $votevalue, $avgVote); 
             // Passa l'episodio,  podcast e username del creator, commenti e risposte ,voto medio, valore del voto dell'utente e immagine episodio alla vista
-        } else {
-            $view->showError("Impossibile trovare l'episodio :(");
-        }
+        } 
     } 
 }
 

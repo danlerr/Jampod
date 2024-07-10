@@ -30,7 +30,7 @@ class VEpisode{
         $this->smarty -> assign('imagedata', $episode->getEncodedImageData());
         $this->smarty->assign('success', $success);
         $this->smarty->assign('textalert', $textalert);
-        $this->smarty->assign('username', $usersession->getUsername());
+        $this->smarty->assign('usersession', $usersession);
         $this->smarty -> display('Smarty/templates/episode.tpl');
     }
     

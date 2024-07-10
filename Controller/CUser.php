@@ -139,8 +139,8 @@ class CUser{
                         USession::getInstance(); // Session start
                         USession::setSessionElement('user', $user->getId()); // L'ID dell'utente viene posto nell'array $_SESSION
                         if($user->isAdmin()){
-                            $view=new VModeration();
-                            $view->showD
+                            CModeration::showDashboard();
+                            exit;
                         }
                         CHome::homePage();
                         }
@@ -294,7 +294,7 @@ class CUser{
         // Convert MM/AA to Y/m
         $creditCard = new ECreditCard($cardHolder, $cardNumber, $securityCode, $expirationDate, $userId);
         $result = FPersistentManager::getInstance()->createObj($creditCard);  // Convert MM/AA to Y/m in createObject di FCreditCard
-        $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
+        $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
             $view=new VUser();
        
             if ($result) {
@@ -315,14 +315,14 @@ class CUser{
        
         $card= FPersistentManager::getInstance()->retrieveObj('ECreditCard', $cardId);
         if (!$card) {
-            $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
+            $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
             $view=new VUser();
             $view->showUserCards($creditCards,"Carta di credito non trovata o non autorizzata.", false);
             return;
         }
     
         $result = FPersistentManager::getInstance()->deleteObj($card);
-        $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
+        $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
         if ($result) {
             $view=new VUser();
             $view->showUserCards($creditCards,"Carta rimossa con successo.", true);
@@ -336,7 +336,7 @@ class CUser{
 
     public static function userCards() {       //metodo che mostra tutte le carte dell'utente  
         $userId = USession::getInstance()->getSessionElement('user');
-        $creditCards = FCreditCard::retrieveOwnedCreditCards($userId);
+        $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
     
        if(!empty($creditCards)){
             // Maschera i numeri delle carte di credito
@@ -357,9 +357,4 @@ class CUser{
     }
 
 
-    public static function creationCreditCardForm() {
-        if (Cuser::isLogged()){
-            $view->showCardCreationForm();
-        }
-    }
 }

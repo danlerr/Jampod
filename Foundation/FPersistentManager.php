@@ -369,4 +369,18 @@
                 return array();
             }
         }
+    
+        //-------------------------------------CREDIT CARDS-----------------------------------------------------
+        public static function retrieveMyCreditCards($user_id) {
+            $cards = FCreditCard::retrieveOwnedCreditCards($user_id);
+            if ($cards){
+                return $cards;
+
+            } else {
+                return array();
+            }
+
+
+        }
+
     }

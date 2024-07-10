@@ -1,5 +1,5 @@
 
-{include file="Smarty/templates/header.tpl" username=$username}
+{include file="Smarty/templates/header.tpl" username=$usersession->getUsername()}
 <!--alert-->
 {if isset($textalert) && $textalert}
     {if $success}
@@ -79,7 +79,7 @@
 	<!-- Donation, vote and save -->
 <div class="container">
     <div class="row text-center">
-        <div class="col d-flex justify-content-end align-items-center">
+        <div class="col d-flex justify-content-center align-items-center">
             <div class="svg-container text-center mt-2">
                 
                 <img src="/Jampod/Smarty/images/headphones.svg" alt="SVG Image" style="max-width: 50px; vertical-align: bottom;">
@@ -104,23 +104,40 @@
             </div>
             <input type="hidden" id="user-rating" value="{$votevalue|default:0}">
         </div>
-        <div class="col d-flex justify-content-start align-items-center">
+
+        {if $usersession->getId() !== $creatorId}
+        <div class="col d-flex justify-content-center align-items-center">
             <a href="/Jampod/Donation/donationForm/{$podcast_id}" class="link-secondary">
                 <img class="currency-icon mt-2" src="/Jampod/Smarty/images/currency-dollar.svg" alt="Currency Dollar Icon">
             </a>
         </div>
-    </div>
-</div>
-<div class="col d-flex justify-content-center align-items-center mt-2 ">
-    <div class="rating-container d-flex align-items-center" style="margin-left: 35px; width: 150px;">
+        {else}
+             <div class="col d-flex justify-content-center align-items-center mt-2 ">
+             <div class="rating-container d-flex align-items-center" style="margin-left: 35px; width: 150px;">
 
-<h3 class="h6 mb-0" style="margin-top: 0px;">voto medio {$avgVote}</h3>
+             <h3 class="h6 mb-0" style="margin-top: 0px;">voto medio {$avgVote}</h3>
 				<select id="avgrating" class="form-select " style="display:none;">
                         <option value="1">Terrible</option>
                 </select>
-</div>
-</div>
+            </div>
+            </div>
+        {/if}
 
+
+
+    </div>
+</div>
+{if $usersession->getId() !== $creatorId}
+<div class="col d-flex justify-content-center align-items-center mt-2 ">
+    <div class="rating-container d-flex align-items-center" style="margin-left: 35px; width: 150px;">
+
+        <h3 class="h6 mb-0" style="margin-top: 0px;">voto medio {$avgVote}</h3>
+				<select id="avgrating" class="form-select " style="display:none;">
+                        <option value="1">Terrible</option>
+                </select>
+    </div>
+</div>
+{/if}
 
 
 	 <!-- episode description-->
@@ -179,7 +196,7 @@
                     <h4 class=" mt-3  text-center">Nessun commento. Commenta per primo!</h4>
                 {/if}
                     {foreach from=$commentAndReplies item=commentWithReplies}
-                        {include file='Smarty/templates/comment.tpl' comment=$commentWithReplies.comment replies=$commentWithReplies.replies}
+                        {include file='Smarty/templates/comment.tpl' comment=$commentWithReplies.comment replies=$commentWithReplies.replies usersession = $usersession}
                     {/foreach}
                 </div>
             </div>
