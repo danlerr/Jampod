@@ -353,7 +353,9 @@
         //-------------------------------------COMMENT-----------------------------------------------------
         public static function retrieveComments($episode_id){   //metodo che ritorna tutti i commenti di un episodio
             $comments=FComment::retrieveMoreComments($episode_id);
+            
             return $comments;
+            
         }
 
 

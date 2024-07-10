@@ -13,22 +13,25 @@
         public static function showUserPodcasts($user_id){
             $podcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($user_id); //array di array
             if ($podcasts){
-                $view = new VModeration();
-                $view->userPodcasts($podcasts);
+                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $user_id);
+                $view = new VModeration;
+                $view->userPodcasts($user, $podcasts);
         } 
 }
         public static function showEpisodePodcasts($podcast_id) {
             $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); //array di oggetti
             if ($episodes){
-                $view = new VModeration();
-                $view->podcastEpisodes($episodes);
+                $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+                $view = new VModeration;
+                $view->podcastEpisodes($podcast, $episodes);
         }
 }
         public static function showEpisodeComments($episode_id) {
-            $comments = FPersistentManager::getInstance()->commentAndReplies($episode_id);//array di oggetti
+            $comments = FPersistentManager::getInstance()->retrieveComments($episode_id);//array di oggetti
             if ($comments){
-                $view = new VModeration();
-                $view->episodeComments($comments);
+                $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
+                $view = new VModeration;
+                $view->episodeComments($episode, $comments);
 
         }
 }
