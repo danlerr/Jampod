@@ -125,9 +125,11 @@ class CUser{
             }
         
             $usernameExists = FPersistentManager::getInstance()->verifyUserUsername($username);
+    
         
             if ($usernameExists) {
                 $user = FPersistentManager::getInstance()->retriveUserOnUsername($username);
+
         
                 if ($user && password_verify($password, $user->getPassword())) {
                     if ($user->isBanned()) {
@@ -136,6 +138,10 @@ class CUser{
                         if (USession::getSessionStatus() == PHP_SESSION_NONE) {
                         USession::getInstance(); // Session start
                         USession::setSessionElement('user', $user->getId()); // L'ID dell'utente viene posto nell'array $_SESSION
+                        if($user->isAdmin()){
+                            $view=new VModeration();
+                            $view->showD
+                        }
                         CHome::homePage();
                         }
                     }

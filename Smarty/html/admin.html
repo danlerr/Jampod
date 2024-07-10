@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<<!DOCTYPE html>
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,10 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1>Admin Dashboard</h1>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>Admin Dashboard</h1>
+            <a href="/Jampod/User/logout" class="btn btn-secondary">Logout</a>
+        </div>
         <ul class="nav nav-tabs mt-4" id="adminTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">Utenti</button>
@@ -31,22 +34,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {foreach from=$users item=user}
                         <tr>
-                            <td>user1</td>
-                            <td>user1@example.com</td>
+                            <td>{$user->getUsername()}</td>
+                            <td>{$user->getEmail()}</td>
                             <td>
-                                <button class="btn btn-warning btn-sm">Banna</button>
-                                <button class="btn btn-danger btn-sm">Elimina</button>
+                                <a href="/Jampod/Moderator/banUser/{$user->getId()}" class="btn btn-warning btn-sm">Banna</a>
+                                <a href="/Jampod/Moderator/deleteUser/{$user->getId()}" class="btn btn-danger btn-sm">Elimina</a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>user2</td>
-                            <td>user2@example.com</td>
-                            <td>
-                                <button class="btn btn-warning btn-sm">Banna</button>
-                                <button class="btn btn-danger btn-sm">Elimina</button>
-                            </td>
-                        </tr>
+                        {/foreach}
                     </tbody>
                 </table>
             </div>
@@ -63,18 +60,19 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {foreach from=$podcasts item=podcast}
                         <tr>
-                            <td>Podcast 1</td>
-                            <td>Author 1</td>
+                            <td>{$podcast->getPodcastName()}</td>
+                            <td>{$podcast->getPodcastUser()}</td>
                             <td>
-                                <button class="btn btn-danger btn-sm">Elimina</button>
-                                <button class="btn btn-info btn-sm" data-bs-toggle="collapse" data-bs-target="#episodes1" aria-expanded="false" aria-controls="episodes1">Visualizza Episodi</button>
+                                <a href="/Jampod/Moderator/deletePodcast/{$podcast->getId()}" class="btn btn-danger btn-sm">Elimina</a>
+                                <button class="btn btn-info btn-sm" data-bs-toggle="collapse" data-bs-target="#episodes{$podcast->getId()}" aria-expanded="false" aria-controls="episodes{$podcast->getId()}">Visualizza Episodi</button>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3">
-                                <div class="collapse" id="episodes1">
-                                    <h3 class="mt-2">Episodi del Podcast 1</h3>
+                                <div class="collapse" id="episodes{$podcast->getId()}">
+                                    <h3 class="mt-2">Episodi del {$podcast->getName()}</h3>
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -84,18 +82,19 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {foreach from=$podcast->getEpisodes() item=episode}
                                             <tr>
-                                                <td>Episodio 1</td>
-                                                <td>30min</td>
+                                                <td>{$episode->getTitle()}</td>
+                                                <td>{$episode->getDuration()}</td>
                                                 <td>
-                                                    <button class="btn btn-danger btn-sm">Elimina</button>
-                                                    <button class="btn btn-info btn-sm" data-bs-toggle="collapse" data-bs-target="#comments1" aria-expanded="false" aria-controls="comments1">Visualizza Commenti</button>
+                                                    <a href="/Jampod/Moderator/deleteEpisode/{$episode->getId()}" class="btn btn-danger btn-sm">Elimina</a>
+                                                    <button class="btn btn-info btn-sm" data-bs-toggle="collapse" data-bs-target="#comments{$episode->getId()}" aria-expanded="false" aria-controls="comments{$episode->getId()}">Visualizza Commenti</button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="3">
-                                                    <div class="collapse" id="comments1">
-                                                        <h4 class="mt-2">Commenti all'Episodio 1</h4>
+                                                    <div class="collapse" id="comments{$episode->getId()}">
+                                                        <h4 class="mt-2">Commenti all'Episodio {$episode->getTitle()}</h4>
                                                         <table class="table">
                                                             <thead>
                                                                 <tr>
@@ -105,99 +104,27 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
+                                                                {foreach from=$episode->getComments() item=comment}
                                                                 <tr>
-                                                                    <td>user1</td>
-                                                                    <td>Great episode!</td>
+                                                                    <td>{$comment->getCommentUser()}</td>
+                                                                    <td>{$comment->getCommentText()}</td>
                                                                     <td>
-                                                                        <button class="btn btn-danger btn-sm">Elimina</button>
+                                                                        <a href="/Jampod/Moderator/deleteComment/{$comment->getId()}" class="btn btn-danger btn-sm">Elimina</a>
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <td>user2</td>
-                                                                    <td>Very informative.</td>
-                                                                    <td>
-                                                                        <button class="btn btn-danger btn-sm">Elimina</button>
-                                                                    </td>
-                                                                </tr>
+                                                                {/foreach}
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <!-- Altri episodi possono essere aggiunti qui -->
+                                            {/foreach}
                                         </tbody>
                                     </table>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Podcast 2</td>
-                            <td>Author 2</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm">Elimina</button>
-                                <button class="btn btn-info btn-sm" data-bs-toggle="collapse" data-bs-target="#episodes2" aria-expanded="false" aria-controls="episodes2">Visualizza Episodi</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">
-                                <div class="collapse" id="episodes2">
-                                    <h3 class="mt-2">Episodi del Podcast 2</h3>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Titolo</th>
-                                                <th>Durata</th>
-                                                <th>Azioni</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Episodio 1</td>
-                                                <td>30min</td>
-                                                <td>
-                                                    <button class="btn btn-danger btn-sm">Elimina</button>
-                                                    <button class="btn btn-info btn-sm" data-bs-toggle="collapse" data-bs-target="#comments2" aria-expanded="false" aria-controls="comments2">Visualizza Commenti</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3">
-                                                    <div class="collapse" id="comments2">
-                                                        <h4 class="mt-2">Commenti all'Episodio 1</h4>
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Utente</th>
-                                                                    <th>Commento</th>
-                                                                    <th>Azioni</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>user1</td>
-                                                                    <td>Great episode!</td>
-                                                                    <td>
-                                                                        <button class="btn btn-danger btn-sm">Elimina</button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>user2</td>
-                                                                    <td>Very informative.</td>
-                                                                    <td>
-                                                                        <button class="btn btn-danger btn-sm">Elimina</button>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <!-- Altri episodi possono essere aggiunti qui -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Altri podcast possono essere aggiunti qui -->
+                        {/foreach}
                     </tbody>
                 </table>
             </div>
