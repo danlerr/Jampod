@@ -7,7 +7,8 @@
             if (CUser::isLogged()) {
                 $view = new VBalance;
                 // Recupera l'ID dell'utente dalla sessione
-                $userId = USession::getInstance()->getSessionElement('user');  
+                $userId = USession::getInstance()->getSessionElement('user');
+                $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);  
                 // Ottiene il saldo dell'utente
                 $balance = $user->getBalance();
@@ -15,7 +16,7 @@
                 $donationsReceived = FPersistentManager::getInstance()->donationsReceived($userId);
                 $donationsMade = FPersistentManager::getInstance()->donationsMade($userId);
                 // Mostra il saldo all'utente
-                $view->showBalance($balance, $donationsReceived, $donationsMade);
+                $view->showBalance($usersession,$balance, $donationsReceived, $donationsMade);
             }
         }
 
@@ -26,6 +27,7 @@
                 
                 // Recupera l'ID dell'utente dalla sessione
                 $userId = USession::getInstance()->getSessionElement('user');
+                $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
                 $donationsReceived = FPersistentManager::getInstance()->donationsReceived($userId);
                 $donationsMade = FPersistentManager::getInstance()->donationsMade($userId);
                 
@@ -49,13 +51,13 @@
                     $result = FPersistentManager::getInstance()->updateObj($user, 'balance', $newBalance);
                     if ($result) {
                         $user->setBalance($newBalance);
-                        $view->showBalance($newBalance, $donationsReceived, $donationsMade, "Hai ricaricato {$amount} quartz. Il tuo nuovo saldo è {$newBalance} quartz.", true); //alert
+                        $view->showBalance($usersession,$newBalance, $donationsReceived, $donationsMade, "Hai ricaricato {$amount} quartz. Il tuo nuovo saldo è {$newBalance} quartz.", true); //alert
                         
                     } else {
-                            $view->showBalance($oldBalance, $donationsReceived, $donationsMade, "Errore durante la ricarica del saldo.");
+                            $view->showBalance($usersession,$oldBalance, $donationsReceived, $donationsMade, "Errore durante la ricarica del saldo.");
                         }
                     } else {
-                        $view->showBalance($oldBalance, $donationsReceived, $donationsMade, "Errore: importo non valido.");
+                        $view->showBalance($usersession,$oldBalance, $donationsReceived, $donationsMade, "Errore: importo non valido.");
                     
                 }     
             } else {
@@ -68,6 +70,7 @@
             if (CUser::isLogged()) {
                 $view = new VBalance();
                 $userId = USession::getInstance()->getSessionElement('user');
+                $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $donationsReceived = FPersistentManager::getInstance()->donationsReceived($userId);
                 $donationsMade = FPersistentManager::getInstance()->donationsMade($userId);
@@ -85,12 +88,12 @@
                     $result = FPersistentManager::getInstance()->updateObj($user, 'balance', $newBalance);
                     if ($result) {
                         $user->setBalance($newBalance);
-                        $view->showBalance($newBalance, $donationsReceived, $donationsMade, "Hai prelevato {$amount} quartz. Il tuo nuovo saldo è {$newBalance} quartz.");
+                        $view->showBalance($usersession,$newBalance, $donationsReceived, $donationsMade, "Hai prelevato {$amount} quartz. Il tuo nuovo saldo è {$newBalance} quartz.");
                         } else {
-                            $view->showBalance($balance, $donationsReceived, $donationsMade, "Errore durante il prelievo del saldo.");
+                            $view->showBalance($usersession,$balance, $donationsReceived, $donationsMade, "Errore durante il prelievo del saldo.");
                         }
                     } else {
-                        $view->showBalance($balance, $donationsReceived, $donationsMade,"Errore: importo non valido o saldo insufficiente.");
+                        $view->showBalance($usersession,$balance, $donationsReceived, $donationsMade,"Errore: importo non valido o saldo insufficiente.");
                     
                 }
             }else{

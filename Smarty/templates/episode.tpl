@@ -14,11 +14,12 @@
 		<style>
 		.hidden {
   		display: none;
-		
 		<}
 		</style>
 
-	   <h3 class="fw-bold text-center mt-2" id="albumTitle">{$podcast_title}</h3>
+	   <h3 class="fw-bold text-center mt-2" id="albumTitle">
+            <a href="/Jampod/Podcast/visitPodcast/{$podcast_id}" class="text-decoration-none text-dark">{$podcast_title}</a>
+       </h3>
 	   <div class="episode-container ">
 		 <div class="row justify-content-center gx-3 ms-3">  <!-- Centra la parte dell'episodio -->
 			 <!-- Colonna sinistra per l'immagine dell'episodio e il titolo -->
@@ -37,7 +38,9 @@
 					<h3 class="h4 mb-2">{$episode_title}</h3> <!-- max 38 caratteri -->
         
 					<!-- Autore -->
-					<small class="text-muted">created by {$usernamecreator}</small>
+					<small class="text-muted">
+            creato da <a href="/Jampod/User/profile/{$creatorId}" class="text-muted text-decoration-none">{$usernamecreator}</a>
+                    </small>
 					 <div class="player">
 		  
 						 <!-- Define the section for displaying track buttons -->

@@ -14,6 +14,7 @@ class CDonation{
         if (CUser::isLogged()){
             $view = new VDonation;
             $userId = USession::getInstance()->getSessionElement('user');
+            $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
             $donation = new EDonation(UHTTPMethods::post('amount'), UHTTPMethods::post('donationDescription'), $userId, $recipient_id);
             $result = FPersistentManager::getInstance()->createObj($donation);
             $sender = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
@@ -33,10 +34,10 @@ class CDonation{
 
                 FPersistentManager::getInstance()->updateObj($sender, 'balance', $newBalanceSender);
                 FPersistentManager::getInstance()->updateObj($recipient, 'balance', $newBalanceRecipient);
-                $view->showDonation($recipient_id, $creator_username, $senderBalance, "Donazione effettuata con successo!", true);
+                $view->showDonation($usersession,$recipient_id, $creator_username, $senderBalance, "Donazione effettuata con successo!", true);
             } else {
                 $senderBalance = floatval($sender->getBalance());
-                $view->showDonation($recipient_id, $creator_username, $senderBalance, "Problemi con l'invio della donazione.", false);
+                $view->showDonation($usersession,$recipient_id, $creator_username, $senderBalance, "Problemi con l'invio della donazione.", false);
             }
         }
     }
@@ -44,6 +45,7 @@ class CDonation{
     public static function donationForm($podcast_id){          //letsgo
         if (CUser::isLogged()) {
             $userId = USession::getInstance()->getSessionElement('user');
+            $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
             $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
             $recipient_id = $podcast->getUserId();
             $podcast_creator_user = FPersistentManager::getInstance()->retrieveObj('EUser', $recipient_id);
@@ -51,7 +53,7 @@ class CDonation{
             $sender = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
             $senderBalance = floatval($sender->getBalance());
             $view = new VDonation;
-            $view->showDonation($recipient_id, $creator_username, $senderBalance);
+            $view->showDonation($usersession,$recipient_id, $creator_username, $senderBalance);
         }
     }
 }

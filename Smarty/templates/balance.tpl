@@ -1,4 +1,4 @@
-{include file="header.tpl"}
+{include file="Smarty/templates/header.tpl" username=$username}
 
 
 <!--alert-->

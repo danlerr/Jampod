@@ -15,6 +15,7 @@ public static function uploadEpisode($podcast_id)
     if (CUser::isLogged()) {
         $view = new VPodcast();
         $userId = USession::getInstance()->getSessionElement('user');
+        $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
         $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
         $sub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);
         $check = FPersistentManager::getInstance()->checkUser($podcast->getUserId(), $userId); // Controllo che chi sta facendo l'upload dell'episodio sia il creatore del podcast
@@ -117,9 +118,10 @@ public static function visitEpisode($episode_id) {
     if (CUser::isLogged()) {
         $view = new VEpisode();
         $userId = USession::getInstance()->getSessionElement('user');
+        $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
         $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $episode->getPodcastId());
-        $usernamecreator= FPersistentManager::getInstance()->retrieveObj('EUser',$podcast->getUserId())->getUsername();
+        $creator= FPersistentManager::getInstance()->retrieveObj('EUser',$podcast->getUserId());
         $checkvotearray = FPersistentManager::getInstance()->checkVote($episode_id, $userId); //ritorna un array [true,oggetto vote] se l'utente ha già votato, altrimenti [false ,null]
         if ($checkvotearray[0]) {
             $votevalue = $checkvotearray[1] -> getValue();
@@ -127,13 +129,12 @@ public static function visitEpisode($episode_id) {
             $votevalue = 0; //se l'utente non ha votato il valore del voto è 0 e le stelle saranno vuote
         }
         if ($episode !== null) {
-            $episodeimage = [$episode->getImageMimeType(), $episode->getEncodedImageData()];
             $commentAndReplies = FPersistentManager::getInstance()->commentAndReplies($episode_id); // Array di commenti e risposte
             $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-            $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $votevalue, $avgVote, $episodeimage); 
+            $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $votevalue, $avgVote); 
             // Passa l'episodio,  podcast e username del creator, commenti e risposte ,voto medio, valore del voto dell'utente e immagine episodio alla vista
         } else {
-            $view->showError("Impossibile trovare l'episodio");
+            $view->showError("Impossibile trovare l'episodio :(");
         }
     } 
 }
@@ -172,11 +173,12 @@ public static function voteEpisode($episode_id) {
     if (CUser::isLogged()) { 
         $view = new VEpisode();
         $userId = USession::getInstance()->getSessionElement('user');
+        $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
         $value = UHTTPMethods::post('rating');
         $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
         $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $episode->getPodcastId());
-        $usernamecreator= FPersistentManager::getInstance()->retrieveObj('EUser',$podcast->getUserId())->getUsername();
-        $episodeimage = [$episode->getImageMimeType(), $episode->getEncodedImageData()];
+        $creator= FPersistentManager::getInstance()->retrieveObj('EUser',$podcast->getUserId());
+        
         $commentAndReplies = FPersistentManager::getInstance()->commentAndReplies($episode_id); // Array di commenti e risposte
         $checkvotearray = FPersistentManager::getInstance()->checkVote($episode_id, $userId); //ritorna un array [true,oggetto vote] se l'utente ha già votato, altrimenti [false ,null]
         if ($checkvotearray[0]) {
@@ -186,10 +188,10 @@ public static function voteEpisode($episode_id) {
             
             if ($update) {  
                 $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-                $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Voto aggiornato", true);      
+                $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $avgVote, "Voto aggiornato :D", true);      
             } else {
                 $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-                $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Impossibile modificare la votazione", false);
+                $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $avgVote, "Impossibile modificare la votazione :(", false);
                 
             }
         } else {
@@ -200,13 +202,13 @@ public static function voteEpisode($episode_id) {
             $result = FPersistentManager::getInstance()->createObj($vote);
             
             if ($result) {
-                $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $value, $episodeimage, "Grazie per aver votato :D", true);     
+                $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $value, "Grazie per aver votato :D", true);     
                
             } else {
-                $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Impossibile inserire la votazione", false);
+                $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $avgVote, "Impossibile inserire la votazione :(", false);
             }
         } else {
-            $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Inserire un voto valido", false); 
+            $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $avgVote, "Inserire un voto valido :(", false); 
         }
 
     } 

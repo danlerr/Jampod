@@ -166,11 +166,13 @@ function incrementEpisodeStreams(episodeId) {
 
 
 // COMMENTS
-// COMMENTS
 document.addEventListener("DOMContentLoaded", function() {
   let commentContainer = document.getElementById("comment-container"); // riferimento al comment container
-
+  
   commentContainer.addEventListener("click", function(e) {
+    if (e.target.classList.contains("comment-username")) {
+      return;
+  }
       e.preventDefault();
       
       // Gestisci il click sul pulsante "Reply"

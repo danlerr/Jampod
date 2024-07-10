@@ -10,7 +10,8 @@ require_once 'StartSmarty.php';
     
         }
 
-        public function showBalance($balance, $donationsReceived, $donationsMade, $textalert = null, $success = false){
+        public function showBalance($usersession,$balance, $donationsReceived, $donationsMade, $textalert = null, $success = false){
+            $this->smarty->assign('username', $usersession->getUsername());
             $this->smarty->assign('balance', $balance);
             $this->smarty->assign('donationsReceived', $donationsReceived);
             $this->smarty->assign('donationsMade', $donationsMade);

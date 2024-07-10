@@ -10,7 +10,8 @@ require_once 'StartSmarty.php';
     
         }
 
-        public function showDonation($recipient_id, $podcast_creator, $senderBalance, $textalert = null, $success = false){
+        public function showDonation($usersession,$recipient_id, $podcast_creator, $senderBalance, $textalert = null, $success = false){
+            $this->smarty->assign('username', $usersession->getUsername());
             $this->smarty->assign('recipient_id', $recipient_id);
             $this->smarty->assign('creator', $podcast_creator);
             $this->smarty->assign('senderBalance', $senderBalance);

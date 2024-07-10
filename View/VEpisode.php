@@ -14,21 +14,23 @@ class VEpisode{
         $this->smarty->display('Smarty/templates/createEpisode.tpl');
     }
 
-    public function showEpisodePage($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image,  $textalert = null, $success = null) {
+    public function showEpisodePage($usersession,$episode, $podcast,$creator, $commentAndReplies, $votevalue, $avgVote,  $textalert = null, $success = null) {
         $this->smarty -> assign('podcast_title', $podcast->getPodcastName());
+        $this->smarty -> assign('creatorId', $podcast->getUserId());
         $this->smarty->assign('podcast_id', $podcast->getId());
         $this->smarty -> assign('episode_title' , $episode->getEpisode_title());
         $this->smarty -> assign('episode_streams', $episode->getEpisode_streams());
         $this->smarty->assign('episode_id', $episode->getId());
-        $this->smarty -> assign ('usernamecreator' , $usernamecreator);
+        $this->smarty -> assign ('usernamecreator' , $creator->getUsername());
         $this->smarty -> assign ('votevalue', $votevalue);
         $this->smarty -> assign ('avgVote', $avgVote);
         $this->smarty -> assign( 'episode_description', $episode->getEpisode_description());
         $this->smarty -> assign ('commentAndReplies' , $commentAndReplies);
-        $this->smarty -> assign('mimetype', $image[0]);
-        $this->smarty -> assign('imagedata', $image[1]);
+        $this->smarty -> assign('mimetype', $episode->getImageMimeType());
+        $this->smarty -> assign('imagedata', $episode->getEncodedImageData());
         $this->smarty->assign('success', $success);
         $this->smarty->assign('textalert', $textalert);
+        $this->smarty->assign('username', $usersession->getUsername());
         $this->smarty -> display('Smarty/templates/episode.tpl');
     }
     
