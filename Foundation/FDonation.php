@@ -69,6 +69,9 @@ class FDonation{
 
     public static function retrieveDonationsReceived($userId){   //metodo che restituisce tutte le donazioni fatte all'utente con userId=$userId
         $donations = FDataBase::getInstance()->retrieve(self::getTable(), 'recipient_id', $userId);
+        if (!is_array($donations)){
+            $donations = [$donations];
+        }
         if($donations){
             return $donations;
         }else{
@@ -79,6 +82,10 @@ class FDonation{
 
     public static function retrieveDonationsMade($userId){   //metodo che restituisce tutte le donazioni fatte dall'utente con userId=$userId
         $donations = FDataBase::getInstance()->retrieve(self::getTable(), 'sender_id', $userId);
+        
+        if (!is_array($donations)){
+            $donations = [$donations];
+        }
         if($donations){
             return $donations;
         }else{
@@ -86,4 +93,5 @@ class FDonation{
         }
     }
 }
+
 

@@ -10,9 +10,10 @@ require_once 'StartSmarty.php';
     
         }
 
-        public function showDonation($recipient_id, $podcast_creator, $textalert = null, $success = false){
+        public function showDonation($recipient_id, $podcast_creator, $senderBalance, $textalert = null, $success = false){
             $this->smarty->assign('recipient_id', $recipient_id);
             $this->smarty->assign('creator', $podcast_creator);
+            $this->smarty->assign('senderBalance', $senderBalance);
             $this->smarty->assign('success', $success);
             $this->smarty->assign('textalert', $textalert);
             $this->smarty->display('Smarty/templates/donation.tpl');

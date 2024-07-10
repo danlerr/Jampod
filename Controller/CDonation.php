@@ -33,21 +33,25 @@ class CDonation{
 
                 FPersistentManager::getInstance()->updateObj($sender, 'balance', $newBalanceSender);
                 FPersistentManager::getInstance()->updateObj($recipient, 'balance', $newBalanceRecipient);
-                $view->showDonation($recipient_id, $creator_username, "Donazione effettuata con successo!", true);
+                $view->showDonation($recipient_id, $creator_username, $senderBalance, "Donazione effettuata con successo!", true);
             } else {
-                $view->showDonation($recipient_id, $creator_username, "Problemi con l'invio della donazione.", false);
+                $senderBalance = floatval($sender->getBalance());
+                $view->showDonation($recipient_id, $creator_username, $senderBalance, "Problemi con l'invio della donazione.", false);
             }
         }
     }
 
     public static function donationForm($podcast_id){          //letsgo
         if (CUser::isLogged()) {
+            $userId = USession::getInstance()->getSessionElement('user');
             $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
             $recipient_id = $podcast->getUserId();
             $podcast_creator_user = FPersistentManager::getInstance()->retrieveObj('EUser', $recipient_id);
             $creator_username = $podcast_creator_user->getUsername();
+            $sender = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
+            $senderBalance = floatval($sender->getBalance());
             $view = new VDonation;
-            $view->showDonation($recipient_id, $creator_username);
+            $view->showDonation($recipient_id, $creator_username, $senderBalance);
         }
     }
 }

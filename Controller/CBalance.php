@@ -49,7 +49,7 @@
                     $result = FPersistentManager::getInstance()->updateObj($user, 'balance', $newBalance);
                     if ($result) {
                         $user->setBalance($newBalance);
-                        $view->showBalance($newBalance, "Hai ricaricato €{$amount}. Il tuo nuovo saldo è €{$newBalance}.", true); //alert
+                        $view->showBalance($newBalance, $donationsReceived, $donationsMade, "Hai ricaricato {$amount} quartz. Il tuo nuovo saldo è {$newBalance} quartz.", true); //alert
                         
                     } else {
                             $view->showBalance($oldBalance, $donationsReceived, $donationsMade, "Errore durante la ricarica del saldo.");
@@ -85,7 +85,7 @@
                     $result = FPersistentManager::getInstance()->updateObj($user, 'balance', $newBalance);
                     if ($result) {
                         $user->setBalance($newBalance);
-                        $view->showBalance($newBalance, $donationsReceived, $donationsMade, "Hai prelevato €{$amount}. Il tuo nuovo saldo è €{$newBalance}.");
+                        $view->showBalance($newBalance, $donationsReceived, $donationsMade, "Hai prelevato {$amount} quartz. Il tuo nuovo saldo è {$newBalance} quartz.");
                         } else {
                             $view->showBalance($balance, $donationsReceived, $donationsMade, "Errore durante il prelievo del saldo.");
                         }

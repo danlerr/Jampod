@@ -27,7 +27,7 @@
                         </div>
                         <form method="post" action="/Jampod/Donation/createDonation/{$recipient_id}">
                             <div class="mb-3">
-                                <label for="donationAmount" class="form-label">Somma della donazione</label>
+                                <label for="donationAmount" class="form-label">Somma della donazione (saldo disponibile: {$senderBalance} quartz)</label>
                                 <input type="number" class="form-control" id="donationAmount" name="amount" placeholder="Inserisci l'importo della donazione " required>
                                 <div class="invalid-feedback">Inserisci solo numeri per l'importo della donazione.</div>
                             </div>

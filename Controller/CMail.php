@@ -43,7 +43,7 @@ class CMail {
 
             // Inviare l'email
             $this->mail->send();
-            echo 'Message has been sent';
+            //echo 'Message has been sent';
         } catch (Exception $e) {
             // Gestione degli errori
             echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";

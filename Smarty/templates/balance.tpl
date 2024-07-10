@@ -17,7 +17,7 @@
             <div class="saldo mb-4">
                 <span class="fw-bold display-5">
                 <img src="/Jampod/Smarty/images/quartz.png" alt="Moneta Virtuale" class="img-fluid" style="width: 60px; height: 60px; margin-bottom: 15px;"> 
-                {$balance}
+                {$balance}   <small class="display-6">Quartz</small>
                 </span>
             </div>
             <div class="button-container d-flex justify-content-between">

@@ -135,6 +135,19 @@
                             $update = FPersistentManager::getInstance()->updateObj($podcast, 'subscribe_counter', $newSubCount); 
                             
                             if ($update){
+
+                                // Invia una email di notifica a chi si iscrive al podcast
+
+                                $subscriber = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
+                                $subject = "Iscrizione al podcast: " . $podcast->getPodcastName();
+                                $message = "<p>Grazie per l'iscrizione al podcast " . $podcast->getPodcastName() . ".</p>
+                                <p>Titolo podcast: " . $podcast->getPodcastName() . "</p>
+                                <p>Descrizione: " . $podcast->getPodcastDescription() . "</p>";
+                                
+                                $mailer = CMail::getInstance();
+                                //echo $subscriber->getEmail();
+                                $mailer->sendMail($subscriber->getEmail(), $subject, $message);
+                
                                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
                                 $view->showPodcastPage($podcast, $creator, $episodes, $userRole, true, 'Iscrizione avvenuta con successo! :)', true);
 
