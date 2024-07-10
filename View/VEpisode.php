@@ -31,10 +31,6 @@ class VEpisode{
         $this->smarty->assign('textalert', $textalert);
         $this->smarty -> display('Smarty/templates/episode.tpl');
     }
-    public function showEpisodeError($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image,  $textalert = null, $success = null) {
-        $this->showEpisodePage($episode, $podcast,$usernamecreator, $commentAndReplies, $votevalue, $avgVote, $image, $textalert = null, $success = null );
-    }
-
     
     public function showError($string){
         $this->smarty->assign('string', $string);

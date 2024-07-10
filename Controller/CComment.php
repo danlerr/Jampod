@@ -38,20 +38,22 @@ class CComment{
     public static function deleteComment($comment_id){
         $userId=USession::getInstance()->getSessionElement('user');
         $comment=FPersistentManager::getInstance()->retrieveObj('EComment',$comment_id);
-    
-        // Controlla se l'utente ha il permesso di eliminare il commento : deve essere un admin o l'utente che ha scritto il commento
-        if ($comment->getUserId() !== $userId && !(FPersistentManager::getInstance()->retrieveObj('EUser',$userId)->isAdmin())) {
-            VComment::commentErrorView("Unauthorized action.");
+        $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode',$comment->getEpisodeId());
+        $view = new VEpisode();   
+        // Controlla se l'utente ha il permesso di eliminare il commento
+        $check = FPersistentManager::getInstance()->checkUser($comment->getUserId(), $userId);
+        if (!$check)  {
+            $view->showError("Non hai il diritto di eliminare questo commento");
             return;
+        }else{
+            $result=FPersistentManager::getInstance()->deleteObj($comment);
+            if ($result) {
+            header('Location: /Jampod/Episode/visitEpisode/' . $episode->getId());
+            } else {
+            $view->showError("Impossibile eliminare il commento");
+            
+            }
         }
-        
-        $result=FPersistentManager::getInstance()->deleteObj($comment);
-        if ($result) {
-            VComment::commentDeletedView();
-        } else {
-            VComment::commentErrorView("Failed to delete comment");
-        }
-
     }
 
 }

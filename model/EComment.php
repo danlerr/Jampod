@@ -43,7 +43,7 @@ class EComment{
      */
     private $episode_id;
 
-    private $is_ban=false;
+    
 
 
     /**
@@ -115,9 +115,7 @@ class EComment{
         return $this->parentCommentId;
     }
     
-    public function isBan(){
-        return $this->is_ban;
-    }
+    
 
     // SET METHODS
 
@@ -172,9 +170,7 @@ class EComment{
         return $this->commentUsername;
     }
 
-    public function setBan(){
-        $this->is_ban=true;
-    }
+    
     public function getTimetoStr()
     {
         return $this->comment_time->format('Y-m-d H:i:s');

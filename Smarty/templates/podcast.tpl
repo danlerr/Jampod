@@ -99,7 +99,6 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <a class="dropdown-item" href="/Jampod/Episode/deleteEpisode/{$episode->getId()}">Elimina</a>
-                                                    <a class="dropdown-item" href="#">Another action</a>
                                                 </div>
                                             </div>
                                         </div>

@@ -59,7 +59,7 @@ public static function uploadEpisode($podcast_id)
                 
                 // Recupera gli utenti iscritti al podcast
                 $subscribes = FPersistentManager::getInstance()->getSubscribers($podcast_id);
-                print_r($subscribes);
+                
                 
                 // Invia una email di notifica a ciascun iscritto
                 foreach ($subscribes as $subscribe) {
@@ -70,7 +70,6 @@ public static function uploadEpisode($podcast_id)
                                 <p>Descrizione: " . $episode->getEpisode_description() . "</p>";
                                 //<p> link:  /Jampod/Episode/visitEpisode/" . $episode->getId(). "</p>" ;
                     $mailer = CMail::getInstance();
-                    echo $subscriber->getEmail();
                     $mailer->sendMail($subscriber->getEmail(), $subject, $message);
                 }
             } else {     
@@ -190,7 +189,7 @@ public static function voteEpisode($episode_id) {
                 $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Voto aggiornato", true);      
             } else {
                 $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
-                $view->showEpisodeError($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Impossibile modificare la votazione", false);
+                $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Impossibile modificare la votazione", false);
                 
             }
         } else {
@@ -204,10 +203,10 @@ public static function voteEpisode($episode_id) {
                 $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $value, $episodeimage, "Grazie per aver votato :D", true);     
                
             } else {
-                $view->showEpisodeError($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Impossibile inserire la votazione", false);
+                $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Impossibile inserire la votazione", false);
             }
         } else {
-            $view->showEpisodeError($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Inserire un voto valido", false); 
+            $view->showEpisodePage($episode,$podcast, $usernamecreator, $commentAndReplies, $value, $avgVote, $episodeimage, "Inserire un voto valido", false); 
         }
 
     } 

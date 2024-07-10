@@ -13,16 +13,14 @@
             <a href="#" class="btn btn-outline-success reply">Reply</a>
         </div>
     </div>
-<div class="replyFormContainer" style="display: none; margin-top: 10px;">
-    <form id="replyForm" class="comment-form">
-        <div class="form-group">
-            <textarea class="form-control" style="resize: none;" name="body" rows="3" required></textarea>
-        </div>
-        <button type="button" class="btn btn-outline-success mt-2">Post Reply</button>
-    </form>
-</div>
-
-
+    <div class="replyFormContainer" style="display: none; margin-top: 10px;">
+        <form id="replyForm" class="comment-form">
+            <div class="form-group">
+                <textarea class="form-control" style="resize: none;" name="body" rows="3" required></textarea>
+            </div>
+            <button type="button" class="btn btn-outline-success mt-2">Post Reply</button>
+        </form>
+    </div>
 </div>
 {if $replies|@count > 0}
     <div class="replies ml-4 mt-2">
