@@ -142,6 +142,18 @@
         return $user->getUsername();
     }
 
+    public static function retrieveAll(){
+        $users = FDataBase::getInstance()->retrieveAll(self::getTable());
+        if (!is_array($users)){
+            $users = [$users];
+        }
+        if ($users){
+            return $users;
+        }else{
+            return array();
+        }
+    }
+
 
 
 }

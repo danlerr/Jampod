@@ -104,6 +104,11 @@
             }
         }
 
+        public function retrieveUsers(){
+            $users = FUser::retrieveAll();
+            return $users;
+        }
+
         
        //-------------------------------------FILE VALIDATION-----------------------------------------------------
         public static function validateImage($file)
@@ -287,6 +292,11 @@
                 $podcast['image_data'] = base64_encode($podcast['image_data']);
             }
             if ($result){return $result;}else{return array();}
+        }
+
+        public function retrievePodcasts(){
+            $podcasts = FPodcast::retrieveAll();
+            return $podcasts;
         }
 
         //-------------------------------------CATEGORIE-----------------------------------------------------

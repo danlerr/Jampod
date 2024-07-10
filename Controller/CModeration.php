@@ -1,65 +1,84 @@
 <?php
     class CModeration{
 
-        public static function deletePodcast($podcast_id){            //letsgo
+
+        public static function showDashboard($podcast_id, $episode_id){
+            $users = FPersistentManager::getInstance()->retrieveUsers();
+            $podcasts = FPersistentManager::getInstance()->retrievePodcasts();
+            $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
+            $comments = FPersistentManager::getInstance()->commentAndReplies($episode_id);
+            $view = new VModeration;
+            $view->adminDashboard($users, $podcasts, $episodes, $comments);
+
+        }
+
+        public static function deleteUser($user_id){
+
+            if (CUser::isLogged()){
+
+                $admin_id = USession::getInstance()->getSessionElement('user');
+                $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $admin_id);
+                if ($admin->is_admin()){
+                    $user = FPersistentManager::getInstance()->retrieveObj('EUser',$user_id);
+                    FPersistentManager::getInstance()->deleteObj($user);
+                    header("");
+                }
+            }
+        }
+
+        public static function banUser($user_id){
+            if (CUser::isLogged()){
+
+                $admin_id = USession::getInstance()->getSessionElement('user');
+                $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $admin_id);
+                if ($admin->is_admin()){
+                    $user = FPersistentManager::getInstance()->retrieveObj('EUser', $user_id);
+                    $ban = FPersistentManager::getInstance()->updateObj($user, 'ban', true);   //true oppure 1?
+                    FPersistentManager::getInstance()->deleteObj($user);
+                    header("");
+                }
+            }
+        }
+
+        public static function deletePodcast($podcast_id){            
 
             if(CUser::isLogged()){
-                $view = new VPodcast;
-                $userId = USession::getInstance()->getSessionElement('user');
-                $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast',$podcast_id);
 
-                if(FPersistentManager::getInstance()->checkUser($podcast->getUserId(), $userId)){
-
-                    $result = FPersistentManager::getInstance()->deleteObj($podcast);
-
-                    //$success = false;
-
-                    if($result){
-                        $myPodcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
-                        $success = true;
-                        $textalert = 'eliminazione del podcast avvenuta con successo :)';
-                        $view->showMyPodcastPage($myPodcasts, $success, $textalert);
-                    }else{
-                        $myPodcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
-                        $success = false;
-                        $textalert = "problemi con l'eliminazione del podcast :(";
-                        $view->showMyPodcastPage($myPodcasts, $success, $textalert);
-                    }    
+                $admin_id = USession::getInstance()->getSessionElement('user');
+                $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $admin_id);
+                if ($admin->is_admin()){
+                    $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast',$podcast_id);
+                    FPersistentManager::getInstance()->deleteObj($podcast);
+                    header("");
                 }
-            }else{
-                $view = new VPodcast;
-                $view->showError('Registrati :/');
             }
         }
 
-        public static function deleteEpisode($episode_id){
+        public static function deleteEpisode($episode_id){            
 
-            if (CUser::isLogged()) {
-                $view = new VPodcast();
-                $userId = USession::getInstance()->getSessionElement('user');
-                $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
-                $podcast_id = $episode->getPodcastId();
-                $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
-                $check = FPersistentManager::getInstance()->checkUser($podcast->getUserId(), $userId); // Controllo che il creatore dell'episodio sia lo stesso che lo sta eliminando
-                
+            if(CUser::isLogged()){
 
-                if ($check) {
-                    
-                    $creatorId = $podcast->getUserId();
-                    $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $creatorId);
-                    $episodesbefore = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id);
-                    $sub = FPersistentManager::getInstance()->isSubscribed($userId, $podcast_id);
-                    
-                    $result = FPersistentManager::getInstance()->deleteObj($episode); 
-                    
-                    if ($result) {
-                        $episodesupdated = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); // Recupera la lista degli episodi aggiornata associati al podcast 
-                        $view->showPodcastPage($podcast, $creator , $episodesupdated, "creator", $sub, "Episodio eliminato con successo", true); 
-                    } else {
-                        $view->showPodcastError($podcast, $creator , $episodesbefore, "creator ",$sub,"Impossibile eliminare l'episodio", false);
-                    }
-                } 
+                $admin_id = USession::getInstance()->getSessionElement('user');
+                $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $admin_id);
+                if ($admin->is_admin()){
+                    $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode',$episode_id);
+                    FPersistentManager::getInstance()->deleteObj($episode);
+                    header("");
+                }
             }
         }
-        
+
+        public static function deleteComment($comment_id){            
+
+            if(CUser::isLogged()){
+
+                $admin_id = USession::getInstance()->getSessionElement('user');
+                $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $admin_id);
+                if ($admin->is_admin()){
+                    $comment = FPersistentManager::getInstance()->retrieveObj('EComment',$comment_id);
+                    FPersistentManager::getInstance()->deleteObj($comment);
+                    header("");
+                }
+            }
+        }
     }

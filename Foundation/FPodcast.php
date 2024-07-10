@@ -215,5 +215,17 @@
         }
     }
 
+    public static function retrieveAll(){
+        $podcasts = FDataBase::getInstance()->retrieveAll(self::getTable());
+        if (!is_array($podcasts)){
+            $podcasts = [$podcasts];
+        }
+        if ($podcasts){
+            return $podcasts;
+        }else{
+            return array();
+        }
+    }
+
     
 }
