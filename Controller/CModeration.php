@@ -3,9 +3,9 @@
 
 
         public static function showDashboard(){
-            $user_id = USession::getInstance()->getSessionElement('user');
-            $user = FPersistentManager::getInstance()->retrieveObj('EUser', $user_id);
-            if ($user->isAdmin()){
+            $adminId = USession::getInstance()->getSessionElement('user');
+            $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $adminId);
+            if ($admin->isAdmin()){
                 $users = FPersistentManager::getInstance()->retrieveUsers(); //array di oggetti
                 if ($users){
                 $view = new VModeration;
@@ -17,9 +17,9 @@
             }
         }
         public static function showUserPodcasts($user_id){
-            $user_id = USession::getInstance()->getSessionElement('user');
-            $user = FPersistentManager::getInstance()->retrieveObj('EUser', $user_id);
-            if ($user->isAdmin()){
+            $adminId = USession::getInstance()->getSessionElement('user');
+            $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $adminId);
+            if ($admin->isAdmin()){
                 $podcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($user_id); //array di array
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $user_id);
                 $view = new VModeration;
@@ -35,9 +35,9 @@
             }
 }
         public static function showEpisodePodcasts($podcast_id) {
-            $user_id = USession::getInstance()->getSessionElement('user');
-            $user = FPersistentManager::getInstance()->retrieveObj('EUser', $user_id);
-            if ($user->isAdmin()){
+            $adminId = USession::getInstance()->getSessionElement('user');
+            $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $adminId);
+            if ($admin->isAdmin()){
                 $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); //array di oggetti
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
                     $view = new VModeration;
@@ -54,9 +54,9 @@
 
 }
         public static function showEpisodeComments($episode_id) {
-            $user_id = USession::getInstance()->getSessionElement('user');
-            $user = FPersistentManager::getInstance()->retrieveObj('EUser', $user_id);
-            if ($user->isAdmin()){
+            $adminId = USession::getInstance()->getSessionElement('user');
+            $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $adminId);
+            if ($admin->isAdmin()){
                 $comments = FPersistentManager::getInstance()->retrieveComments($episode_id);//array di oggetti
                 $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
                 $view = new VModeration;
@@ -75,30 +75,23 @@
         public static function deleteUser($user_id){
 
             if (CUser::isLogged()){
+    
 
                 $admin_id = USession::getInstance()->getSessionElement('user');
                 $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $admin_id);
-                if ($admin->is_admin()){
+                if ($admin->isAdmin()){
                     $user = FPersistentManager::getInstance()->retrieveObj('EUser',$user_id);
                     FPersistentManager::getInstance()->deleteObj($user);
-                    header("");
+                    $view = new VRedirect();
+                    $view->redirect("/Jampod/Moderation/showDashboard");
+                } else {
+                    $view = new VUser();
+                    $view->showError("Non hai il diritto di compiere questa operazione");
                 }
             }
+        
         }
 
-        public static function banUser($user_id){
-            if (CUser::isLogged()){
-
-                $admin_id = USession::getInstance()->getSessionElement('user');
-                $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $admin_id);
-                if ($admin->is_admin()){
-                    $user = FPersistentManager::getInstance()->retrieveObj('EUser', $user_id);
-                    $ban = FPersistentManager::getInstance()->updateObj($user, 'ban', true);   //true oppure 1?
-                    FPersistentManager::getInstance()->deleteObj($user);
-                    header("");
-                }
-            }
-        }
 
         public static function deletePodcast($podcast_id){            
 
@@ -106,10 +99,14 @@
 
                 $admin_id = USession::getInstance()->getSessionElement('user');
                 $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $admin_id);
-                if ($admin->is_admin()){
+                if ($admin->isAdmin()){
                     $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast',$podcast_id);
                     FPersistentManager::getInstance()->deleteObj($podcast);
-                    header("");
+                    $view = new VRedirect();
+                    $view->redirect("/Jampod/Moderation/showDashboard");
+                }else {
+                    $view = new VUser();
+                    $view->showError("Non hai il diritto di compiere questa operazione");
                 }
             }
         }
@@ -120,10 +117,14 @@
 
                 $admin_id = USession::getInstance()->getSessionElement('user');
                 $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $admin_id);
-                if ($admin->is_admin()){
+                if ($admin->isAdmin()){
                     $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode',$episode_id);
                     FPersistentManager::getInstance()->deleteObj($episode);
-                    header("");
+                    $view = new VRedirect();
+                    $view->redirect("/Jampod/Moderation/showDashboard");
+                } else {
+                    $view = new VUser();
+                    $view->showError("Non hai il diritto di compiere questa operazione");
                 }
             }
         }
@@ -134,10 +135,14 @@
 
                 $admin_id = USession::getInstance()->getSessionElement('user');
                 $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $admin_id);
-                if ($admin->is_admin()){
+                if ($admin->isAdmin()){
                     $comment = FPersistentManager::getInstance()->retrieveObj('EComment',$comment_id);
                     FPersistentManager::getInstance()->deleteObj($comment);
-                    header("");
+                    $view = new VRedirect();
+                    $view->redirect("/Jampod/Moderation/showDashboard");
+                } else {
+                    $view = new VUser();
+                    $view->showError("Non hai il diritto di compiere questa operazione");
                 }
             }
         }
