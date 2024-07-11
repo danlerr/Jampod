@@ -4,7 +4,7 @@
 
     private static $table = "user";
 
-    private static $value = "(:user_id,:username,:email,:password,:balance,:is_admin,:ban)";
+    private static $value = "(:user_id,:username,:email,:password,:balance,:is_admin)";
 
     private static $key = "user_id";
 
@@ -84,7 +84,6 @@
             
             $user->setHashedPassword($result['password']);
             $user->setBalance($result['balance']);
-            $user->setBan($result['ban']);
             $user->setAdmin($result['is_admin']);
             $users[] = $user;
         }
@@ -105,7 +104,7 @@
         $stmt->bindValue(':password',$user->getPassword(), PDO::PARAM_STR);
         $stmt->bindValue(':balance',$user->getBalance(), PDO::PARAM_STR);
         $stmt->bindValue(':is_admin',$user->isAdmin(), PDO::PARAM_BOOL);
-        $stmt->bindValue(':ban',$user->isBanned(), PDO::PARAM_BOOL);
+        
 
     }
 
