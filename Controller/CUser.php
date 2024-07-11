@@ -332,7 +332,7 @@ class CUser{
         $userId = USession::getInstance()->getSessionElement('user');
         $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
         $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
-        print_r($creditCards);
+        
     
        if(!empty($creditCards)){
             // Maschera i numeri delle carte di credito
