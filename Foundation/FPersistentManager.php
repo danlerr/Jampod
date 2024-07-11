@@ -379,6 +379,7 @@
             } else {
                 return array();
             }
+            
         }
 
         public static function maskCreditCardNumber ($cardNumber) {    //metodo che fa visualizzare solo le ultime 4 cifre di una carta

@@ -45,9 +45,9 @@
         }
         
         public function showUserCards($username, $cards, $textAlert, $success) {
-            //if (!is_array($cards)) {
-              //  $cards = [$cards]; // Ensure $cards is an array
-           // }
+            if (!is_array($cards)) {
+               $cards = []; // Ensure $cards is an array
+             }
             $this->smarty->assign('username', $username);
             $this->smarty->assign('cards', $cards);
             $this->smarty->assign('textalert', $textAlert);

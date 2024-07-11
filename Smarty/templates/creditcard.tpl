@@ -35,7 +35,7 @@
                            
                                 {if $card_count>0}
                                     {foreach from=$cards item=card}
-                                        {if $card instanceof ECreditCard}
+                                        {if $card && $card instanceof ECreditCard}
                                             <div class="payment-card mt-5 d-flex justify-content-between align-items-center mb-5">
                                                 <div class="card-details d-flex flex-row align-items-center">
                                                     <img src="/Jampod/Smarty/images/creditcard.png" class="card-image" width="50">
@@ -45,14 +45,17 @@
                                                     </div>
                                                 </div>
                                         <div class="card-actions">
-                                            <form action="/Jampod/User/removeCreditCard/{$card->getId()}" method="post">
-                                                <input type="hidden" name="card_id" value="{$card->getId()}">
-                                                <a href="/Jampod/User/removeCreditCard/{$card->getId()}" class="btn btn-danger btn-move-left" data-bs-toggle="modal" data-bs-target="#rimuoviModal">Rimuovi carta</a>
-                                            </form>
+                                        
+                                                <button class="btn btn-danger btn-move-left" data-bs-toggle="modal" data-bs-target="#rimuoviModal">Rimuovi carta</button>
+                                          
                                         </div>
                                     </div>
                                 {/if}
                             {/foreach}
+                        {else}
+                            <div class="no-cards mt-5">
+                                <p>Non ci sono carte di credito associate al tuo account.</p>
+                            </div>
                         {/if}
                 
                             <a href="/Jampod/User/addCreditCard" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#aggiungiModal">Aggiungi carta</a>
@@ -90,7 +93,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            {if $card_count>0}
                             <div class="modal fade" id="rimuoviModal" tabindex="-1" aria-labelledby="rimuoviModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered custom-modal-size">
                                    <div class="modal-content custom-modal-content">
@@ -99,15 +102,16 @@
                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/Jampod/User/removeCreditCard/{$card->getId()}" method="post">
+                                       
                                             
                                             <div class="text-end">
-                                                <button type="submit" class="btn btn-outline-danger" id="confermaRimuoviCarta">Conferma</button>
+                                                <a href="/Jampod/User/removeCreditCard/{$card->getId()}" class="btn btn-outline-danger" id="confermaRimuoviCarta">Conferma</a>
                                             </div>
-                                        </form>
+                                 
                                     </div>
                                 </div>
                             </div>
+                            {/if}
                         </div>
                     </div>
                     <style>
