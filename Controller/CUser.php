@@ -277,6 +277,7 @@ class CUser{
 
      public static function addCreditCard() { 
         $userId = USession::getInstance()->getSessionElement('user');
+        $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
         $cardNumber = UHTTPMethods::post('card_number');
         $cardHolder = UHTTPMethods::post('card_holder');
         $securityCode = UHTTPMethods::post('security_code');
@@ -290,9 +291,9 @@ class CUser{
             $view=new VUser();
        
             if ($result) {
-                $view->showUserCards($creditCards,"carta inserita con successo! :)",true);
+                $view->showUserCards($username, $creditCards,"carta inserita con successo! :)",true);
             } else {
-                $view->showUserCards($creditCards,"problemi con l'inserimento della carta :(",false);
+                $view->showUserCards($username, $creditCards,"problemi con l'inserimento della carta :(",false);
             }
         }
 
@@ -304,12 +305,13 @@ class CUser{
 
      public static function removeCreditCard($cardId) { 
         $userId = USession::getInstance()->getSessionElement('user');
+        $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
        
         $card= FPersistentManager::getInstance()->retrieveObj('ECreditCard', $cardId);
         if (!$card) {
             $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
             $view=new VUser();
-            $view->showUserCards($creditCards,"Carta di credito non trovata o non autorizzata.", false);
+            $view->showUserCards($username, $creditCards,"Carta di credito non trovata o non autorizzata.", false);
             return;
         }
     
@@ -317,10 +319,10 @@ class CUser{
         $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
         if ($result) {
             $view=new VUser();
-            $view->showUserCards($creditCards,"Carta rimossa con successo.", true);
+            $view->showUserCards($username, $creditCards,"Carta rimossa con successo.", true);
         } else {
             $view=new VUser();
-            $view->showUserCards($creditCards,"Problemi con la rimozione della carta.", false);
+            $view->showUserCards($username, $creditCards,"Problemi con la rimozione della carta.", false);
         }
     }
 
@@ -328,25 +330,18 @@ class CUser{
 
     public static function userCards() {       //metodo che mostra tutte le carte dell'utente  
         $userId = USession::getInstance()->getSessionElement('user');
+        $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
         $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
     
        if(!empty($creditCards)){
             // Maschera i numeri delle carte di credito
             foreach ($creditCards as $card) {
-                $maskedNumber = self::maskCreditCardNumber($card->getCreditCardNumber());
+                $maskedNumber = FPersistentManager::getInstance()->maskCreditCardNumber($card->getCreditCardNumber());
                 $card->setCreditCardNumber($maskedNumber);
             }
        }
         $view=new VUser();
-        $view->showUserCards($creditCards,$textAlert=null,$success=null);
+        $view->showUserCards($username, $creditCards,$textAlert=null,$success=null);
     
     }
-    
-    
-    
-    public static function maskCreditCardNumber ($cardNumber) {    //metodo che fa visualizzare solo le ultime 4 cifre di una carta
-        return str_repeat('*', strlen($cardNumber) - 4) . substr($cardNumber, -4);  //di credito per motivi di sicurezza
-    }
-
-
 }
