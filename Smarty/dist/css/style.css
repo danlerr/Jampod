@@ -118,7 +118,7 @@ i {
     margin: auto;
     margin-top: 20px; /* Aggiunge un margine superiore di 20px */
     padding: 20px;
-    background-color: #fff; /* Aggiunge uno sfondo bianco al container */
+    background-color: var(--tblr-body-bg);
     
 }
 .media-album-icon {
@@ -177,11 +177,10 @@ i {
 
 
    
-  /* Using flex with the row direction to
-     align items in a horizontal direction */
+  
   .buttons {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
   }
    
@@ -212,6 +211,7 @@ i {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
   }
    
   /* Modify the appearance of the slider */
@@ -224,6 +224,7 @@ i {
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    margin-top: 10px;
   }
    
   /* Modify the appearance of the slider thumb */
@@ -246,22 +247,26 @@ i {
   }
    
   .seek_slider {
-    width: 60%;
+    width: 100%;
   }
    
   .volume_slider {
-    width: 30%;
+    width: 100%;
   }
    
   .current-time,
   .total-duration {
     padding: 10px;
-    font-family: Arial, Helvetica, sans-serif9;
+    font-family: var(--tblr-font-sans-serif);
+    margin-top: 10px;
   }
    
   i.fa-volume-down,
   i.fa-volume-up {
     padding: 10px;
+    margin-top: 10px;
+    
+    
   }
    
   /* Change the mouse cursor to a pointer
@@ -433,39 +438,6 @@ input::-webkit-inner-spin-button {
 .pay-button button {
   height: 47px;
   border-radius: 37px;
-}
-/*------------------------DONATION-----------------------------------------------
-/* Stili per il popup di SweetAlert2  */ 
-
-.swal2-popup {
-  font-family: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-  font-size: 16px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: #333;
-  max-width: 600px; /* Larghezza massima del popup */
-}
-
-.swal2-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #dc3545; /* Colore del titolo */
-}
-
-.swal2-content {
-  font-size: 18px;
-  color: #666; /* Colore del testo del contenuto */
-}
-
-.swal2-confirm {
-  background-color: #dc3545; /* Colore di sfondo del pulsante Conferma */
-  color: #fff; /* Colore del testo del pulsante Conferma */
-  border: none;
-}
-
-.swal2-confirm:hover {
-  background-color: #c82333; /* Cambio colore di sfondo al passaggio del mouse */
 }
 
 

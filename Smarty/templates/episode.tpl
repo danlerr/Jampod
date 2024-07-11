@@ -1,5 +1,5 @@
 
-{include file="Smarty/templates/header.tpl" username=$usersession->getUsername() isAdmin=$usersession->isAdmin()}
+{include file="Smarty/templates/headerboot.tpl" username=$usersession->getUsername() isAdmin=$usersession->isAdmin()}
 <!--alert-->
 {if isset($textalert) && $textalert}
     {if $success}
@@ -20,7 +20,7 @@
 	   <h3 class="fw-bold text-center mt-2" id="albumTitle">
             <a href="/Jampod/Podcast/visitPodcast/{$podcast_id}" class="text-decoration-none text-dark">{$podcast_title}</a>
        </h3>
-	   <div class="episode-container ">
+	   <div class="episode-container  ">
 		 <div class="row justify-content-center gx-3 ms-3">  <!-- Centra la parte dell'episodio -->
 			 <!-- Colonna sinistra per l'immagine dell'episodio e il titolo -->
 			 <div class="col-lg-4 col-md-4 align-self-center">
@@ -98,7 +98,7 @@
                         <option value="2">Poor</option>
                         <option value="1">Terrible</option>
                     </select>
-                    <button class="btn btn-success mt-2" type="submit" id="rating-submit" >Vota</button>
+                    <button class="btn btn-yellow mt-2" type="submit" id="rating-submit" >Vota</button>
 
                 </form>
             </div>
@@ -157,7 +157,7 @@
 
     
 	  <!-- Comment -->
-	  <section class="bg-white py-3 py-md-4">
+	  <section class=" py-3 py-md-4">
 		<div class="container">
 			<div class="row justify-content-md-center">
 				<div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">

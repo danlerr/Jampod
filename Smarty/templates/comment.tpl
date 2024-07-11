@@ -21,7 +21,7 @@
                                                 
             </div>
             {/if}
-            <a href="#" class="btn btn-outline-success reply">Reply</a>
+            <button type="button" class="btn btn-outline-success reply">Reply</button>
         </div>
     </div>
 

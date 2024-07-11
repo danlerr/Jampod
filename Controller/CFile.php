@@ -20,7 +20,7 @@ class CFile{
         $imagedata = file_get_contents($file['tmp_name']);
         
 
-        //echo "File $imagename inserito correttamente!";
+        
         
         // Ritorna le informazioni data e mimetype dell'immagine
         return [
@@ -30,7 +30,8 @@ class CFile{
     } else {
         // Se la validazione fallisce, stampa il messaggio di errore
         $errorMessage = $validationResult[1];
-        echo "Errore durante la validazione dell'immagine: $errorMessage";
+        $view = new VPodcast();
+        $view->showError($errorMessage);
         
         return null;
     }
@@ -54,15 +55,16 @@ class CFile{
              // Leggi i dati binari del file audio
              $audiodata = file_get_contents($file['tmp_name']);               
      
-             echo "File $audioname inserito correttamente!";            
+                      
              return [
                  'audiodata' => $audiodata,
                  'audiomimetype' => $audiomimetype,
              ];
          } else {
              // Se la validazione fallisce, stampa il messaggio di errore
-             $errorMessage = $validationResult[1];
-             echo "Errore durante la validazione del file audio: $errorMessage";
+            $errorMessage = $validationResult[1];
+            $view = new VPodcast();
+            $view->showError($errorMessage);
              
              return null;
          }
