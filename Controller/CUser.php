@@ -167,12 +167,13 @@ class CUser{
             if (CUser::isLogged()){
                 $view = new VUser;
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
+                $isAdmin = $user->isAdmin();
                 $podcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
                 if ($userId === USession::getSessionElement('user')){
                     $view = new VRedirect();
                     $view->redirect("/Jampod/Podcast/myPodcast");
                 }else{
-                    $view->profile($podcasts, $user);
+                    $view->profile($podcasts, $user, $isAdmin);
                 }
             }
         }

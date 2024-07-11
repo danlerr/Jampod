@@ -24,9 +24,10 @@
             $this->smarty->display('Smarty/templates/error.tpl');
         }
 
-        public function profile($podcasts, $username){
+        public function profile($podcasts, $user, $isAdmin){
             $this->smarty->assign('podcasts', $podcasts);
-            $this->smarty->assign('username', $username);
+            $this->smarty->assign('user', $user);
+            $this->smarty->assign('isAdmin', $isAdmin);
             $this->smarty->display('Smarty/templates/profile.tpl');
         }
 
