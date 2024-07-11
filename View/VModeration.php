@@ -34,4 +34,9 @@ require_once 'StartSmarty.php';
             $this->smarty->display('Smarty/templates/Admin/comments.tpl');
         }
 
+        public function showError($string){
+            $this->smarty->assign('string', $string);
+            $this->smarty->display('error.tpl');
+        }
+
     }
