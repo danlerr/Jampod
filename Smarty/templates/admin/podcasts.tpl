@@ -9,7 +9,9 @@
 <body>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <a href="/Jampod/Moderation/showDashboard" class="display-4 text-decoration-none text-dark">Jampod Admin Dashboard</a>  
+            <a href="/Jampod/Moderation/showDashboard" class="display-5 text-decoration-none text-dark mb-2">Jampod Admin Dashboard</a>
+             <button class="btn btn-secondary" onclick="window.location.href='/Jampod/Home/homePage'">Vai al sito</button>
+
             <button  class="btn btn-secondary" onclick="history.back()">Torna indietro</button>
             <a href="/Jampod/User/logout" class="btn btn-secondary">Logout</a> 
 

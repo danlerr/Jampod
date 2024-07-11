@@ -9,13 +9,15 @@
 <body>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <a href="/Jampod/Moderation/showDashboard" class="display-4 text-decoration-none text-dark">Jampod Admin Dashboard</a>  
+            <a href="/Jampod/Moderation/showDashboard" class="display-5 text-decoration-none text-dark mb-2">Jampod Admin Dashboard</a>
+             <button class="btn btn-secondary" onclick="window.location.href='/Jampod/Home/homePage'">Vai al sito</button>
+
             
             <a href="/Jampod/User/logout" class="btn btn-secondary">Logout</a>  
         </div>
         
         <!-- Users Section -->
-        <h4>Utenti</h4>
+        <h2>Utenti</h2>
         <table class="table">
             <thead>
                 <tr>

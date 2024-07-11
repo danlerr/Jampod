@@ -33,4 +33,10 @@
             $this->smarty->assign('category_podcasts', $category_podcasts);
             $this->smarty->display('Smarty/templates/category.tpl');
         }
+        public function showAbout($user) {
+            $this->smarty->assign('username',$user->getUsername());
+            $this->smarty->display('Smarty/templates/about.tpl');
+            
+
+        }
     }

@@ -48,6 +48,13 @@ class CHome {
             }
         }
     }
+    public static function About() {
+        $userId = USession::getInstance()->getSessionElement('user');
+        $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
+        $view = new VHome();
+        $view->showAbout($user);
+
+    }
 
 
 }
