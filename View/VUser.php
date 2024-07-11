@@ -18,9 +18,9 @@
             $this->smarty->display('Smarty/templates/registration.tpl');
         }
 
-        public function showError($string, $error){
+        public function showError($string){
             $this->smarty->assign('string', $string);
-            $this->smarty->assign('error', $error);
+
             $this->smarty->display('Smarty/templates/error.tpl');
         }
 

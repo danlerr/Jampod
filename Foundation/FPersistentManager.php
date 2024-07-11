@@ -273,6 +273,7 @@
 
         public static function retrieveMyPodcasts($user_id){
             $myPodcasts = FPodcast::myPodcasts($user_id);
+            
             // Codifica i dati binari dell'immagine in Base64
             foreach ($myPodcasts as &$podcast) {                 
                 $podcast['image_data'] = base64_encode($podcast['image_data']);

@@ -63,6 +63,9 @@
 					      <a href="/Jampod/Balance/viewBalance" class="dropdown-item">Saldo</a>
 					      <div class="dropdown-divider"></div>
 					      <a href="/Jampod/User/settings" class="dropdown-item">Impostazioni</a>
+                {if $isAdmin}
+                  <a href="/Jampod/Moderation/showDashboard" class="dropdown-item">Dashboard admin</a>
+                {/if} 
 					      <a href="/Jampod/User/logout" class="dropdown-item">Logout</a>
 				      </div>
 			      </div>
