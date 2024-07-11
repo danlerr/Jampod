@@ -125,5 +125,9 @@
                             margin-right: 20px; /* Piccolo margine a destra per spostare il pulsante a sinistra */
                         }
                         </style>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 {include file="Smarty/templates/footer.tpl"}

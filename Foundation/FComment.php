@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * La classe FComment gestisce le operazioni di persistenza relative ai commenti.
+ */
 class FComment{
     
     private static $table="comment";
@@ -21,7 +23,11 @@ class FComment{
         return self::$key;
     }
     
-
+    /**
+     * Associa i valori dei campi del commento ai placeholder nella query SQL.
+     * @param PDOStatement $stmt L'oggetto PDOStatement.
+     * @param EComment $comment L'oggetto commento.
+     */
 
     public static function bind($stmt, $comment){
         $stmt->bindValue(":comment_text", $comment->getCommentText(), PDO::PARAM_STR);
