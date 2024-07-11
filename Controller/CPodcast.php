@@ -120,7 +120,7 @@
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
-                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
+                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
 

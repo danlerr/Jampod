@@ -49,10 +49,14 @@ class CUser{
                 $userId = USession::getInstance()->getSessionElement('user');
                 $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
                 if ($usersession->isAdmin()) {
-                    CModeration::showDashboard();
+                    $view = new VRedirect();
+                    $view->redirect("/Jampod/Moderation/showDashboard");
                     exit;
                 }
-                CHome::homePage();// Se l'utente è già loggato, reindirizza alla pagina di home
+                // Se l'utente è già loggato, reindirizza alla pagina di home
+                $view = new VRedirect();
+                $view->redirect("/Jampod/Home/homePage");
+                
 
                 exit; // Assicurati di terminare lo script dopo il reindirizzamento
             }
@@ -78,7 +82,7 @@ class CUser{
 
     // Verifica che tutti i campi siano stati riempiti
     if (empty($email) || empty($username) || empty($password)) {
-        $view->showError('Tutti i campi sono obbligatori', false);
+        $view->showError('Tutti i campi sono obbligatori');
         return;
     }
 
@@ -88,12 +92,13 @@ class CUser{
         $result = FPersistentManager::getInstance()->createObj($user); // Salvataggio dell'utente nel db
 
         if ($result) {
-            $view->showLoginForm(); // Mostra il form di login 
+            $view = new VRedirect();
+            $view->redirect("/Jampod/User/loginForm");
         } else {
-            $view->showError('Errore durante la registrazione', false);
+            $view->showError('Errore durante la registrazione');
         }
     } else {
-        $view->showError('Email o username già esistenti', false);
+        $view->showError('Email o username già esistenti');
     }
 }
 
@@ -112,7 +117,7 @@ class CUser{
             $username = trim(UHTTPMethods::post('username'));
             $password = trim(UHTTPMethods::post('password'));
             if (!$username || !$password) {
-                $view->showError('Username e password sono obbligatori', false);
+                $view->showError('Username e password sono obbligatori');
                 return;
             }
         
@@ -124,9 +129,7 @@ class CUser{
 
         
                 if ($user && password_verify($password, $user->getPassword())) {
-                    if ($user->isBanned()) {
-                        $view->showError('Sei bannato!', false);
-                    } else{
+                     
                         if (USession::getSessionStatus() == PHP_SESSION_NONE) {
                         USession::getInstance(); // Session start
                         USession::setSessionElement('user', $user->getId()); // L'ID dell'utente viene posto nell'array $_SESSION
@@ -135,14 +138,15 @@ class CUser{
                             $view->redirect("/Jampod/Moderation/showDashboard");
                             exit;
                         }
-                        CHome::homePage();
+                        $view = new VRedirect();
+                        $view->redirect("/Jampod/Home/homePage");
                         }
-                    }
+                    
                 } else {
-                    $view->showError('Password errata', false);
+                    $view->showError('Password errata');
                 }
             } else {
-                $view->showError('Username non trovato', false);
+                $view->showError('Username non trovato');
             }
         }
         
@@ -155,8 +159,8 @@ class CUser{
             USession::getInstance();
             USession::unsetSession();
             USession::destroySession();
-            $view = new VUser();
-            $view->showLoginForm();
+            $view = new VRedirect();
+            $view->redirect("/Jampod/User/loginForm");
         }
 
         public static function profile($userId) {              //letsgo
@@ -165,7 +169,8 @@ class CUser{
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $podcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
                 if ($userId === USession::getSessionElement('user')){
-                    CPodcast::myPodcast();
+                    $view = new VRedirect();
+                    $view->redirect("/Jampod/Podcast/myPodcast");
                 }else{
                     $view->profile($podcasts, $user);
                 }
@@ -195,14 +200,14 @@ class CUser{
                         $result = FPersistentManager::getInstance()->updateObj($user, 'password', $hashedNewPassword); 
                         if ($result){
                             $view=new VUser;
-                            $view->settings($user->getUsername(),$user->getEmail(),'password modificata con successo',true);
+                            $view->settings($user,'password modificata con successo',true);
                         }else{
                             $view = new VUser;
-                            $view->settings($user->getUsername(),$user->getEmail(),'impossibile modificare la password',false);
+                            $view->settings($user,'impossibile modificare la password',false);
                         }
                     }else{
                             $view = new VUser;
-                            $view->settings($user->getUsername(),$user->getEmail(),'non è questa la tua vecchia password',false);
+                            $view->settings($user,'non è questa la tua vecchia password',false);
                     }
                    
             }
@@ -221,18 +226,18 @@ class CUser{
                         $result = FPersistentManager::getInstance()->updateObj($user, 'username', $newUsername);
                         if ($result){
                             $view = new VUser;
-                            $view->settings($newUsername, $email, 'username modificato con successo', true);
+                            $view->settings($user, 'username modificato con successo', true);
                         }else{
                             $view = new VUser;
-                            $view->settings($oldUsername, $email, 'impossibile modificare lo username', false);
+                            $view->settings($user, 'impossibile modificare lo username', false);
                         }
                     }else{
                          $view = new VUser;
-                         $view->settings($oldUsername, $email, 'username non disponibile', false);
+                         $view->settings($user, 'username non disponibile', false);
                     }
                 }else{
                     $view = new VUser;
-                    $view->showError('puoi modificare solamente il tuo username', false);
+                    $view->showError('puoi modificare solamente il tuo username');
                 }
             }
         }
@@ -249,18 +254,18 @@ class CUser{
                         $result = FPersistentManager::getInstance()->updateObj($user, 'email', $newEmail);
                         if ($result){
                             $view = new VUser;
-                            $view->settings($username, $newEmail, 'email modificata con successo', true);
+                            $view->settings($user, 'email modificata con successo', true);
                         }else{
                             $view = new VUser;
-                            $view->settings($username, $oldEmail, "impossibile modificare l' email", false);
+                            $view->settings($user, "impossibile modificare l' email", false);
                         }
                     }else{
                          $view = new VUser;
-                         $view->settings($username, $oldEmail, 'email non disponibile', false);
+                         $view->settings($user, 'email non disponibile', false);
                     }
                 }else{
                     $view = new VUser;
-                    $view->showError('puoi modificare solamente la tua email', false);
+                    $view->showError('puoi modificare solamente la tua email');
                 }
             }
         }
@@ -331,7 +336,7 @@ class CUser{
         $userId = USession::getInstance()->getSessionElement('user');
         $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
         $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
-        print_r($creditCards);
+        
     
        if(!empty($creditCards)){
             // Maschera i numeri delle carte di credito

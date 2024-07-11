@@ -30,7 +30,7 @@
               <div>
                 <div class="row g-2">
                   <div class="col-auto">
-                    <input type="text" class="form-control w-auto" value="{$email}" readonly>
+                    <input type="text" class="form-control w-auto" value="{$user->getEmail()}" readonly>
                   </div>
                   <div class="col-auto">
                     <button class="btn" data-bs-toggle="modal" data-bs-target="#changeEmailModal">Cambia Email</button>
@@ -98,7 +98,7 @@
                       <form method="post" action="/Jampod/User/editEmail">
                         <div class="mb-3">
                           <label for="oldemail" class="form-label">Email attuale</label>
-                          <input type="email" class="form-control" id="oldemail" value="{$email}" readonly disabled >
+                          <input type="email" class="form-control" id="oldemail" value="{$user->getEmail()}" readonly disabled >
                         </div>
                         <div class="mb-3">
                           <label for="newemail" class="form-label">Nuova Email</label>
@@ -125,7 +125,7 @@
                               <form method="post" action="/Jampod/User/editUsername">
                                   <div class="mb-3">
                                       <label for="oldusername" class="form-label">Username attuale</label>
-                                      <input type="text" class="form-control" id="oldusername" value="{$user->getUsername}" readonly disabled>
+                                      <input type="text" class="form-control" id="oldusername" value="{$user->getUsername()}" readonly disabled>
                                   </div>
                                   <div class="mb-3">
                                       <label for="newusername" class="form-label">Nuovo Username</label>
