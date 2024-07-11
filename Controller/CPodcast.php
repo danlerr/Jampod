@@ -106,14 +106,7 @@
             $userId = USession::getInstance()->getSessionElement('user');
             $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
             $view = new VPodcast;
-            if ($podcasts){
-                $view->showSearchResults($user, $podcasts, $query);
-                echo $podcasts;
-            } else {
-                // Gestisci il caso in cui non c'è nessuna query di ricerca
-                $view = new VPodcast;
-                $view->showError('nessun risultato! :(');
-            }
+            $view->showSearchResults($user, $podcasts, $query);
         }
 
         public static function Subscribe($podcast_id) {            //letsgo

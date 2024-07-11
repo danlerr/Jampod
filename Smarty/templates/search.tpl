@@ -3,6 +3,9 @@
 <div class="page-body">
     <div class="container-xl">
         <h2 class="text mb-5">Risultati della ricerca per "{$query}"</h2>
+        {if count($podcasts) == 0}
+                    <h4 class=" mt-8 mb-8  text-center">Nessun podcast!</h4>
+                {/if}
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 g-4">
                 {foreach from=$podcasts item=podcast}
                     <div class="col">
