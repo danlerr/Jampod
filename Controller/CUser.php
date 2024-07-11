@@ -131,7 +131,8 @@ class CUser{
                         USession::getInstance(); // Session start
                         USession::setSessionElement('user', $user->getId()); // L'ID dell'utente viene posto nell'array $_SESSION
                         if($user->isAdmin()){
-                            CModeration::showDashboard();
+                            $view = new VRedirect();
+                            $view->redirect("/Jampod/Moderation/showDashboard");
                             exit;
                         }
                         CHome::homePage();
@@ -161,12 +162,12 @@ class CUser{
         public static function profile($userId) {              //letsgo
             if (CUser::isLogged()){
                 $view = new VUser;
-                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $podcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
                 if ($userId === USession::getSessionElement('user')){
                     CPodcast::myPodcast();
                 }else{
-                    $view->profile($podcasts, $username);
+                    $view->profile($podcasts, $user);
                 }
             }
         }
@@ -177,9 +178,7 @@ class CUser{
                 $view = new VUser();
                 $userId = USession::getInstance()->getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
-                $username = $user->getUsername();
-                $email = $user->getEmail();
-                $view->settings($username, $email);
+                $view->settings($user);
             }
         }
 

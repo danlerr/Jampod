@@ -32,9 +32,8 @@
 
         
 
-        public function settings($username, $email, $textalert = null, $success = true){
-            $this->smarty->assign('username', $username);
-            $this->smarty->assign('email', $email);
+        public function settings($user, $textalert = null, $success = true){
+            $this->smarty->assign('user', $user);
             $this->smarty->assign('textalert', $textalert);
             $this->smarty->assign('success', $success);
             $this->smarty->display('Smarty/templates/settings.tpl');

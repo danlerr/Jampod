@@ -1,5 +1,5 @@
 
-{include file="Smarty/templates/header.tpl" username=$usersession->getUsername()}
+{include file="Smarty/templates/header.tpl" username=$usersession->getUsername() isAdmin=$usersession->isAdmin()}
 <!--alert-->
 {if isset($textalert) && $textalert}
     {if $success}

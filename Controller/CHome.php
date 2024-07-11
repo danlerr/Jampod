@@ -39,12 +39,12 @@ class CHome {
         if (CUser::isLogged()){
             
             $userId = USession::getInstance()->getSessionElement('user');
-            $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+            $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
             $category_podcasts = FPersistentManager::getInstance()->retrievePodByCategory($category_name);
             //print_r($category_podcasts);
             if ($category_podcasts){
                 $view = new VHome;
-                $view->showCategory($username, $category_name, $category_podcasts);
+                $view->showCategory($user, $category_name, $category_podcasts);
             }
         }
     }

@@ -10,13 +10,18 @@
                 $userId = USession::getInstance()->getSessionElement('user');
                 $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);  
+                $cards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
+                foreach ($cards as $card) {
+                    $maskedNumber = FPersistentManager::getInstance()->maskCreditCardNumber($card->getCreditCardNumber());
+                    $card->setCreditCardNumber($maskedNumber);
+                }
                 // Ottiene il saldo dell'utente
                 $balance = $user->getBalance();
                 //recupero tutte le donazione fatte/ricevute 
                 $donationsReceived = FPersistentManager::getInstance()->donationsReceived($userId);
                 $donationsMade = FPersistentManager::getInstance()->donationsMade($userId);
                 // Mostra il saldo all'utente
-                $view->showBalance($usersession,$balance, $donationsReceived, $donationsMade);
+                $view->showBalance($usersession,$cards, $balance, $donationsReceived, $donationsMade);
             }
         }
 

@@ -2,13 +2,13 @@
 
     class CPodcast{
 
-
+        
         public static function createPodcast(){       //letsgo
 
             if (CUser::isLogged()){
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');//->getId();
-                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
 
                 $podcast = new EPodcast(UHTTPMethods::post('podcast_name'),
                                         UHTTPMethods::post('podcast_description'),
@@ -32,7 +32,7 @@
                 $userRole ='creator';
 
                 if($result){
-                    $view->showPodcastPage($username, $podcast, $creator, $episodes, $userRole, "Podcast creato con successo! :)", null, true);
+                    $view->showPodcastPage($user, $podcast, $creator, $episodes, $userRole, "Podcast creato con successo! :)", null, true);
                 }else{
                     $view->showError('Impossibile creare il podcast :('); 
                 }
@@ -44,7 +44,7 @@
             if(CUser::isLogged()){
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
-                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast',$podcast_id);
 
                 if(FPersistentManager::getInstance()->checkUser($podcast->getUserId(), $userId)){
@@ -57,12 +57,12 @@
                         $myPodcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
                         $success = true;
                         $textalert = 'eliminazione del podcast avvenuta con successo :)';
-                        $view->showMyPodcastPage($username, $myPodcasts, $success, $textalert);
+                        $view->showMyPodcastPage($user, $myPodcasts, $success, $textalert);
                     }else{
                         $myPodcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
                         $success = false;
                         $textalert = "problemi con l'eliminazione del podcast :(";
-                        $view->showMyPodcastPage($username, $myPodcasts, $success, $textalert);
+                        $view->showMyPodcastPage($user, $myPodcasts, $success, $textalert);
                     }    
                 }
             }else{
@@ -80,7 +80,7 @@
                     $view->showError('impossibile trovare il podcast :('); 
                 }
                 $userId = USession::getInstance()->getSessionElement('user');
-                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $creator_id = $podcast->getUserId();
                 $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $creator_id);
                 $userRole = ($userId == $podcast->getUserId()) ? 'creator' : 'listener';
@@ -93,7 +93,7 @@
                     if (!is_array($episodes)) {
                         $episodes = [$episodes];
                     }
-                    $view->showPodcastPage($username, $podcast, $creator, $episodes, $userRole, $sub);             
+                    $view->showPodcastPage($user, $podcast, $creator, $episodes, $userRole, $sub);             
                 }else{
                     $view->showError('impossibile trovare il podcast :('); 
                 }
@@ -104,10 +104,10 @@
             $query = UHTTPMethods::post('query');
             $podcasts = FPersistentManager::getInstance()->searchPodcasts($query);
             $userId = USession::getInstance()->getSessionElement('user');
-            $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+            $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
             $view = new VPodcast;
             if ($podcasts){
-                $view->showSearchResults($username, $podcasts, $query);
+                $view->showSearchResults($user, $podcasts, $query);
                 echo $podcasts;
             } else {
                 // Gestisci il caso in cui non c'è nessuna query di ricerca
@@ -120,7 +120,7 @@
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
-                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
 
@@ -158,14 +158,14 @@
                                 $mailer->sendMail($subscriber->getEmail(), $subject, $message);
                 
                                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
-                                $view->showPodcastPage($username, $podcast, $creator, $episodes, $userRole, true, 'Iscrizione avvenuta con successo! :)', true);
+                                $view->showPodcastPage($user, $podcast, $creator, $episodes, $userRole, true, 'Iscrizione avvenuta con successo! :)', true);
 
                             }else{
                                 error_log("Errore nell'aggiornamento del contatore di iscritti.");
-                                $view->showPodcastPage($username, $podcast, $episodes, $creator, "Errore durante l'iscrizione al podcast :(", $userRole, false);
+                                $view->showPodcastPage($user, $podcast, $episodes, $creator, "Errore durante l'iscrizione al podcast :(", $userRole, false);
                             }
                         } else {
-                            $view->showPodcastPage($username, $podcast, $episodes, $creator, "Errore durante l'iscrizione al podcast :(", $userRole, false);
+                            $view->showPodcastPage($user, $podcast, $episodes, $creator, "Errore durante l'iscrizione al podcast :(", $userRole, false);
                         }
                     }else{
                         self::visitPodcast($podcast_id); // Se l'utente è già iscritto, semplicemente mostra il podcast
@@ -180,7 +180,7 @@
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
-                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $creator = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
         
@@ -201,7 +201,7 @@
         
                             if ($update) {
 
-                                $view->showPodcastPage($username, $podcast, $creator, $episodes, $userRole, false, 'Non sei più iscritto! :(', false);
+                                $view->showPodcastPage($user, $podcast, $creator, $episodes, $userRole, false, 'Non sei più iscritto! :(', false);
                             } else {
                                 $view->showError("Errore durante l'aggiornamento del contatore delle iscrizioni");
                             }
@@ -220,21 +220,21 @@
         public static function myPodcast(){            //letsgo
             if (CUser::isLogged()){
                 $userId = USession::getInstance()->getSessionElement('user');
-                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $view = new VPodcast;
                 $myPodcast = FPersistentManager::getInstance()->retrieveMyPodcasts($userId);
                 //print_r($myPodcast);
-                $view->showMyPodcastPage($username, $myPodcast);
+                $view->showMyPodcastPage($user, $myPodcast);
             }
         }
 
         public static function creationForm(){            //letsgo
             if (Cuser::isLogged()){
                 $userId = USession::getInstance()->getSessionElement('user');
-                $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
+                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
                 $view = new VPodcast;
                 $categories = FPersistentManager::getInstance()->retrieveCategories(); //prendo le categorie per passarle al form 
-                $view->showForm($username, $categories);
+                $view->showForm($user, $categories);
             }
         }
     }

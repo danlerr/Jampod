@@ -1,4 +1,4 @@
-{include file="Smarty/templates/header.tpl" username=$username}
+{include file="Smarty/templates/header.tpl" username=$usersession->getUsername() isAdmin=$usersession->isAdmin()}
 
 
 <!--alert-->
@@ -88,6 +88,15 @@
                             <label for="ricaricaImporto" class="form-label">Importo</label>
                             <input type="number" class="form-control" id="ricaricaImporto" name="amount" placeholder="Inserisci importo" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="cartaSelezionata" class="form-label">Seleziona Carta di Credito</label>
+                            <select class="form-select" id="cartaSelezionata">
+                                <option selected>Seleziona una carta...</option>
+                                {foreach from=$cards item=card}
+                                    <option value="{$card->getId()}">Carta   {$card->getCreditCardNumber()}</option>
+                                {/foreach}
+                            </select>
+                        </div>
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-outline-success">Conferma</button>
                         </div>
@@ -110,6 +119,15 @@
                         <div class="mb-3">
                             <label for="prelevaImporto" class="form-label">Importo</label>
                             <input type="number" class="form-control" id="prelevaImporto" name="amount" placeholder="Inserisci importo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cartaSelezionata" class="form-label">Seleziona Carta di Credito</label>
+                            <select class="form-select" id="cartaSelezionata">
+                                <option selected>Seleziona una carta...</option>
+                                <option value="1">Carta Visa **** 1234</option>
+                                <option value="2">Carta MasterCard **** 5678</option>
+                                <!-- Aggiungi altre carte qui -->
+                            </select>
                         </div>
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-outline-danger">Conferma</button>
