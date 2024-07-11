@@ -12,27 +12,37 @@
 }
         public static function showUserPodcasts($user_id){
             $podcasts = FPersistentManager::getInstance()->retrieveMyPodcasts($user_id); //array di array
+            $user = FPersistentManager::getInstance()->retrieveObj('EUser', $user_id);
+            $view = new VModeration;
             if ($podcasts){
-                $user = FPersistentManager::getInstance()->retrieveObj('EUser', $user_id);
-                $view = new VModeration;
+                
                 $view->userPodcasts($user, $podcasts);
-        } 
+        } else {
+            $view->userPodcasts($user,[]);
+        }
 }
         public static function showEpisodePodcasts($podcast_id) {
             $episodes = FPersistentManager::getInstance()->retrieveEpisodesByPodcast($podcast_id); //array di oggetti
-            if ($episodes){
-                $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
+            $podcast = FPersistentManager::getInstance()->retrieveObj('EPodcast', $podcast_id);
                 $view = new VModeration;
+            if ($episodes){
+                
                 $view->podcastEpisodes($podcast, $episodes);
+        }else {
+            $view->podcastEpisodes($podcast,[]);
         }
+
 }
         public static function showEpisodeComments($episode_id) {
             $comments = FPersistentManager::getInstance()->retrieveComments($episode_id);//array di oggetti
+            $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
+            $view = new VModeration;
             if ($comments){
-                $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id);
-                $view = new VModeration;
+                
                 $view->episodeComments($episode, $comments);
 
+        }else {
+            $view->episodeComments($episode,[]);
         }
 }
         public static function deleteUser($user_id){

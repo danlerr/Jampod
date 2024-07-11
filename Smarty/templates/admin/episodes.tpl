@@ -9,15 +9,15 @@
 <body>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h1>Jampod Admin Dashboard</h1>
-            <a href="/Jampod/User/logout" class="btn btn-secondary">Logout</a>  
+            <a href="/Jampod/Moderation/showDashboard" class="display-4 text-decoration-none text-dark">Jampod Admin Dashboard</a>  
+            <button  class="btn btn-secondary" onclick="history.back()">Torna indietro</button>
+            <a href="/Jampod/User/logout" class="btn btn-secondary">Logout</a>
+             
         </div>
         
         <!-- Episodes Section -->
-        <h2>Episodi di {$podcast->getPodcastName()}</h2>
-        {if count($episodes) == 0}
-            <h4 class=" mt-3  text-center">Nessun episodio.</h4>
-        {/if}
+        <h2>Episodi di : {$podcast->getPodcastName()}</h2>
+    
         <table class="table">
             <thead>
                 <tr>
@@ -34,13 +34,16 @@
 
                     <td>
                         <a href="/Jampod/Moderation/deleteEpisode/{$episode->getId()}" class="btn btn-danger btn-sm">elimina</a>
-                        <a href="/Jampod/Moderation/showEpisodeComments/{$episode->getId()}" class="btn btn-info btn-sm">Visualizza Commenti</a>
+                        <a href="/Jampod/Moderation/showEpisodeComments/{$episode->getId()}" class="btn btn-info btn-sm">visualizza Commenti</a>
                     </td>
                 </tr>
 
                 {/foreach}
             </tbody>
         </table>
+        {if count($episodes) == 0}
+            <h4 class=" mt-3  text-center">Nessun episodio.</h4>
+        {/if}
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

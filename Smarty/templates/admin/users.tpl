@@ -9,7 +9,8 @@
 <body>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h1>Jampod Admin Dashboard</h1>
+            <a href="/Jampod/Moderation/showDashboard" class="display-4 text-decoration-none text-dark">Jampod Admin Dashboard</a>  
+            
             <a href="/Jampod/User/logout" class="btn btn-secondary">Logout</a>  
         </div>
         
@@ -30,7 +31,7 @@
                     <td>{$user.email}</td>
                     <td>
                         <a href="/Jampod/Moderation/deleteUser/{$user.user_id}" class="btn btn-danger btn-sm">elimina</a>
-                        <a href="/Jampod/Moderation/showUserPodcasts/{$user.user_id}" class="btn btn-info btn-sm">Visualizza Podcast</a>
+                        <a href="/Jampod/Moderation/showUserPodcasts/{$user.user_id}" class="btn btn-info btn-sm">visualizza Podcast</a>
                     </td>
                 </tr>
                 {/foreach}

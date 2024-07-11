@@ -21,7 +21,7 @@ class CUser{
             // Verifica se l'elemento 'user' è presente nella sessione (utente loggato)
             if (USession::isSetSessionElement('user')) {
                 $logged = true;
-                self::isBanned(); // Verifica se l'utente è bandito
+                
             }
     
             // Se l'utente non è loggato, reindirizza alla pagina di login attraverso la view
@@ -34,21 +34,6 @@ class CUser{
             return true; // Restituisce true se l'utente è loggato
         }
 
-        /**
-         * check if the user is banned
-         * @return void
-         */
-        public static function isBanned()              //letsgo
-        {
-            $userId = USession::getSessionElement('user');
-            $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId); //ritorna l'oggetto user
-            if($user->isBanned()){  
-                $view = new VUser();
-                USession::unsetSession();
-                USession::destroySession();
-                $view->showError('Sei bannato! >.<', false);
-            }
-        }
         
         public static function loginForm(){              //letsgo
             // Verifica se il cookie di sessione PHPSESSID è impostato
@@ -61,7 +46,14 @@ class CUser{
             
             // Verifica se l'elemento 'user' è presente nella sessione (utente loggato)
             if (USession::isSetSessionElement('user')) {
+                $userId = USession::getInstance()->getSessionElement('user');
+                $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
+                if ($usersession->isAdmin()) {
+                    CModeration::showDashboard();
+                    exit;
+                }
                 CHome::homePage();// Se l'utente è già loggato, reindirizza alla pagina di home
+
                 exit; // Assicurati di terminare lo script dopo il reindirizzamento
             }
             

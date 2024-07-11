@@ -7,8 +7,7 @@ class CHome {
             $view = new VHome();
             $userId = USession::getSessionElement('user');
 
-            $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
-            
+            $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);           
             $username = $user->getUsername();
             
             // Recupera i podcast in evidenza
