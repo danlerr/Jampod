@@ -15,8 +15,9 @@
             
         }
 
-        public function showHome($username, $featuredPodcasts, $categories, $newPodcasts, $recommendedPodcasts){
+        public function showHome($username, $isAdmin, $featuredPodcasts, $categories, $newPodcasts, $recommendedPodcasts){
             $this->smarty->assign('username', $username);
+            $this->smarty->assign('isAdmin', $isAdmin);
             $this->smarty->assign('featuredPodcasts',$featuredPodcasts);
             $this->smarty->assign('categories',$categories);
             $this->smarty->assign('newPodcasts',$newPodcasts);

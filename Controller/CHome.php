@@ -9,6 +9,7 @@ class CHome {
 
             $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);           
             $username = $user->getUsername();
+            $isAdmin = $user->isAdmin();
             
             // Recupera i podcast in evidenza
             $featuredPodcasts = FPersistentManager::getInstance()->retrieveFeature();
@@ -26,7 +27,7 @@ class CHome {
             
             
             
-            $view->showHome($username, $featuredPodcasts, $categories, $newPodcasts, $recommendedPodcasts);
+            $view->showHome($username, $isAdmin, $featuredPodcasts, $categories, $newPodcasts, $recommendedPodcasts);
         } else{
             CUser::loginForm();
         }
