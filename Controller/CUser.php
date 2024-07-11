@@ -183,7 +183,10 @@ class CUser{
                 $view = new VUser();
                 $userId = USession::getInstance()->getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
-                $view->settings($user);
+                $isAdmin = $user->isAdmin();
+                $username = $user->getUsername();
+                $email = $user->getEmail();
+                $view->settings($username, $isAdmin, $email);
             }
         }
 
@@ -191,6 +194,7 @@ class CUser{
             if (CUser::isLogged()){
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
+                $isAdmin = $user->isAdmin();
                 if (FPersistentManager::getInstance()->checkUser($user->getId(),$userId)){
                     $user_password = $user->getPassword(); //password criptata dal db
                     $password = UHTTPMethods::post('old_password');
@@ -200,14 +204,14 @@ class CUser{
                         $result = FPersistentManager::getInstance()->updateObj($user, 'password', $hashedNewPassword); 
                         if ($result){
                             $view=new VUser;
-                            $view->settings($user,'password modificata con successo',true);
+                            $view->settings($user->getUsername(), $isAdmin, $user->getEmail(),'password modificata con successo',true);
                         }else{
                             $view = new VUser;
-                            $view->settings($user,'impossibile modificare la password',false);
+                            $view->settings($user->getUsername(), $isAdmin, $user->getEmail(),'impossibile modificare la password',false);
                         }
                     }else{
                             $view = new VUser;
-                            $view->settings($user,'non è questa la tua vecchia password',false);
+                            $view->settings($user->getUsername(), $isAdmin, $user->getEmail(),'non è questa la tua vecchia password',false);
                     }
                    
             }
@@ -218,6 +222,8 @@ class CUser{
             if (CUser::isLogged()){
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
+                $isAdmin = $user->isAdmin();
+                $username = $user->getUsername();
                 $email = $user->getEmail();
                 if (FPersistentManager::getInstance()->checkUser($user->getId(),$userId)){
                     $oldUsername = $user->getUsername();
@@ -226,14 +232,11 @@ class CUser{
                         $result = FPersistentManager::getInstance()->updateObj($user, 'username', $newUsername);
                         if ($result){
                             $view = new VUser;
-                            $view->settings($user, 'username modificato con successo', true);
-                        }else{
-                            $view = new VUser;
-                            $view->settings($user, 'impossibile modificare lo username', false);
+                            $view->settings($newUsername, $isAdmin, $email, 'username modificato con successo', true);
                         }
                     }else{
                          $view = new VUser;
-                         $view->settings($user, 'username non disponibile', false);
+                         $view->settings($oldUsername, $isAdmin, $email, 'username non disponibile', false);
                     }
                 }else{
                     $view = new VUser;
@@ -246,6 +249,7 @@ class CUser{
             if (CUser::isLogged()){
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
+                $isAdmin = $user->isAdmin();
                 $username = $user->getUsername();
                 if (FPersistentManager::getInstance()->checkUser($user->getId(),$userId)){
                     $oldEmail = $user->getEmail();
@@ -254,14 +258,14 @@ class CUser{
                         $result = FPersistentManager::getInstance()->updateObj($user, 'email', $newEmail);
                         if ($result){
                             $view = new VUser;
-                            $view->settings($user, 'email modificata con successo', true);
+                            $view->settings($username, $isAdmin, $newEmail, 'email modificata con successo', true);
                         }else{
                             $view = new VUser;
-                            $view->settings($user, "impossibile modificare l' email", false);
+                            $view->settings($username, $isAdmin, $oldEmail, "impossibile modificare l' email", false);
                         }
                     }else{
                          $view = new VUser;
-                         $view->settings($user, 'email non disponibile', false);
+                         $view->settings($username, $isAdmin, $oldEmail, 'email non disponibile', false);
                     }
                 }else{
                     $view = new VUser;

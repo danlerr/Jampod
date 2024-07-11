@@ -48,7 +48,7 @@ require_once 'StartSmarty.php';
         }
 
         public function showSearchResults($user, $podcasts, $query){
-            $this->smarty->assign('username', $user);
+            $this->smarty->assign('user', $user);
             $this->smarty->assign('podcasts', $podcasts);
             $this->smarty->assign('query', $query);
             $this->smarty->display('Smarty/templates/search.tpl');
