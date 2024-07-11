@@ -42,7 +42,7 @@ require_once 'StartSmarty.php';
         // }
 
         public function showForm($user, $categories){
-            $this->smarty->assign('username', $user);
+            $this->smarty->assign('user', $user);
             $this->smarty->assign('categories', $categories);
             $this->smarty->display('Smarty/templates/createPodcast.tpl');
         }

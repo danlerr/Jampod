@@ -7,7 +7,7 @@
 
             if (CUser::isLogged()){
                 $view = new VPodcast;
-                $userId = USession::getInstance()->getSessionElement('user');//->getId();
+                $userId = USession::getInstance()->getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
 
                 $podcast = new EPodcast(UHTTPMethods::post('podcast_name'),
