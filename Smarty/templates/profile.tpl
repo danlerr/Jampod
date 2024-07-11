@@ -1,4 +1,4 @@
-{include file="Smarty/templates/header.tpl" username=$username}
+{include file="Smarty/templates/header.tpl" username=$user->getUsername isAdmin=$user->isAdmin}
 
     
 
@@ -6,7 +6,7 @@
     <div class="page-body">
         <div class="container-xl">
             <!--username-->
-            <h1 class="text mb-5">{$username}</h1>
+            <h1 class="text mb-5">{$user->getUsername()}</h1>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 g-4">
                 {foreach $podcasts item=podcast}
                     <div class="col">

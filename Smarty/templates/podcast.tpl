@@ -1,4 +1,4 @@
-{include file="Smarty/templates/header.tpl" username=$username}
+{include file="Smarty/templates/header.tpl" username=$user->getUsername() isAdmin=$user->isAdmin()}
 
 
 

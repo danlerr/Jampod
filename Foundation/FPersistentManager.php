@@ -248,11 +248,11 @@
         public static function retrieveFeature(){
             $feature = FPodcast::retrieveFeaturePodcasts();
             // Codifica i dati binari dell'immagine in Base64
+            foreach($feature as &$podcast){
+                $podcast['image_data'] = base64_encode($podcast['image_data']);
+            }
             if ($feature){
-                foreach ($feature as &$podcast) {                 
-                    $podcast['image_data'] = base64_encode($podcast['image_data']);
-                    return $feature;
-                }
+                return $feature;
             }else{
                 return array();
             }

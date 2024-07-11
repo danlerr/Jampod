@@ -80,7 +80,7 @@
           <div class="navbar">
               <div class="container-xl d-flex justify-content-center">
                   <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
-                      <form action="/Jampod/Podcast/searchPodcasts/" method="post" autocomplete="off" novalidate>
+                      <form action="/Jampod/Podcast/searchPodcasts" method="post" autocomplete="off" novalidate>
                           <div class="input-icon">
                               <span class="input-icon-addon">
                                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -89,7 +89,7 @@
                                       <path d="M21 21l-6 -6"/>
                                   </svg>
                               </span>
-                              <input type="text" name="query" class="form-control" placeholder="Search…" aria-label="Search in website">
+                              <input type="text" name="query" class="form-control" placeholder="Search Podcasts…" aria-label="Search in website">
                           </div>
                       </form>
                   </div>

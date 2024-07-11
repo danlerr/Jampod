@@ -10,8 +10,8 @@ require_once 'StartSmarty.php';
     
         }
 
-        public function showPodcastPage($username, $podcast, $creator, $episodes, $userRole, $sub = null, $textalert = null, $success = null){
-            $this->smarty->assign('username', $username);
+        public function showPodcastPage($user, $podcast, $creator, $episodes, $userRole, $sub = null, $textalert = null, $success = null){
+            $this->smarty->assign('user', $user);
             $this->smarty->assign('podcast', $podcast);
             $this->smarty->assign('creator', $creator);
             $this->smarty->assign('episodes', $episodes);
@@ -24,8 +24,8 @@ require_once 'StartSmarty.php';
         }
          
 
-        public function showMyPodcastPage($username, $myPodcasts, $success = null, $textalert = null){
-            $this->smarty->assign('username', $username);
+        public function showMyPodcastPage($user, $myPodcasts, $success = null, $textalert = null){
+            $this->smarty->assign('user', $user);
             $this->smarty->assign('userPodcasts',$myPodcasts);
             $this->smarty->assign('success', $success);
             $this->smarty->assign('textalert', $textalert);
@@ -41,14 +41,14 @@ require_once 'StartSmarty.php';
 
         // }
 
-        public function showForm($username, $categories){
-            $this->smarty->assign('username', $username);
+        public function showForm($user, $categories){
+            $this->smarty->assign('username', $user);
             $this->smarty->assign('categories', $categories);
             $this->smarty->display('Smarty/templates/createPodcast.tpl');
         }
 
-        public function showSearchResults($username, $podcasts, $query){
-            $this->smarty->assign('username', $username);
+        public function showSearchResults($user, $podcasts, $query){
+            $this->smarty->assign('user', $user);
             $this->smarty->assign('podcasts', $podcasts);
             $this->smarty->assign('query', $query);
             $this->smarty->display('Smarty/templates/search.tpl');

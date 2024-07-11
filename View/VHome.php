@@ -27,10 +27,16 @@
             
         }
 
-        public function showCategory($username, $category_name, $category_podcasts){   //da prendere category_name giù 
-            $this->smarty->assign('username', $username);
+        public function showCategory($user, $category_name, $category_podcasts){   //da prendere category_name giù 
+            $this->smarty->assign('user', $user);
             $this->smarty->assign('category_name', $category_name);
             $this->smarty->assign('category_podcasts', $category_podcasts);
             $this->smarty->display('Smarty/templates/category.tpl');
+        }
+        public function showAbout($user) {
+            $this->smarty->assign('username',$user->getUsername());
+            $this->smarty->display('Smarty/templates/about.tpl');
+            
+
         }
     }

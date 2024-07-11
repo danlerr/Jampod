@@ -26,7 +26,9 @@ class CComment{
 
         $result = FPersistentManager::getInstance()->createObj($comment);
         if ($result) {
-            header('Location: /Jampod/Episode/visitEpisode/' . $episodeId);
+            $view=new VRedirect();
+            $view->redirect('/Jampod/Episode/visitEpisode/' . $episodeId);
+
             
         } else {
             $view = new VEpisode();
@@ -34,7 +36,7 @@ class CComment{
             
         }
     }
-
+    
     public static function deleteComment($comment_id){
         $userId=USession::getInstance()->getSessionElement('user');
         $comment=FPersistentManager::getInstance()->retrieveObj('EComment',$comment_id);
@@ -48,7 +50,9 @@ class CComment{
         }else{
             $result=FPersistentManager::getInstance()->deleteObj($comment);
             if ($result) {
-            header('Location: /Jampod/Episode/visitEpisode/' . $episode->getId());
+                $view=new VRedirect();
+                $view->redirect('/Jampod/Episode/visitEpisode/' . $episode->getId());
+            
             } else {
             $view->showError("Impossibile eliminare il commento");
             

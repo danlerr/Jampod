@@ -1,4 +1,4 @@
-{include file="Smarty/templates/header.tpl" username=$username email=$email}
+{include file="Smarty/templates/header.tpl" username=$username email=$email isAdmin=$isAdmin}
      {if isset($textalert) && $textalert}
         {if $success}
             {include file="Smarty/templates/successAlert.tpl"  textalert=$textalert}
