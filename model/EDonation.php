@@ -8,13 +8,8 @@
  * -sender_id: è un identificativo autoincrement, relativo all'utente che effettua la donazione;
  * -recipient_id:è un identificativo autoincrement, relativo all'utente che riceve la donazione;
  * -amount:somma donata;
- * -sender_balance: saldo presente sulla carta del donatore;
- * -recipient_balance: saldo presente sulla carta del ricevente;
  * -time: data e ora di quando è avvenuta la donazione
  * 
- * (??? aggiungere donazione a lista dei movimenti del sender e del recipient (quindi aggiungere attributo array 'movimenti' a EUser 
- * e passarlo al costruttore di donazione??
- * nel costruttore la donazione viene aggiunta agli array movimenti del sender e del recipient??)
  */
 class EDonation{
     /**

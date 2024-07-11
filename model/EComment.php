@@ -2,53 +2,52 @@
 
 /**
  * La classe EComment contiene tutte le proprietà (attributi e metodi) riguardanti un commento
- * Gli attributi o la descrivono sono:
+ * Gli attributi della classe sono:
  * -comment_id: è un identificativo autoincrement, relativo al commento;
  * -comment_text: testo del commento;
  * -comment_time: data e ora in cui viene scritto il commento;
  * -user_id: identificativo univoco utente che scrive il commento
  * -episode_id: identificativo episodio che viene commentato
- * 
+ * - parentCommentId: identificativo del commento genitore (se il commento è una risposta).
+ * - commentUsername: nome utente di chi ha scritto il commento.
  */
 class EComment{
-    /**
-     * identificativo univoco del commento
-     * @AttributeType int
+      /**
+     * Identificativo univoco del commento.
+     * @var int
      */
     private $comment_id;
 
     /**
      * testo del commento
-     * @AttributeType string
+     * @var string
      */
     private $comment_text;
     
 
     /**
      * data e ora in cui è avvenuto il commento
-     * @AttributeType Datetime
+     * @var Datetime
      */
     private  $comment_time;
 
     /**
      * utente che ha effettuato il commento
-     * @AttributeType int
+     * @var int
      */
     private $user_id;
 
 
     /**
-     * identificativo episodio commentato
-     * @AttributeType String
+     * identificativo univoco dell'episodio che viene commentato
+     * @var string
      */
     private $episode_id;
 
     
-
-
     /**
-     * identificativo commento commentato
-     * @AttributeType int
+     * identificativo del commento genitore, inizialmente nullo.
+     * @var  int|null
      */
     private $parentCommentId = null; // Campo parentCommentId, inizializzato a null
     private $commentUsername;
@@ -106,16 +105,36 @@ class EComment{
         return $this->episode_id;}
     
     /**
-     * Get the value of parentCommentId
+     * Restituisce l'identificativo del commento genitore.
      *
-     * @return $parentCommentId
+     * @return int|null
      */
     
     public function getParentCommentId() {
         return $this->parentCommentId;
     }
     
+     /**
+     * Restituisce la data e ora del commento in formato stringa.
+     *
+     * @return string
+     */
     
+     public function getTimetoStr()
+     {
+         return $this->comment_time->format('Y-m-d H:i:s');
+     }
+
+     /**
+     * Restituisce il nome utente di chi ha scritto il commento.
+     *
+     * @return string
+     */
+     
+    public function getCommentUsername() {
+        return $this->commentUsername;
+    }
+
 
     // SET METHODS
 
@@ -166,13 +185,6 @@ class EComment{
     public function setCommentUsername($commentUsername) {
         $this->commentUsername = $commentUsername;
     }
-    public function getCommentUsername() {
-        return $this->commentUsername;
-    }
 
-    
-    public function getTimetoStr()
-    {
-        return $this->comment_time->format('Y-m-d H:i:s');
-    }
+
 }

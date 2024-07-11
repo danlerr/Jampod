@@ -310,7 +310,7 @@ class CUser{
         if (!$card) {
             $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
             $view=new VUser();
-            $view->showUserCards($username, $creditCards,"Carta di credito non trovata o non autorizzata.", false);
+            $view->showUserCards($username, $creditCards,null,null);
             return;
         }
     
@@ -331,14 +331,20 @@ class CUser{
         $userId = USession::getInstance()->getSessionElement('user');
         $username = FPersistentManager::getInstance()->retrieveObj('EUser', $userId)->getUsername();
         $creditCards = FPersistentManager::getInstance()->retrieveMyCreditCards($userId);
+        print_r($creditCards);
     
        if(!empty($creditCards)){
             // Maschera i numeri delle carte di credito
             foreach ($creditCards as $card) {
-                $maskedNumber = FPersistentManager::getInstance()->maskCreditCardNumber($card->getCreditCardNumber());
-                $card->setCreditCardNumber($maskedNumber);
+                if ($card){
+                    $maskedNumber = FPersistentManager::getInstance()->maskCreditCardNumber($card->getCreditCardNumber());
+                    $card->setCreditCardNumber($maskedNumber);
+                }
             }
        }
+       if (count($creditCards)==0){
+        $creditCards=array();
+        }
         $view=new VUser();
         $view->showUserCards($username, $creditCards,$textAlert=null,$success=null);
     

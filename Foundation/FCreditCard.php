@@ -100,11 +100,14 @@ class FCreditCard{
     
     public static function retrieveOwnedCreditCards($userId){
         $queryResult=FDataBase::getInstance()->retrieve(self::getTable(),'user_id',$userId);
+        if(!$queryResult){
+            $cards=array();
+        }
         $cards=self::createEntity($queryResult);
         if (!is_array($cards)) {
             $cards = [$cards];
         }
-       
+        
         //R//$cards = array_filter($cards, function($card) {
             //return $card instanceof ECreditCard; // Assicurati che $card sia un'istanza valida della classe ECreditCard
         //});
