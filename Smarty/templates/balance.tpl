@@ -124,9 +124,9 @@
                             <label for="cartaSelezionata" class="form-label">Seleziona Carta di Credito</label>
                             <select class="form-select" id="cartaSelezionata">
                                 <option selected>Seleziona una carta...</option>
-                                <option value="1">Carta Visa **** 1234</option>
-                                <option value="2">Carta MasterCard **** 5678</option>
-                                <!-- Aggiungi altre carte qui -->
+                                {foreach from=$cards item=card}
+                                    <option value="{$card->getId()}">Carta   {$card->getCreditCardNumber()}</option>
+                                {/foreach}
                             </select>
                         </div>
                         <div class="d-flex justify-content-between">
