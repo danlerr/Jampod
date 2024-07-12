@@ -1,7 +1,7 @@
 {include file="Smarty/templates/header.tpl" username=$user->getUsername()}
 
 <!-- Form crea un nuovo podcast -->
-<div class="card">
+
     <div class="container" style="margin-top: 5%;margin-bottom: 5%;">
         <h1 class="mb-4">Crea un nuovo podcast</h1>
         <div class="row">
@@ -38,7 +38,7 @@
                 <!-- Bottone per salvare il podcast -->
                 <div class="row mt-3">
                     <div class="col-lg-8">
-                        <div class="mt-3 d-flex justify-content-end">
+                        <div class="mt-3 d-flex justify-content-left">
                             <button type="submit" class="btn btn-primary">Salva podcast</button>
                         </div>
                     </div>
@@ -46,6 +46,6 @@
             </form>
         </div>
     </div>
-</div>
+
 
 {include file="Smarty/templates/footer.tpl"}

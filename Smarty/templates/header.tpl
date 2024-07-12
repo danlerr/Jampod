@@ -7,9 +7,10 @@
     <title>Jampod</title>
     <!-- CSS files -->
     <link href="/Jampod/Smarty/dist/css/tabler.min.css" rel="stylesheet"/>
+    <link href="/Jampod/Smarty/dist/css/style1.css" rel="stylesheet"/>
     <link href="/Jampod/Smarty/dist/css/tabler-vendors.min.css" rel="stylesheet"/>
     <link href="/Jampod/Smarty/dist/css/demo.min.css" rel="stylesheet"/>
-	  <link href="/Jampod/Smarty/dist/css/style1.css" rel="stylesheet"/>
+	  
     
     
     

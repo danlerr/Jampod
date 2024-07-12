@@ -21,11 +21,11 @@
             <a href="/Jampod/Podcast/visitPodcast/{$podcast_id}" class="text-decoration-none text-dark">{$podcast_title}</a>
        </h3>
 	   <div class="episode-container  ">
-		 <div class="row justify-content-center gx-3 ms-3">  <!-- Centra la parte dell'episodio -->
+		 <div class="row justify-content-center gx-3 ">  <!-- Centra la parte dell'episodio -->
 			 <!-- Colonna sinistra per l'immagine dell'episodio e il titolo -->
 			 <div class="col-lg-4 col-md-4 align-self-center">
-				 <div class="text-center">
-					 <img src="data:{$mimetype};base64,{$imagedata}" alt="Episode image" class="media-album-icon">
+				 <div class="text-center ">
+					 <img src="data:{$mimetype};base64,{$imagedata}" alt="Episode image" class="rounded">
 				 </div>
 				 
 			 </div>
@@ -55,10 +55,10 @@
 					  
 						 <!-- Define the section for displaying the seek slider-->
 						 <div class="slider_container ">
-						   <div class="current-time hidden">00:00</div>
+						   <div class="current-time ">00:00</div>
 						   <input type="range" min="1" max="100"
 							 value="0" class="seek_slider" onchange="seekTo()">
-						   <div class="total-duration hidden">00:00</div>
+						   <div class="total-duration ">00:00</div>
 						 </div>
 					  
 						 <!-- Define the section for displaying the volume slider-->

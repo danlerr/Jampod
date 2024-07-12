@@ -1,7 +1,6 @@
 {include file="Smarty/templates/header.tpl" username=$user->getUsername() isAdmin=$user->isAdmin()}
 
     
-
     <!--sezione profilo-->
     <div class="page-body">
         <div class="container-xl">

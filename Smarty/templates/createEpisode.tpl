@@ -1,6 +1,6 @@
 {include file="Smarty/templates/header.tpl" username=$username}
 
-   <div class="card">
+   
     <div class="container" style="margin-top: 5%; margin-bottom: 5%;">
         <h1 class="mb-4">Crea un nuovo episodio</h1>
         <div class="row">
@@ -30,7 +30,7 @@
                     <!-- Bottone per salvare l'episodio -->
                     <div class="row mt-3">
                         <div class="col-lg-8">
-                            <div class="mt-3 d-flex justify-content-end">
+                            <div class="mt-3 d-flex justify-content-left">
                                 <button type="submit" class="btn btn-primary">Salva episodio</button>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 
 {include file="Smarty/templates/footer.tpl"}

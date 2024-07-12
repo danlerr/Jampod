@@ -33,7 +33,7 @@
                         <th>Data</th>
                         <th>Descrizione</th>
                         <th>Importo</th>
-                        <th>Ricevuta da</th>
+                        <th style="width: 150px; text-align: right;">Inviata da</th>
 
                     </tr>
                 </thead>
@@ -49,7 +49,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="movimenti-section bg-white p-4 rounded shadow-sm">
+        <div class="movimenti-section bg-white p-4 rounded shadow-sm mt-5">
             <h2>Donazioni in uscita</h2>
             <table class="table table-striped mt-3">
                 <thead>
@@ -57,7 +57,7 @@
                         <th>Data</th>
                         <th>Descrizione</th>
                         <th>Importo</th>
-                        <th>Inviata a</th>
+                        <th style="width: 150px; text-align: right;">Inviata a</th>
                     </tr>
                 </thead>
                 <tbody>

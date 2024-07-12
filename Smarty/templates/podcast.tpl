@@ -3,10 +3,7 @@
 
 
 <style>
-      .podcast-container {
-            display: flex;
-            gap: 20px;
-        }
+      
         .podcast-cover {
             display: flex;
             justify-content: center;
@@ -50,7 +47,7 @@
             </div>
             <h3 class="text mb-1"><a href="/Jampod/User/profile/{$creator->getId()}" style="text-decoration: none;">{$creator->getUsername()}</a></h3>
             <small class="text mb-5">{$podcast->getPodcastCategory()}  |  creato il {$podcast->getTimeToStr()}</small>
-            <h4 class="text mb-5 mt-5">Descrizione:{$podcast->getPodcastDescription()}</h4>
+            <h4 class="text mb-5 mt-5">Descrizione: {$podcast->getPodcastDescription()}</h4>
             
             <div class="podcast-container">
                 <!-- Copertina del podcast -->
@@ -76,12 +73,10 @@
                                             {$episode->getEpisode_title()}
                                         </div>
                                    
-                                        <div class="col-auto">
-                                            <img src="data:{$episode->getImageMimeType()};base64,{$episode->getEncodedImageData()}" class="rounded" alt="{$episode->getEpisode_title}" width="40" height="40">
-                                        </div>
+                                        
                                         <div class="col">
                                             
-                                                {$episode->getEpisode_title()}
+                                                {$episode->getEpisode_description()}
                                             
                                         </div>
                                         <div class="col-auto text-secondary">

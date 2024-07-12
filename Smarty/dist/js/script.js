@@ -68,9 +68,8 @@ function playpauseTrack(element) {
     }
     playTrack();
 
-    // Mostra il minutaggio quando si clicca su play
-    curr_time.classList.remove('hidden');
-    total_duration.classList.remove('hidden');
+    
+
 
     // Cambia l'icona del bottone a pausa
     element.innerHTML = '<i class="fa fa-pause-circle fa-5x"></i>';

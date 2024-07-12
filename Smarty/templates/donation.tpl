@@ -14,15 +14,15 @@
             <div class="col-md-4 d-flex justify-content-center">
                 <img src="/Jampod/Smarty/images/quartz.png" class="img-fluid img-custom-size" alt="Image description">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 ms-auto ">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <h4 class="row justify-content-end mb-5">Stai donando a </h4>
-                            </div>
-                            <div class="col-6">
-                                <h4 class="fw-bold justify-content-end mb-5 text-primary">{$creator}</h4>
+                        <div class="container">
+                            <div class="row text-center">
+                                <div class="col">
+                                    <h4 class="mb-0">Stai donando a</h4>
+                                    <h4 class="fw-bold text-primary">{$creator}</h4>
+                                 </div>
                             </div>
                         </div>
                         <form method="post" action="/Jampod/Donation/createDonation/{$recipient_id}">

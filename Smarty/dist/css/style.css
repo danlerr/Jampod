@@ -122,8 +122,13 @@ i {
     
 }
 .media-album-icon {
-    max-width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  flex: 0 0 200px;
+  
+  
 }
 
 
@@ -164,20 +169,8 @@ i {
     justify-content: center;
   }
    
-  .details {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 25px;
-  }
-   
   
-   
 
-
-   
-  
   .buttons {
     display: flex;
     flex-direction: column;
@@ -206,7 +199,7 @@ i {
    
   /* Define the slider width so that it scales properly */
   .slider_container {
-    width: 75%;
+    width: 100%;
     max-width: 400px;
     display: flex;
     justify-content: center;
