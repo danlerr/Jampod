@@ -14,8 +14,13 @@
                     <li><strong>Comunità:</strong> Entrando a far parte di Jampod, accedi a una comunità di appassionati che condividono il tuo interesse per i podcast.</li>
                     <li><strong>Innovazione:</strong> Siamo sempre al lavoro per migliorare la nostra piattaforma e offrire nuove funzionalità che rendano la tua esperienza ancora migliore.</li>
                 </ul>
+                
                 <p class="text-justify">Sia che tu voglia ascoltare podcast di alta qualità o creare i tuoi contenuti, Jampod è il posto giusto per te. Unisciti a noi oggi e scopri il potere del podcasting.</p>
+                <p class="text-justify">Realizzato da : Daniele Antonucci, Elisabetta Casciano, Leonardo Pastorelli</p>
+
             </div>
+
+
         </div>
     </div>
 

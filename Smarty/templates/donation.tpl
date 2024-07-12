@@ -36,7 +36,7 @@
                                 <textarea class="form-control" style="resize: none;" id="donationDescription" name="donationDescription" rows="3" placeholder="Inserisci la descrizione della donazione" required></textarea>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Dona</button>
+                                <button type="submit" class="btn btn-purple">Dona</button>
                             </div>
                         </form>
                     </div>

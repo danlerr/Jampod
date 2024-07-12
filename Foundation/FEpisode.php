@@ -24,7 +24,7 @@ public static function getKey(){
     return self::$key;
 }
 
-//"converte" il contenuto dell'array risultante da una query in oggetto entity della rispettiva classe
+//"converte" il contenuto dell'array risultante da una query in oggetto entity della rispettiva classe se il risultato della query è uno, in un array di oggetti altrimenti
 public static function createEntity($queryResult) {
     $episodes = array();
 
@@ -91,7 +91,7 @@ public static function retrieveObject($episode_id){
         return null;
     }
 }
-//metodo per aggiornare l'oggetto 
+//metodo per aggiornare l'oggetto episodio nel db 
 
 
 public static function updateObject($obj, $field, $fieldValue){
@@ -113,7 +113,7 @@ public static function deleteObject($id){
   }
 
 
-
+//metodo che restituisce tutti gli episodi in un podcast
 public static function retrieveMoreEpisodes($podcast_id) {
     $result = FDataBase::getInstance()->retrieve(self::getTable(), FPodcast::getKey(), $podcast_id); 
     
@@ -127,6 +127,7 @@ public static function retrieveMoreEpisodes($podcast_id) {
         return array();
     }
 }
+//metodo che restituisce un array con i dati della traccia audio e il mimetype
 public static function retrieveAudioTrack($episode_id) {
     try {
         $episode = self::retrieveObject($episode_id);

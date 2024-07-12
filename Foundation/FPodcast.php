@@ -197,11 +197,10 @@
     public static function randomPodcasts(){
         $podcasts = FDataBase::getInstance()->retrieveAll(self::getTable());
         shuffle($podcasts);
-        $rand5 = array_slice($podcasts, 5);
-
-        return $rand5;
+        $rand5 = array_slice($podcasts, 0, 10); // Estrae i primi 5 elementi casuali dall'array mescolato
+    
+        return $rand5; // Ritorna solo i 5 podcast casuali
     }
-
     public static function myPodcasts($user_id){
         $myPodcasts = FDataBase::getInstance()->retrieve(self::getTable(), 'user_id', $user_id);
         return $myPodcasts;

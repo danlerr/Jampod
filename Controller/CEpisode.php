@@ -1,6 +1,7 @@
 <?php
 class CEpisode {
 
+//metodo per avere la form di creazione dell'episodio
 public static function creationEpisodeForm($podcast_id) {
     if (Cuser::isLogged()){
         $view = new VEpisode;
@@ -9,7 +10,7 @@ public static function creationEpisodeForm($podcast_id) {
 
 }
 
-//metodo per fare l'upload di un episodio in un podcast
+//metodo per eseguire l'upload di un episodio in un podcast
 public static function uploadEpisode($podcast_id)
 {
     if (CUser::isLogged()) {
@@ -114,7 +115,7 @@ public static function deleteEpisode($episode_id)
     } 
 }
 
-
+//metodo per visualizzare un episodio insieme alle sue votazioni, ascolti e commenti
 public static function visitEpisode($episode_id) {  
     if (CUser::isLogged()) {
         $view = new VEpisode();
@@ -136,11 +137,11 @@ public static function visitEpisode($episode_id) {
             $commentAndReplies = FPersistentManager::getInstance()->commentAndReplies($episode_id); // Array di commenti e risposte
             $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
             $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $votevalue, $avgVote); 
-            // Passa l'episodio,  podcast e username del creator, commenti e risposte ,voto medio, valore del voto dell'utente e immagine episodio alla vista
+            // Passa l'utente in sessione,l'episodio,  podcast e username del creator, commenti e risposte ,voto medio, valore del voto dell'utente
         } 
     } 
 }
-
+//metodo per restituire al broswer i dati della traccia e impostare il content-type/lenght
 public static function listenEpisode($episode_id) {
     $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id); 
 
@@ -154,11 +155,14 @@ public static function listenEpisode($episode_id) {
     }
 
     // Imposta l'header Content-Type per il tipo MIME dell'audio
-    header('Content-Type: ' . $audioTrack['audiomimetype']);
-    header('Content-Length: ' . strlen($audioTrack['audiodata'])); // Imposta la lunghezza del contenuto
+    $view = new VRedirect();
+    $view->setHeader('Content-Type: ' . $audioTrack['audiomimetype']);
+    $view->setHeader('Content-Length: ' . strlen($audioTrack['audiodata']));
+    
     // Restituisci i dati dell'audio al broswer direttamente come blob
     echo $audioTrack['audiodata'];
 }
+//metodo per incrementare il numero di ascolti
 public static function incrementEpisodeStreams($episode_id) {
     $episode = FPersistentManager::getInstance()->retrieveObj('EEpisode', $episode_id); 
     if ($episode) {
@@ -170,7 +174,7 @@ public static function incrementEpisodeStreams($episode_id) {
 }
 
 
-//permette all'utente di votare o di aggiornare il proprio voto 
+//metodo per permettere all'utente di votare o di aggiornare il proprio voto 
 public static function voteEpisode($episode_id) {
     if (CUser::isLogged()) { 
         $view = new VEpisode();
