@@ -15,29 +15,37 @@ class CDonation{
             $view = new VDonation;
             $userId = USession::getInstance()->getSessionElement('user');
             $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
-            $donation = new EDonation(UHTTPMethods::post('amount'), UHTTPMethods::post('donationDescription'), $userId, $recipient_id);
-            $result = FPersistentManager::getInstance()->createObj($donation);
+            $amount = UHTTPMethods::post('amount');
             $sender = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
             $recipient = FPersistentManager::getInstance()->retrieveObj('EUser', $recipient_id);
             $creator_username = $recipient->getUsername();
-            if ($result) {
-                $senderBalance = floatval($sender->getBalance());
+            $senderBalance = $sender->getBalance();
+            
+            if ($amount>0 && $usersession->getBalance()>$amount){
+                $donation = new EDonation(UHTTPMethods::post('amount'), UHTTPMethods::post('donationDescription'), $userId, $recipient_id);
+                $result = FPersistentManager::getInstance()->createObj($donation);
 
-                $donationAmount = floatval($donation->getDonationAmount());
+                if ($result) {
+                    $senderBalance = floatval($sender->getBalance());
 
-                $recipientBalance = floatval($recipient->getBalance());
+                    $donationAmount = floatval($donation->getDonationAmount());
 
-                $newBalanceSender = $senderBalance - $donationAmount;
-                $sender->setBalance($newBalanceSender);
-                $newBalanceRecipient = $recipientBalance + $donationAmount;
-                $sender->setBalance($newBalanceRecipient);
+                    $recipientBalance = floatval($recipient->getBalance());
 
-                FPersistentManager::getInstance()->updateObj($sender, 'balance', $newBalanceSender);
-                FPersistentManager::getInstance()->updateObj($recipient, 'balance', $newBalanceRecipient);
-                $view->showDonation($usersession,$recipient_id, $creator_username, $senderBalance, "Donazione effettuata con successo!", true);
-            } else {
-                $senderBalance = floatval($sender->getBalance());
-                $view->showDonation($usersession,$recipient_id, $creator_username, $senderBalance, "Problemi con l'invio della donazione.", false);
+                    $newBalanceSender = $senderBalance - $donationAmount;
+                    $sender->setBalance($newBalanceSender);
+                    $newBalanceRecipient = $recipientBalance + $donationAmount;
+                    $sender->setBalance($newBalanceRecipient);
+
+                    FPersistentManager::getInstance()->updateObj($sender, 'balance', $newBalanceSender);
+                    FPersistentManager::getInstance()->updateObj($recipient, 'balance', $newBalanceRecipient);
+                    $view->showDonation($usersession,$recipient_id, $creator_username, $senderBalance, "Donazione effettuata con successo!", true);
+                } else {
+                    $senderBalance = floatval($sender->getBalance());
+                    $view->showDonation($usersession,$recipient_id, $creator_username, $senderBalance, "Problemi con l'invio della donazione.", false);
+                }
+            }else{
+                $view->showDonation($usersession,$recipient_id, $creator_username, $senderBalance, "Impossibile effettuare la donazione, saldo insufficiente.", false);
             }
         }
     }
