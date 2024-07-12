@@ -71,7 +71,7 @@
                                             <form action="/Jampod/User/addCreditCard" method="post">
                                                 <div class="mb-3">
                                                     <label for="numeroCarta" class="form-label">Numero Carta</label>
-                                                    <input type="text" class="form-control" id="numeroCarta" name="card_number" placeholder="Inserisci numero carta">
+                                                    <input type="text" class="form-control" id="numeroCarta" name="card_number" placeholder="Inserisci numero carta" maxlength="19">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="nomeTitolare" class="form-label">Nome Titolare</label>
@@ -79,11 +79,11 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="dataScadenza" class="form-label">Data di Scadenza</label>
-                                                    <input type="text" class="form-control" id="dataScadenza" name="expiration_date" placeholder="MM/AA">
+                                                    <input type="text" class="form-control" id="dataScadenza" name="expiration_date" placeholder="MM/AA" maxlength="5">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="cvv" class="form-label">CVV</label>
-                                                    <input type="text" class="form-control" id="cvv" name="security_code" placeholder="CVV">
+                                                    <input type="text" class="form-control" id="cvv" name="security_code" placeholder="CVV" maxlength="3">
                                                 </div>
                                                 <div class="text-end">
                                                     <button type="submit" class="btn btn-outline-success" id="confermaAggiungiCarta">Conferma Aggiunta Carta</button>
