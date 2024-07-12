@@ -30,7 +30,7 @@
                 <div class="col">
                     <a href="/Jampod/Home/visitCategory/{$category}" class="d-block aspect-ratio-1x1" style="text-decoration: none;">
                         <div class="card" style = "height: 50px;" >
-                            <div class="card-body">
+                            <div class="card-body d-flex justify-content-center align-items-center">
                             <h5 class="card-title">{$category}</h5>
                             </div>
                         </div>
