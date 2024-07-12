@@ -90,8 +90,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="cartaSelezionata" class="form-label">Seleziona Carta di Credito</label>
-                            <select class="form-select" id="cartaSelezionata">
-                                <option selected>Seleziona una carta...</option>
+                            <select class="form-select" id="cartaSelezionata" required>
+                                <option value="" selected disabled>Seleziona una carta...</option>
                                 {foreach from=$cards item=card}
                                     <option value="{$card->getId()}">Carta   {$card->getCreditCardNumber()}</option>
                                 {/foreach}
@@ -122,8 +122,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="cartaSelezionata" class="form-label">Seleziona Carta di Credito</label>
-                            <select class="form-select" id="cartaSelezionata">
-                                <option selected>Seleziona una carta...</option>
+                            <select class="form-select" id="cartaSelezionata" required>
+                                <option value="" selected disabled>Seleziona una carta...</option>
                                 {foreach from=$cards item=card}
                                     <option value="{$card->getId()}">Carta   {$card->getCreditCardNumber()}</option>
                                 {/foreach}
