@@ -19,8 +19,10 @@
                 if ($imageInfo){
                     $podcast->setImageData((CFile::getImageInfo()['imagedata']));
                     $podcast->setImageMimetype(CFile::getImageInfo()['imagemimetype']);
+                    
                 }else{
                     $view->showError("Problemi con il caricamento dell'immagine di copertina :(");
+                    return;
                 }
 
                 $result = FPersistentManager::getInstance()->createObj($podcast);
