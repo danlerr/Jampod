@@ -16,6 +16,14 @@
     
     <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/comments-forms/comment-form-1/assets/css/comment-form-1.css" />
 	  <link href="/Jampod/Smarty/dist/libs/star-rating.js/dist/star-rating.min.css?1692870487" rel="stylesheet"/>
+    <script>
+        function ready(){
+            if (!navigator.cookieEnabled) {
+                alert('Attenzione! Attivare i cookie per proseguire correttamente la navigazione');
+            }
+        }
+        document.addEventListener("DOMContentLoaded", ready);
+    </script>
     
     <style>
       @import url('https://rsms.me/inter/inter.css');

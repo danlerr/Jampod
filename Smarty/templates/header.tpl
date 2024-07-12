@@ -10,6 +10,14 @@
     <link href="/Jampod/Smarty/dist/css/style1.css" rel="stylesheet"/>
     <link href="/Jampod/Smarty/dist/css/tabler-vendors.min.css" rel="stylesheet"/>
     <link href="/Jampod/Smarty/dist/css/demo.min.css" rel="stylesheet"/>
+    <script>
+        function ready(){
+            if (!navigator.cookieEnabled) {
+                alert('Attenzione! Attivare i cookie per proseguire correttamente la navigazione');
+            }
+        }
+        document.addEventListener("DOMContentLoaded", ready);
+    </script>
 	  
     
     
