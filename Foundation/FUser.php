@@ -28,7 +28,7 @@
         return self::$key;
     }
 
-    public static function createObject($obj){            //metodo per "salvare" un oggetto user dal DB
+    public static function createObject($obj){            //metodo per "salvare" un oggetto user nel DB
 
         $ObjectUserId = FDataBase::getInstance()->create(self::class, $obj);
         if($ObjectUserId !== null){
@@ -49,7 +49,7 @@
         }
     }
 
-    public static function updateObject($obj, $field, $fieldValue){            //metodo per aggiornare un oggetto user dal DB
+    public static function updateObject($obj, $field, $fieldValue){            //metodo per aggiornare un oggetto user nel DB
 
         $result = FDatabase::getInstance()->update(self::getTable(), $field, $fieldValue, self::getKey(), $obj->getId());
         if($result){
@@ -124,6 +124,7 @@
             return false;
         }
     }
+    // ritorna un oggetto utente inserendo lo username come parametro
     public static function getUserByUsername($username)
     {
         $result = FDataBase::getInstance()->retrieve(FUser::getTable(), 'username', $username);
@@ -140,7 +141,7 @@
         $user = self::retrieveObject($user_id);
         return $user->getUsername();
     }
-
+    //prende e restituisce tutti gli utenti dal db
     public static function retrieveAll(){
         $users = FDataBase::getInstance()->retrieveAll(self::getTable());
         if (!is_array($users)){

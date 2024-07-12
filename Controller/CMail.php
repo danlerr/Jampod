@@ -1,5 +1,6 @@
 <?php
-
+//la classe CMail viene utilizzata per mandare delle email a coloro che sono iscritti a un podcast. Un utente può iscriversi a un podcast e ogni volta che viene caricato
+//un episodio in quel podcast riceverà una email con le informazioni dell'episodio caricato.
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';

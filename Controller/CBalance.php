@@ -2,7 +2,7 @@
     
     class CBalance{
         
-        public static function viewBalance() {            //letsgo
+        public static function viewBalance() {            
             // Verifica se l'utente è loggato
             if (CUser::isLogged()) {
                 $view = new VBalance;
@@ -25,7 +25,7 @@
             }
         }
 
-        public static function rechargeBalance() {            //letsgo
+        public static function rechargeBalance() {            
             // Verifica se l'utente è loggato
             if (CUser::isLogged()) {
                 $view = new VBalance();
@@ -72,11 +72,11 @@
                 }     
             } else {
                 $view = new VBalance;
-                $view->showError("Errore: utente non loggato.");      //log control??
+                $view->showError("Errore: utente non loggato.");      
             }
         }
 
-        public static function withdrawBalance() {         //da commentare      //letsgo
+        public static function withdrawBalance() {         //da commentare      
             if (CUser::isLogged()) {
                 $view = new VBalance();
                 $userId = USession::getInstance()->getSessionElement('user');
@@ -113,7 +113,7 @@
                 }
             }else{
                 $view = new VBalance();
-                $view->showError("Errore: utente non loggato.");  //log control??
+                $view->showError("Errore: utente non loggato.");  
             }
         }
     }

@@ -23,7 +23,7 @@ public static function getClass(){
 public static function getKey(){
     return self::$key;
 }
-//"converte" il contenuto dell'array risultante da una query in oggetto entity della rispettiva classe
+//"converte" il contenuto dell'array risultante da una query in oggetto entity della rispettiva classe, o in un array se ci sono più elementi dalla query
 public static function createEntity($queryResult) {
     $votes = array();
 

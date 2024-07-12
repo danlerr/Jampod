@@ -162,7 +162,8 @@ class FComment{
         }
 
 
-    // Metodo che ritorna un array di array in cui sono presenti [commento, risposte a quel commento]
+    // Metodo che ritorna un array di array in cui sono presenti [commento, risposte a quel commento]. Le risposte al commento possono essere un altro array strutturato allo stesso modo.
+    //Grazie a questo metodo prendiamo tutti i commenti principali (cioè che non sono risposte) ed estraiamo tutte le risposte, che eventualmente avranno altre risposte.
     public static function getCommentAndReplies($episode_id) {
         $commentAndReplies = [];
 

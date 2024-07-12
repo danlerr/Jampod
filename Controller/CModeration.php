@@ -1,7 +1,8 @@
 <?php
     class CModeration{
 
-
+        //showDashboard() è una funzione che mostra la dashboard dell'amministratore. L'amministratore può visualizzare sulla dashboard tutti gli utenti del sito e eventualmente
+        //visualizzare tutti i loro contenuti caricati. L'amministratore può eventualmente procedere con l'eliminazione dell'utente.
         public static function showDashboard(){
             $adminId = USession::getInstance()->getSessionElement('user');
             $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $adminId);
@@ -16,6 +17,7 @@
                 $view->showError('Non sei admin!');
             }
         }
+        //funzione che mostra tutti i podcast di un determinato utente. L'amministratore può eventualmente procedere con l'eliminazione del podcast.
         public static function showUserPodcasts($user_id){
             $adminId = USession::getInstance()->getSessionElement('user');
             $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $adminId);
@@ -34,6 +36,7 @@
                 $view->showError('Non sei admin!');
             }
 }
+        //funzione che mostra tutti gli episodi di un determinato podcast. L'amministratore può eventualmente procedere con l'eliminazione dell'episodio.
         public static function showEpisodePodcasts($podcast_id) {
             $adminId = USession::getInstance()->getSessionElement('user');
             $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $adminId);
@@ -53,6 +56,7 @@
             }
 
 }
+        //funzione che mostra tutti i commenti di un determinato episodio. L'amministratore può eventualmente procedere con l'eliminazione del commento.
         public static function showEpisodeComments($episode_id) {
             $adminId = USession::getInstance()->getSessionElement('user');
             $admin = FPersistentManager::getInstance()->retrieveObj('EUser', $adminId);
@@ -72,6 +76,7 @@
                 $view->showError('Non sei admin!');
             }
         }
+        //funzione utilizzata dall'admin per eliminare un utente
         public static function deleteUser($user_id){
 
             if (CUser::isLogged()){
@@ -92,7 +97,7 @@
         
         }
 
-
+        //funzione utilizzata dall'admin per eliminare un podcast
         public static function deletePodcast($podcast_id){            
 
             if(CUser::isLogged()){
@@ -110,7 +115,7 @@
                 }
             }
         }
-
+        //funzione utilizzata dall'admin per eliminare un episodio
         public static function deleteEpisode($episode_id){            
 
             if(CUser::isLogged()){
@@ -128,7 +133,7 @@
                 }
             }
         }
-
+        //funzione utilizzata dall'admin per eliminare un commento
         public static function deleteComment($comment_id){            
 
             if(CUser::isLogged()){

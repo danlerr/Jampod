@@ -124,7 +124,7 @@
         public static function getDb(){
             return self::$db;
         }
-
+        //metodo che prende degli elementi nel db utilizzando due condizioni nella where della query
         public static function loadMoreAttributesObjects($table, $field1, $id1, $field2, $id2)
         {
             try {
@@ -141,7 +141,7 @@
             }
         }
 
-
+        
         public static function existInDb($queryResult)
         {
             // Verifica se $queryResult è un array o un oggetto

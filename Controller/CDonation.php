@@ -3,14 +3,14 @@
 class CDonation{
 
     /**
-     * Create a donation taking info from the compiled form
+     * Crea una donazione prendendo le informazioni dal form
      * @param int $podcastId Refers to the id of the podcast to which a donation has been made
      * 
      * // Per creare una donazione
      *CDonation::createDonation($donationId);
      */
 
-    public static function createDonation($recipient_id) {             //letsgo
+    public static function createDonation($recipient_id) {            
         if (CUser::isLogged()){
             $view = new VDonation;
             $userId = USession::getInstance()->getSessionElement('user');
@@ -49,8 +49,8 @@ class CDonation{
             }
         }
     }
-
-    public static function donationForm($podcast_id){          //letsgo
+    //metodo per mostrare la form della donazione all'utente
+    public static function donationForm($podcast_id){          
         if (CUser::isLogged()) {
             $userId = USession::getInstance()->getSessionElement('user');
             $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);

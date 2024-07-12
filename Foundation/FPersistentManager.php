@@ -167,9 +167,9 @@
             return FEpisode::retrieveAudioTrack($episode_id);
         }
     //-------------------------------------VOTE-----------------------------------------------------
-
+        //calcola e restituisce il voto medio in un episodio
         public static function getAverageVoteOnEpisode($episode_id) {
-            $votesOnEpisode = FVote::retrieveVotesOnEpisode($episode_id);
+            $votesOnEpisode = FVote::retrieveVotesOnEpisode($episode_id); //funzione per prendere tutti i voti di un episodio
         
             if (empty($votesOnEpisode)) {
                 return 0; // O è il valore che indichi che non ci sono voti
@@ -185,13 +185,14 @@
             $avgVote = $sum / $count; // media
             return round($avgVote, 1); //arrotondata
         }
-//verifica se esiste un voto da parte di un utente su un determinato episodio. Ritorna true se esiste, false altrimenti
+//verifica se esiste un voto da parte di un utente su un determinato episodio. Il risultato è  true se esiste, insieme all'oggetto voto, false altrimenti
 
         public static function checkVote($episode_id, $user_id) {
             $result = FVote::voteValidation($user_id, $episode_id);
             return $result;
 
         }
+        //controllo del valore del voto, deve essere da 1 a 5
         public static function checkVoteValue($value) {
             if ($value>0 and $value<=5) {
                 return true;

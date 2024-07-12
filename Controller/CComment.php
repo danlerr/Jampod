@@ -3,7 +3,7 @@
 class CComment{
 
     /**
-     * Create a comment taking info from the compiled form and associate it to the post
+     * Crea un commento prendendo le informazioni dal form compilato
      * @param int $episodeId Refers to the id of the episode
      * @param int|null $parentCommentId Refers to the id of the parent comment (if any)
      * 
@@ -36,7 +36,7 @@ class CComment{
             
         }
     }
-    
+    //metodo per eliminare un commento
     public static function deleteComment($comment_id){
         $userId=USession::getInstance()->getSessionElement('user');
         $comment=FPersistentManager::getInstance()->retrieveObj('EComment',$comment_id);

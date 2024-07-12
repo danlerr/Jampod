@@ -49,7 +49,7 @@ public static function bind($stmt, ESubscribe $subscribe){
    
   
 }
-//metodo per "salvare" un oggetto iscrizione dal DB. 
+//metodo per "salvare" un oggetto iscrizione nel DB. 
 public static function createObject(ESubscribe $obj){ 
     $ObjectSubscribe_id = FDataBase::getInstance()->create(self::getClass(), $obj); //restituisce l'id assegnato dal db all'oggetto subscribe
     if( $ObjectSubscribe_id !== null){
