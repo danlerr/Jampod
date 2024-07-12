@@ -18,7 +18,7 @@ let updateTimer;
 // Creazione dell'elemento audio nell'html per il player
 let curr_track = document.createElement('audio');
 
-// Funzione per caricare e riprodurre la traccia audio dal backend
+// Funzione per caricare e riprodurre la traccia audio dal backend attraverso una fetch (richiesta http)
 function loadAudioTrack(episode_id) {
   fetch('/Jampod/Episode/listenEpisode/' + episode_id) 
       .then(response => { // gestione della risposta
@@ -42,7 +42,7 @@ function loadAudioTrack(episode_id) {
 
 // Funzione per caricare una traccia audio dalla forma blob
 function loadTrackFromBlob(blobData) {
-  let blobUrl = URL.createObjectURL(blobData);
+  let blobUrl = URL.createObjectURL(blobData); //creazione url
 
   curr_track.src = blobUrl;
   curr_track.load();
@@ -107,30 +107,31 @@ function seekTo() {
 }
 
 function setVolume() {
-  // Set the volume according to the percentage of the volume slider set
+  //Imposta il valore in base alla percentuale del volume slider
+  
   curr_track.volume = volume_slider.value / 100;
 }
 
 function seekUpdate() {
   let seekPosition = 0;
-  // Check if the current track duration is a legible number
+  
   if (!isNaN(curr_track.duration)) {
       seekPosition = curr_track.currentTime * (100 / curr_track.duration);
       seek_slider.value = seekPosition;
  
-      // Calculate the time left and the total duration
+      
       let currentMinutes = Math.floor(curr_track.currentTime / 60);
       let currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
       let durationMinutes = Math.floor(curr_track.duration / 60);
       let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
  
-      // Add a zero to the single digit time values
+      
       if (currentSeconds < 10) { currentSeconds = "0" + currentSeconds; }
       if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
       if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
       if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
  
-      // Display the updated duration
+      // Mostra la durata aggiornata
       curr_time.textContent = currentMinutes + ":" + currentSeconds;
       total_duration.textContent = durationMinutes + ":" + durationSeconds;
   }
@@ -254,12 +255,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const ratingSelect = document.getElementById('rating-default');
   const submitButton = document.getElementById('rating-submit');
 
-  // Imposta il valore del selettore in base al valore del voto dell'utente
+  // Imposta il valore del selettore di stelle in base al valore del voto dell'utente
   if (userRating) {
       ratingSelect.value = userRating;
   }
 
-  // Inizializza il sistema di stelle per lo star rating
+  // Inizializza il sistema di stelle per lo star rating 
   const rating = new StarRating('#rating-default', {
       tooltip: false,
       clearable: false,
@@ -267,7 +268,7 @@ document.addEventListener("DOMContentLoaded", function () {
           el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="icon gl-star-full icon-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" stroke-width="0" fill="currentColor" /></svg>`;
       },
   });
-// Inizializza stella statica per l'avg
+// Inizializza stella statica che è situata dopo il voto medio
   const avg = new StarRating('#avgrating', {
       tooltip: false,
       clearable: false,

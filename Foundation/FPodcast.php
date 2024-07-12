@@ -190,7 +190,7 @@
     }
 
     public static function retrieveNewPods(){
-        $new = FDataBase::getInstance()->retrieveNewObj(self::getTable(), 5);
+        $new = FDataBase::getInstance()->retrieveNewObj(self::getTable(), 10);
         return $new;
     }
 

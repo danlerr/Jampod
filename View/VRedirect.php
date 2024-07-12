@@ -1,5 +1,5 @@
 <?php
-
+//La classe VRedirect contiene alcuni metodi che richiamano la funzione header di php che invia intestazioni http al client.
 class VRedirect{
     
     /**
