@@ -82,6 +82,7 @@
                                         <div class="col-auto text-secondary">
                                             {$episode->getTimeToStr()}
                                         </div>
+                                        {if $userRole=='creator'}
                                         <div class="col-auto lh-1">
                                             <div class="dropdown">
                                                 <a href="#" class="link-secondary" data-bs-toggle="dropdown">
@@ -97,6 +98,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {/if}
                                      </a>
                                     </div>
                                 </div>
