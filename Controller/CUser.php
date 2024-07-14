@@ -7,10 +7,10 @@ class CUser{
         * check if the user is logged (using session)
         * @return boolean
         */
-        public static function isLogged() {              //letsgo
+        public static function isLogged() {            
             $logged = false;
     
-            // Verifica se il cookie di sessione PHPSESSID è impostato
+            //Verifica se il cookie di sessione PHPSESSID è impostato
             if (UCookie::isSet('PHPSESSID')) {
                 // Controlla se la sessione non è ancora avviata
                 if (session_status() == PHP_SESSION_NONE) {
@@ -35,8 +35,8 @@ class CUser{
         }
 
         
-        public static function loginForm(){              //letsgo
-            // Verifica se il cookie di sessione PHPSESSID è impostato
+        public static function loginForm(){             
+            //Verifica se il cookie di sessione PHPSESSID è impostato
             if (UCookie::isSet('PHPSESSID')) {
                 // Controlla se la sessione non è ancora avviata
                 if (session_status() == PHP_SESSION_NONE) {
@@ -71,7 +71,7 @@ class CUser{
          * verify if the choosen username and email already exist, create the User Obj and set a default profile image 
          * @return void
          */
-        public static function registration()              //letsgo
+        public static function registration()            
 {
     $view = new VUser();
 
@@ -103,7 +103,7 @@ class CUser{
 }
 
 
-        public static function registrationForm(){              //letsgo
+        public static function registrationForm(){            
             $view = new VUser;
             $view->showRegistrationForm();
         }
@@ -112,7 +112,7 @@ class CUser{
          * check if exist the Username inserted, and for this username check the password. If is everything correct the session is created and
          * the User is redirected in the homepage
          */
-        public static function login() {              //letsgo
+        public static function login() {            
             $view = new VUser();
             $username = trim(UHTTPMethods::post('username'));
             $password = trim(UHTTPMethods::post('password'));
@@ -155,7 +155,7 @@ class CUser{
          * this method can logout the User, unsetting all the session element and destroing the session. Return the user to the Login Page
          * @return void
          */
-        public static function logout(){              //letsgo
+        public static function logout(){        
             USession::getInstance();
             USession::unsetSession();
             USession::destroySession();
@@ -163,7 +163,7 @@ class CUser{
             $view->redirect("/Jampod/User/loginForm");
         }
 
-        public static function profile($userId) {              //letsgo
+        public static function profile($userId) {              
             if (CUser::isLogged()){
                 $view = new VUser;
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
@@ -179,7 +179,7 @@ class CUser{
         }
 
     //--------------------------------------------------SETTINGS-----------------------------------------------------------------------
-        public static function settings() {              //letsgo
+        public static function settings() {              
             if (CUser::isLogged()){
                 $view = new VUser();
                 $userId = USession::getInstance()->getSessionElement('user');
@@ -191,7 +191,7 @@ class CUser{
             }
         }
 
-        public static function editPassword(){              //letsgo
+        public static function editPassword(){           
             if (CUser::isLogged()){
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
@@ -219,7 +219,7 @@ class CUser{
         }}
         
 
-        public static function editUsername(){                //letsgo
+        public static function editUsername(){              
             if (CUser::isLogged()){
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);
@@ -246,7 +246,7 @@ class CUser{
             }
         }
 
-        public static function editEmail(){                //letsgo 
+        public static function editEmail(){              
             if (CUser::isLogged()){
                 $userId = USession::getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj(EUser::getEClass(), $userId);

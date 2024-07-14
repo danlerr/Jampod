@@ -2,7 +2,7 @@
 
 class CHome {
     //La funzione homePage() recupera gli i podcast da inserire nelle varie sezioni e mostra la home page
-    public static function homePage() {            //letsgo
+    public static function homePage() {           
         if(CUser::isLogged()){
             
 

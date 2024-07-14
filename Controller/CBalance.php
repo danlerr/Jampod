@@ -76,7 +76,7 @@
             }
         }
 
-        public static function withdrawBalance() {         //da commentare      
+        public static function withdrawBalance() {             
             if (CUser::isLogged()) {
                 $view = new VBalance();
                 $userId = USession::getInstance()->getSessionElement('user');

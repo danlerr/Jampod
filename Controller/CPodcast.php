@@ -3,7 +3,7 @@
     class CPodcast{
 
         
-        public static function createPodcast(){       //letsgo
+        public static function createPodcast(){      
 
             if (CUser::isLogged()){
                 $view = new VPodcast;
@@ -41,7 +41,7 @@
             }
         }
 
-        public static function deletePodcast($podcast_id){            //letsgo
+        public static function deletePodcast($podcast_id){            
 
             if(CUser::isLogged()){
                 $view = new VPodcast;
@@ -73,7 +73,7 @@
             }
         }
 
-        public static function visitPodcast($podcast_id){            //letsgo
+        public static function visitPodcast($podcast_id){          
             if (CUser::isLogged()){
                 $view = new VPodcast;
 
@@ -102,7 +102,7 @@
             }
         }
 
-        public static function searchPodcasts() {            //letsgo
+        public static function searchPodcasts() {          
             $query = UHTTPMethods::post('query');
             $podcasts = FPersistentManager::getInstance()->searchPodcasts($query);
             $userId = USession::getInstance()->getSessionElement('user');
@@ -111,7 +111,7 @@
             $view->showSearchResults($user, $podcasts, $query);
         }
 
-        public static function Subscribe($podcast_id) {            //letsgo
+        public static function Subscribe($podcast_id) {           
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
@@ -171,7 +171,7 @@
             }
         }
 
-        public static function Unsubscribe($podcast_id) {            //letsgo
+        public static function Unsubscribe($podcast_id) {          
             if (CUser::isLogged()) {
                 $view = new VPodcast;
                 $userId = USession::getInstance()->getSessionElement('user');
@@ -212,7 +212,7 @@
             }
         }
 
-        public static function myPodcast(){            //letsgo
+        public static function myPodcast(){           
             if (CUser::isLogged()){
                 $userId = USession::getInstance()->getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
@@ -223,7 +223,7 @@
             }
         }
 
-        public static function creationForm(){            //letsgo
+        public static function creationForm(){         
             if (Cuser::isLogged()){
                 $userId = USession::getInstance()->getSessionElement('user');
                 $user = FPersistentManager::getInstance()->retrieveObj('EUser', $userId);
