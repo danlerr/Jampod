@@ -201,19 +201,22 @@ public static function voteEpisode($episode_id) {
                 
             }
         } else {
-            $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
+            
             // L'utente non ha votato: creare un nuovo voto
             if (FPersistentManager::getInstance()->checkVoteValue($value)) {
             $vote = new EVote($value, $userId, $episode_id);
             $result = FPersistentManager::getInstance()->createObj($vote);
             
             if ($result) {
+                $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
                 $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $avgVote, "Grazie per aver votato :D", true);     
                
             } else {
+                $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
                 $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $avgVote, "Impossibile inserire la votazione :(", false);
             }
         } else {
+            $avgVote = FPersistentManager::getInstance()->getAverageVoteOnEpisode($episode_id);
             $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $avgVote, "Inserire un voto valido :(", false); 
         }
 
