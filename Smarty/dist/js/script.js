@@ -139,7 +139,7 @@ function seekUpdate() {
 // Aggiorna continuamente il seek slider e il tempo trascorso durante la riproduzione
 curr_track.addEventListener('timeupdate', seekUpdate);
 
-// Funzione per incrementare gli ascolti dell'episodio
+
 // Funzione per incrementare gli ascolti dell'episodio utilizzando fetch
 function incrementEpisodeStreams(episodeId) {
   let url = '/Jampod/Episode/incrementEpisodeStreams/' + episodeId;
@@ -214,14 +214,14 @@ document.addEventListener("DOMContentLoaded", function() {
                       window.location.href = `/Jampod/Episode/visitEpisode/${episodeId}`;
                   })
                   .catch(error => {
-                      console.error('Error:', error);
-                      // Gestisci l'errore in qualche modo, ad esempio mostrando un messaggio all'utente
+                      console.error('Error', error);
+                      
                   });
               });
           }
       }
 
-      // Gestisci il click sull'immagine SVG per eliminare il commento
+      // Gestisce il click sull'immagine  per eliminare il commento
       if (e.target.closest('.svg-trigger')) {
           // Impedisci l'azione di default
           e.preventDefault();
@@ -230,20 +230,20 @@ document.addEventListener("DOMContentLoaded", function() {
           if (closestCard) {
               let commentId = closestCard.getAttribute("data-comment-id");
 
-              // Esegui qui la chiamata al backend per eliminare il commento
+              // Chiamata per eliminare il commento
               fetch(`/Jampod/Comment/deleteComment/${commentId}`, {
-                  method: 'GET' // Puoi usare 'GET' o 'DELETE' a seconda di come il backend gestisce la richiesta
+                  method: 'GET' 
               })
               .then(response => {
                   if (!response.ok) {
                       throw new Error('Network response was not ok');
                   }
-                  // Esegui il redirect o aggiorna l'interfaccia utente come necessario
+                  
                   window.location.href = `/Jampod/Episode/visitEpisode/${commentContainer.getAttribute("data-episode-id")}`;
               })
               .catch(error => {
-                  console.error('Error:', error);
-                  // Gestisci l'errore in qualche modo, ad esempio mostrando un messaggio all'utente
+                  console.error('Error', error);
+                  
               });
           }
       }
