@@ -36,32 +36,6 @@ class CUser{
 
         
         public static function loginForm(){             
-            //Verifica se il cookie di sessione PHPSESSID è impostato
-            if (UCookie::isSet('PHPSESSID')) {
-                // Controlla se la sessione non è ancora avviata
-                if (USession::getSessionStatus() == PHP_SESSION_NONE) {
-                    USession::getInstance(); // Avvia una nuova sessione
-                }
-            }
-            
-            // Verifica se l'elemento 'user' è presente nella sessione (utente loggato)
-            if (USession::isSetSessionElement('user')) {
-                $userId = USession::getInstance()->getSessionElement('user');
-                $usersession = FPersistentManager::getInstance()->retrieveObj("EUser", $userId);
-                if ($usersession->isAdmin()) {
-                    $view = new VRedirect();
-                    $view->redirect("/Jampod/Moderation/showDashboard");
-                    exit;
-                }
-                // Se l'utente è già loggato, reindirizza alla pagina di home
-                $view = new VRedirect();
-                $view->redirect("/Jampod/Home/homePage");
-                
-
-                exit; // Assicurati di terminare lo script dopo il reindirizzamento
-            }
-            
-            // Se l'utente non è autenticato, mostra il modulo di login
             $view = new VUser();
             $view->showLoginForm();
         }
