@@ -39,7 +39,7 @@ class CUser{
             //Verifica se il cookie di sessione PHPSESSID è impostato
             if (UCookie::isSet('PHPSESSID')) {
                 // Controlla se la sessione non è ancora avviata
-                if (session_status() == PHP_SESSION_NONE) {
+                if (USession::getSessionStatus() == PHP_SESSION_NONE) {
                     USession::getInstance(); // Avvia una nuova sessione
                 }
             }
@@ -159,6 +159,7 @@ class CUser{
             USession::getInstance();
             USession::unsetSession();
             USession::destroySession();
+            UCookie::destroyCookie();
             $view = new VRedirect();
             $view->redirect("/Jampod/User/loginForm");
         }

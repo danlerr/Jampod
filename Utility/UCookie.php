@@ -16,4 +16,8 @@ class UCookie
         }
     }
 
+    public static function destroyCookie(){
+        setcookie('PHPSESSID', '');
+    }
+
 }
