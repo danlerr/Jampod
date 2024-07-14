@@ -208,7 +208,7 @@ public static function voteEpisode($episode_id) {
             $result = FPersistentManager::getInstance()->createObj($vote);
             
             if ($result) {
-                $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $value, "Grazie per aver votato :D", true);     
+                $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $avgVote, "Grazie per aver votato :D", true);     
                
             } else {
                 $view->showEpisodePage($usersession,$episode,$podcast, $creator, $commentAndReplies, $value, $avgVote, "Impossibile inserire la votazione :(", false);

@@ -72,8 +72,7 @@
 
 
             
-        //verifica che l'utente passato per parametro sia lo stesso che risulta dalla query di un determinato oggetto di cui è stato fatto il retrieve dal db.
-        //( nell'uso di questo metodo con oggetti singoli bisogna fare il casting in array)
+        //verifica dell'uguaglianza degli utenti passati per parametro
            
         public static function checkUser($objectUserId, $idUser){
             if(FUser::userValidation($objectUserId, $idUser)){
